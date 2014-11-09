@@ -8,17 +8,11 @@ Your assignment is to develop a game about "adventure", like The Legend of Zelda
 
 Like Moving Blocks, you are free to design whatever kind of game you want. The requirements, however, are much looser. Your game must have the following elements:
 
-Different modes with transitions between them.
+--Different modes with transitions between them. For example, Zelda has the overworld, dungeons, and the item select screen.
 
-For example, Zelda has the overworld, dungeons, and the item select screen.
+--Independent non-player actors, or "mobs". For example, Pac-Man has the ghosts that run around independently (kind of).
 
-Independent non-player actors, or "mobs".
-
-For example, Pac-Man has the ghosts that run around independently (kind of).
-
-Persistent player attributes.
-
-For example, the player in Zork carries various items and can use and dispose of them throughout the map.
+--Persistent player attributes. For example, the player in Zork carries various items and can use and dispose of them throughout the map.
 
 This project should take roughly twice as much effort as Moving Blocks.
 
