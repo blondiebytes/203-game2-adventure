@@ -79,8 +79,18 @@ public class TestMeteorShower {
     
     // ================================================================
     
-     static int testConstructor;
-     static int testStartUporRestartUp;
+     static int testConstructor = 0;
+     static int testStartUporRestartUp = 0;
+     static int testPlaneMoveRightAndLeft = 0;
+     static int testShootLaser = 0;
+     static int testLaserColorsRegularMode = 0;
+     static int testLaserColorsHyperMode = 0;
+     static int testMeteorAppear = 0;
+     static int testMeteorColor = 0;
+     static int testCollisionRegularMode = 0;
+     static int testTriggerHyperMode = 0;
+     static int testCollisionHyperMode = 0;
+     static int testGameOverLives = 0;
      static int tests;
     
     
@@ -193,34 +203,42 @@ public class TestMeteorShower {
    // about to go off-screen, does it stay where it is?
    // If those buttons aren't is pressed, the plane shouldn't move. 
        // (or it shouldn't change direction)
+       
+       testPlaneMoveRightAndLeft++;
    }
    
    
-   public static void testShootArrow(MeteorShower oG, MeteorShower nG) {
+   public static void testShootLaser(MeteorShower oG, MeteorShower nG) {
        // After pressing the SPACEBAR, does the plane shoot an arrow?
+       testShootLaser++;
    }
    
    public static void testLaserColorsRegularMode(MeteorShower oG, MeteorShower nG) {
     // REGUALR MODE: After pressing R, do the lasers turn red?
     // REGUALR MODE: After pressing B, do the lasers turn blue?
+       testLaserColorsRegularMode++;
    }
    
-   public static void testLaserColorsHyperMode(MeteorShower oG, MeteorShower mS) {
+   public static void testLaserColorsHyperMode(MeteorShower oG, MeteorShower nG) {
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
+       testLaserColorsHyperMode++;
    }
    
-   public static void testMeteorAppear(MeteorShower mS) {
+   public static void testMeteorAppear(MeteorShower oG, MeteorShower nG) {
        // Is a meteor created every other second?
+       testMeteorAppear++;
    }
    
    public static void testMeteorColor(MeteorShower mS) {
        // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
+       testMeteorColor++;
    }
    
     // ----------------------------------------------------------------
     // REGULAR MODE & SCORING:
-
+    
+   public static void testCollisionRegularMode(MeteorShower oG, MeteorShower nG) {
     // When a laser and a meteor collide and they are the same color,
     // does the score increase? do the lives stay the same?
     
@@ -229,25 +247,37 @@ public class TestMeteorShower {
     
     // When a meteor passes the top of the screen, do you lose a life?
     // does the score stay the same?
-    
-   public static void testCollision() {
-    
-}
+       testCollisionRegularMode++;
+    }
    
-    
     
     // ----------------------------------------------------------------
     // HYPERSPEED MODE & SCORING:
     
     // After shooting 20 meteors in a row correctly, 
     // is Hyper-Speed Mode triggered?
-    
+     
     // When a laser and meteor collide, does the score increase? 
     // do the lives stay the same?
     
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
     
+   public static void testTriggerHyperMode(MeteorShower oG, MeteorShower nG) {
+    // After shooting 20 meteors in a row correctly, 
+    // is Hyper-Speed Mode triggered?
+       testTriggerHyperMode++;
+    }
+   
+   public static void testCollisonHyperMode(MeteorShower oG, MeteorShower nG) {
+    // When a laser and meteor collide, does the score increase? 
+    // do the lives stay the same?
+    
+    // When a meteor passes the top of the screen, do your lives and score
+    // stay the same?
+       testCollisionHyperMode++;
+    }
+
     
     
     // ----------------------------------------------------------------
@@ -255,9 +285,13 @@ public class TestMeteorShower {
    
     // When a player loses his or her last life, does the game end? 
     // If the player still has lives, is the game still going?
+
     
-     // For all tests oG = old Game; nG = new Game
-    
+   public static void testGameOverLives(MeteorShower oG, MeteorShower nG) {
+    // When a player loses his or her last life, does the game end? 
+    // If the player still has lives, is the game still going?
+       testGameOverLives++;
+   }
     
     
     
