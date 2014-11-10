@@ -10,9 +10,11 @@ import static adventure.TestFunctions.testLaserColorsRegularMode;
 import static adventure.TestFunctions.testMeteorAppear;
 import static adventure.TestFunctions.testMeteorColor;
 import static adventure.TestFunctions.testPlaneMoveRightAndLeft;
+import static adventure.TestFunctions.testPlaneRotate;
+import static adventure.TestFunctions.testPowerUpHyperMode;
 import static adventure.TestFunctions.testShootLaser;
 import static adventure.TestFunctions.testStartUporRestartDown;
-import static adventure.TestFunctions.testTriggerHyperMode;
+import static adventure.TestFunctions.testTriggerHyperSpeedMode;
 
 
 public class TestMeteorShower {
@@ -38,8 +40,10 @@ public class TestMeteorShower {
              System.out.println("testMeteorAppear success: " + testMeteorAppear + " times");
              System.out.println("testMeteorColor success: " + testMeteorColor + " times");
              System.out.println("testCollisionRegularMode success: " + testCollisionRegularMode + " times");
-             System.out.println("testTriggerHyperMode success: " + testTriggerHyperMode + " times");
+             System.out.println("testTriggerHyperMode success: " + testTriggerHyperSpeedMode + " times");
              System.out.println("testCollisionHyperMode success: " + testCollisionHyperMode + " times");
              System.out.println("testGameOverLives success: " + testGameOverLives + " times");
+             System.out.println("testGameOverLives success: " + testPlaneRotate + " times");
+             System.out.println("testTriggerHyperMode success: " + testPowerUpHyperMode + " times");
     }
 }

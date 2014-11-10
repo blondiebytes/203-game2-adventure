@@ -14,7 +14,9 @@ public class MeteorShower extends TestMeteorShower{
     Boolean gameOver;
     
     // 0 means regular mode; 1 means hyper-speed mode
-    int mode; 
+    int mode;
+    static int REGULARMODE = 0;
+    static int HYPERSPEEDMODE = 1;
     
     public MeteorShower() {
         this.plane = new Plane();

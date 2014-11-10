@@ -14,6 +14,7 @@ public class TestFunctions {
     // Does the player start with three lives?
     // Does the player start with a score of 0?
     // When the game starts, is the gameOver false?
+    // Does the game start in Regular Mode?
         
     // ----------------------------------------------------------------
     // CONTROLS:
@@ -21,16 +22,24 @@ public class TestFunctions {
     // After pressing the UP button, does the game start?
     // After pressing the DOWN button, does the game restart?
     
-    // After pressing the RIGHT arrow, does the plane move right? If it is
-    // about to go off-screen, does it stay where it is?
+    // In Regular Mode, after pressing the RIGHT arrow, does the plane move right?
+    // If it is about to go off-screen, does it stay where it is?
     
-    // After pressing the LEFT arrow, does the plane move left? If it is
-    // about to go off-screen, does it stay where it is?
+    // In Regular Mode, after pressing the LEFT arrow, does the plane move left? 
+    // If it is about to go off-screen, does it stay where it is?
     
-    // If those buttons aren't is pressed, the plane shouldn't move. 
-    // (or it shouldn't change direction)
+    // In Regular Mode, if those buttons aren't is pressed, the plane shouldn't move. 
+    
+    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
+    // does the plane turn left after pressing the LEFT arrow? Does the plane 
+    // stay the same if those buttons aren't pressed? If the plane is about to
+    // go past the 180 degree line, does the rotation stop?
+
     
     // After pressing the SPACEBAR, does the plane shoot an arrow?
+    
+    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
+    // after pressing Enter?
     
     // REGUALR MODE: After pressing R, do the lasers turn red?
     
@@ -39,7 +48,9 @@ public class TestFunctions {
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
     
-    // Is a meteor created every other second?
+    // REGULAR MODE: Is a meteor created every other second?
+    
+    // HYPERSPEED MODE: Is a meteor created every half second?
     
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
     
@@ -83,13 +94,15 @@ public class TestFunctions {
      static int testConstructor = 0;
      static int testStartUporRestartDown = 0;
      static int testPlaneMoveRightAndLeft = 0;
+     static int testPlaneRotate = 0;
      static int testShootLaser = 0;
      static int testLaserColorsRegularMode = 0;
      static int testLaserColorsHyperMode = 0;
      static int testMeteorAppear = 0;
      static int testMeteorColor = 0;
      static int testCollisionRegularMode = 0;
-     static int testTriggerHyperMode = 0;
+     static int testTriggerHyperSpeedMode = 0;
+     static int testPowerUpHyperMode = 0;
      static int testCollisionHyperMode = 0;
      static int testGameOverLives = 0;
      static int tests = 5;
@@ -128,8 +141,14 @@ public class TestFunctions {
             throw new Exception("Starting score isn't 0");
         }
         
+        // Does the game start?
         if (!mS.gameOver) {
             throw new Exception("The game is starting, but the game is over");
+        }
+        
+        // Does the game start in Regular Mode
+        if (mS.mode != MeteorShower.REGULARMODE) {
+            throw new Exception("The game is starting in the wrong mode!");
         }
         
         testConstructor++;
@@ -142,16 +161,23 @@ public class TestFunctions {
     // After pressing the UP button, does the game start? 
     // After pressing the DOWN button, does the game restart?
     
-    // After pressing the RIGHT arrow, does the plane move right? If it is
-    // about to go off-screen, does it stay where it is?
+    // In Regular Mode, after pressing the RIGHT arrow, does the plane move right?
+    // If it is about to go off-screen, does it stay where it is?
     
-    // After pressing the LEFT arrow, does the plane move left? If it is
-    // about to go off-screen, does it stay where it is?
+    // In Regular Mode, after pressing the LEFT arrow, does the plane move left? 
+    // If it is about to go off-screen, does it stay where it is?
     
-    // If those buttons aren't is pressed, the plane shouldn't move. 
-    // (or it shouldn't change direction)
+    // In Regular Mode, if those buttons aren't is pressed, the plane shouldn't move. 
+    
+    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
+    // does the plane turn left after pressing the LEFT arrow? Does the plane 
+    // stay the same if those buttons aren't pressed? If the plane is about to
+    // go past the 180 degree line, does the rotation stop?
     
     // After pressing the SPACEBAR, does the plane shoot an arrow?
+    
+    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
+    // after pressing Enter?
     
     // REGUALR MODE: After pressing R, do the lasers turn red?
     
@@ -212,10 +238,24 @@ public class TestFunctions {
        testPlaneMoveRightAndLeft++;
    }
    
+   public static void testPlaneRotate(MeteorShower oG, MeteorShower nG) {
+    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
+    // does the plane turn left after pressing the LEFT arrow? Does the plane 
+    // stay the same if those buttons aren't pressed? If the plane is about to
+    // go past the 180 degree line, does the rotation stop?
+       testPlaneRotate++;
+   }
+   
    
    public static void testShootLaser(MeteorShower oG, MeteorShower nG) {
        // After pressing the SPACEBAR, does the plane shoot an arrow?
        testShootLaser++;
+   }
+   
+   public static void testTriggerHyperSpeedMode(MeteorShower oG, MeteorShower nG) {
+    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
+    // after pressing Enter?
+       testTriggerHyperSpeedMode++;
    }
    
    public static void testLaserColorsRegularMode(MeteorShower oG, MeteorShower nG) {
@@ -231,7 +271,8 @@ public class TestFunctions {
    }
    
    public static void testMeteorAppear(MeteorShower oG, MeteorShower nG) {
-       // Is a meteor created every other second?
+     // REGULAR MODE: Is a meteor created every other second?
+    // HYPERSPEED MODE: Is a meteor created every half second?
        testMeteorAppear++;
    }
    
@@ -260,7 +301,7 @@ public class TestFunctions {
     // HYPERSPEED MODE & SCORING:
     
     // After shooting 20 meteors in a row correctly, 
-    // is Hyper-Speed Mode triggered?
+    // does the user get a powerUp
      
     // When a laser and meteor collide, does the score increase? 
     // do the lives stay the same?
@@ -268,10 +309,10 @@ public class TestFunctions {
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
     
-   public static void testTriggerHyperMode(MeteorShower oG, MeteorShower nG) {
+   public static void testPowerUpHyperMode(MeteorShower oG, MeteorShower nG) {
     // After shooting 20 meteors in a row correctly, 
-    // is Hyper-Speed Mode triggered?
-       testTriggerHyperMode++;
+    // does the user get a powerUp?
+       testPowerUpHyperMode++;
     }
    
    public static void testCollisionHyperMode(MeteorShower oG, MeteorShower nG) {
@@ -321,7 +362,9 @@ public class TestFunctions {
        testMeteorAppear(oG, nG);
        testMeteorColor(oG);
        testCollisionRegularMode(oG, nG);
-       testTriggerHyperMode(oG, nG);
+       testTriggerHyperSpeedMode(oG, nG);
+       testPowerUpHyperMode(oG, nG);
+       testPlaneRotate(oG, nG);
        testCollisionHyperMode(oG, nG);
        testGameOverLives(oG, nG);
        
