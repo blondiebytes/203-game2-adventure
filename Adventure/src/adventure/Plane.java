@@ -13,6 +13,8 @@ public class Plane {
     int topOfScreen;
     
     
+   
+    
    public Plane onTick() {
         
     }

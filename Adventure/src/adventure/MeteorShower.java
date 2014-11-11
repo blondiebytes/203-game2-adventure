@@ -3,6 +3,8 @@ package adventure;
 
 import javalib.funworld.World;
 import javalib.worldimages.Posn;
+import javalib.worldimages.WorldEnd;
+import javalib.worldimages.WorldImage;
 
 /**
  *
@@ -14,8 +16,8 @@ public class MeteorShower extends World {
     Plane plane;
     Meteor meteors;
     Boolean gameOver;
-    
     Score score;
+    
     // 0 means regular mode; 1 means hyper-speed mode
     int mode;
     static int REGULARMODE = 0;
@@ -27,34 +29,35 @@ public class MeteorShower extends World {
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
+        this.mode = REGULARMODE;
     }
   
     
     // REQUIRED METHODS BY GAMEWORLDS
     
     // To run the world game:
-    boolean bigBang(int width, int height, double speed) {
+    public boolean bigBang(int width, int height, double speed) {
         
     }
     
     
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
-    World onTick() {
+    public World onTick() {
         
     }
     
     // This method produces the world in response to the user pressing a key on the keyboard. 
-    World onKeyEvent(String ke) {
+    public World onKeyEvent(String ke) {
         
     }
     
     // Draws the image on screen
-    World makeImage() {
-        
+     public WorldImage makeImage() {
+         
     }
     
     // This method responds to a mouse click anywhere on the game’s canvas. 
-    World onMouseChlicked(Posn p) {
+    public World onMouseClicked(Posn p) {
      return this;   
     }
     
@@ -63,10 +66,11 @@ public class MeteorShower extends World {
     // indicating whether the world is ending (false if the world goes on) and the WorldImage 
     // that represents the last image to be displayed - for example announcing the winner of the game, 
     // or the final score.
-    WorldEnd worldEnds() {
+    public WorldEnd worldEnds() {
         
     }
-    
+
+
 
     
     

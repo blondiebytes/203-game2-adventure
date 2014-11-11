@@ -1,6 +1,8 @@
 
 package adventure;
 
+import java.util.Random;
+
 
 public class TestFunctions {
     
@@ -194,24 +196,24 @@ public class TestFunctions {
     public static void testStartUpOrRestartDown() throws Exception{
        // Some kind of graphics where you pick a random button
    
-        CharKey rk = randomButton();
+        String rk = randomButton();
         
         // After pressing the UP button, does the game start?
-        if (!shouldStart(rk) && rk.isUpArrow()) {
+        if (!shouldStart(rk) && rk.matches("up")){
                        throw new Exception("Our game isn't starting even"
                                + "though we are pressing the up arrow");
                          }
-        if (shouldStart(rk) && !rk.isUpArrow() ){
+        if (shouldStart(rk) && !rk.matches("up")){
                      throw new Exception("Our game is starting even though"
                              + "we aren't pressing the up arrow");
         }
         
         // After pressing the DOWN button, does the game restart?
-        if (!shouldRestart(rk) && rk.isDownArrow()) {
+        if (!shouldRestart(rk) && rk.matches("down")) {
                        throw new Exception("Our game isn't starting even"
                                + "though we are pressing the up arrow");
                          }
-        if (shouldRestart(rk) && !rk.isDownArrow() ){
+        if (shouldRestart(rk) && !rk.matches("down")){
                      throw new Exception("Our game is starting even though"
                              + "we aren't pressing the up arrow"); 
                      
@@ -219,12 +221,12 @@ public class TestFunctions {
         testStartUporRestartDown++;
     }
     
-   public static boolean shouldStart(CharKey rk) {
-       return rk.isUpArrow();
+   public static boolean shouldStart(String rk) {
+       return rk.matches("up");
    }
    
-   public static boolean shouldRestart(MeteorShower mS, CharKey rk) {
-       return rk.isDownArrow();
+   public static boolean shouldRestart(String  rk) {
+       return rk.matches("down");
    }
    
    public static void testPlaneMoveRightAndLeft(MeteorShower oG, MeteorShower nG) {
@@ -343,8 +345,27 @@ public class TestFunctions {
    
    // ----------------------------------------------------------------
    // RANDOM KEY GENERATOR
-   public static CharKey randomButton() {
-       return buttonpressed;
+   public static String randomButton() {
+       Random rnd = new Random();
+       int nextValue = rnd.nextInt(7);
+       if (nextValue == 0) {
+           return "up";
+       } else if (nextValue == 1) {
+           return "down";
+       } else if (nextValue == 2) {
+           return "right";
+       } else if (nextValue == 3) {
+           return "left";
+       } else if (nextValue == 4){
+           return "spacebar";
+       } else if (nextValue == 5) {
+           return "r";
+         } else if (nextValue ==6) {
+             return "b";
+         } else {
+          int stringVal = rnd.nextInt(25);
+          return Character.toChars(65 + stringVal).toString();
+                  }
    }
    
    // ----------------------------------------------------------------
