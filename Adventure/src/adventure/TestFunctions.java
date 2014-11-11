@@ -36,7 +36,7 @@ public class TestFunctions {
     // go past the 180 degree line, does the rotation stop?
 
     
-    // After pressing the SPACEBAR, does the plane shoot an arrow?
+    // After pressing the SPACEBAR, does the plane shoot an laser?
     
     // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
     // after pressing Enter?
