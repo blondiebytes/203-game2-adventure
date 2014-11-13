@@ -81,13 +81,13 @@ public class Plane {
    }
 
    public Plane react(String s) {
-     if (s.matches("right")) {
+     if (s.equals("right")) {
          if (this.mode == REGULARMODE) {
             return new Plane (width, Math.abs(deltaWidth),REGULARMODE).onTickRM();            
          } else if (this.mode == HYPERSPEEDMODE) {
              return new Plane(angle, Math.abs(deltaAngle), HYPERSPEEDMODE).onTickHM();
          } 
-       } else if (s.matches("left")) {
+       } else if (s.equals("left")) {
            if (this.mode == REGULARMODE) {
             System.out.println("ok");
             return new Plane (width, -Math.abs(deltaWidth), REGULARMODE).onTickRM();
