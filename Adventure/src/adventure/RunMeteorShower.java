@@ -26,16 +26,16 @@ public class RunMeteorShower {
         
         RegularMeteorShower meteorShower = new RegularMeteorShower();
         meteorShower.bigBang();
+       
         
-        
-        while(true) {
-            while(!meteorShower.gameOver) {
-                // Update everything on screen
-                // Take a CharKey
-               // Update the game--> store updated in new variable
-               // Verify and old game's invariants 
-               // make the old game equal the new game
-            }
+//        while(true) {
+//            while(!meteorShower.gameOver) {
+//                // Update everything on screen
+//                // Take a CharKey
+//               // Update the game--> store updated in new variable
+//               // Verify and old game's invariants 
+//               // make the old game equal the new game
+//            }
 
 //             System.out.println("testConstructor success: " + testConstructor + " times");
 //             System.out.println("testStartUporRestartDown success: " + testStartUporRestartDown + " times");
@@ -55,4 +55,4 @@ public class RunMeteorShower {
         
     }
     
-}
+

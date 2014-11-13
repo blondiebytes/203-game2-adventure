@@ -58,14 +58,14 @@ public class PlaneRM {
    
 
    public PlaneRM react(String s) {
-     if (s.equals("right")) {
-      //       System.out.println("GOING RIGHT: ");
-            return new PlaneRM(width, Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);            
-         } 
-        else if (s.equals("left")) {
-    //        System.out.println("GOING LEFT: ");
-            return new PlaneRM(width, -Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
-       }
+        switch (s) {
+            case "right":
+                //       System.out.println("GOING RIGHT: ");
+                return new PlaneRM(width, Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
+            case "left":
+                //        System.out.println("GOING LEFT: ");
+                return new PlaneRM(width, -Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
+        }
     // System.out.println("STAYING THE SAME");
      return this;
    }

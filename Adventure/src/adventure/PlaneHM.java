@@ -54,15 +54,16 @@ public class PlaneHM {
             // switch plane image
         }
         
-        if (s.equals("up")) {
-                    System.out.println("GOING UP: ");
-            return new PlaneHM(height, Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
-        } else if (s.equals("down")) {
-              System.out.println("GOING DOWN: ");
-            return new PlaneHM(height, -Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
-        } else {
-               System.out.println("STAYING THE SAME");
-            return this;
+        switch (s) {
+            case "up":
+           //     System.out.println("GOING UP: ");
+                return new PlaneHM(height, Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
+            case "down":
+            //    System.out.println("GOING DOWN: ");
+                return new PlaneHM(height, -Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
+            default:
+            //    System.out.println("STAYING THE SAME");
+                return this;
         }
     }
 
