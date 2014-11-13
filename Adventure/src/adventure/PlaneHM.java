@@ -13,7 +13,7 @@ public class PlaneHM {
     int width = MAXW / 2;
     static int MAXH = 750;
     static int MAXW = 450;
-    static int HYPER_MULTIPLE = 5;
+    static int HYPER_MULTIPLE = 25;
     IColor color = new Black();
 
     static int middleOfScreenWidth = MAXW / 2;

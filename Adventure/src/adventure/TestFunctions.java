@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class TestFunctions {
     
-    // FOCUSING ON THE PLANE NOW: IGNORE THE REST
+    // FOCUSING ON THE PLANE & METEORS NOW: IGNORE THE REST
     
     // ================================================================
     // BITS & PIECES OF GAME TESTING:
@@ -15,18 +15,19 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // PLANE TESTING:
     
-    // In Regular Mode, after pressing the RIGHT arrow, does the plane move right?
+    // REGULAR MODE: After pressing the RIGHT arrow, does the plane move right?
     // If it is about to go off-screen, does it stay where it is?
     
-    // In Regular Mode, after pressing the LEFT arrow, does the plane move left? 
+    // REGULAR MODE: After pressing the LEFT arrow, does the plane move left? 
+    // If it is about to go off-screen, does it stay where it is?
+   
+    // HYPER MODE: After pressing the UP arrow, does the plane move up?
     // If it is about to go off-screen, does it stay where it is?
     
-    // In Regular Mode, if those buttons aren't is pressed, the plane shouldn't move. 
+    // HYPER MODE: After pressing the DOWN arrow, does the plane move down? 
+    // If it is about to go off-screen, does it stay where it is?
     
-    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
-    // does the plane turn left after pressing the LEFT arrow? Does the plane 
-    // stay the same if those buttons aren't pressed? If the plane is about to
-    // go past the 180 degree line, does the rotation stop?
+    // If those buttons aren't is pressed, the plane shouldn't move. 
     
     // ----------------------------------------------------------------
     // METEOR TESTING:
@@ -116,6 +117,8 @@ public class TestFunctions {
     
      static int testPlaneMoveRightAndLeftRM = 0;
      static int testPlaneMoveRightAndLeftHM = 0;
+     static int testMeteorColorRM = 0;
+     static int testMeteorColorHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -183,12 +186,12 @@ public class TestFunctions {
         // After pressing the RIGHT arrow, does the plane move right? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("right")) {
-            dw = 1;
+            dw = 10;
         }
         // After pressing the LEFT arrow, does the plane move left? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("left")) {
-            dw = -1;
+            dw = -10;
         }
         // If those buttons aren't is pressed, the plane shouldn't move. 
         if (oP.isEqualTo(nP)) {
@@ -209,12 +212,12 @@ public class TestFunctions {
         // After pressing the UP arrow, does the plane move up? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("up")) {
-            dh = 5;
+            dh = 25;
         }
         // After pressing the DOWN arrow, does the plane move down? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("down")) {
-            dh = -5;
+            dh = -25;
         }
         // If those buttons aren't is pressed, the plane shouldn't move. 
         if (oP.isEqualTo(nP)) {
@@ -229,9 +232,31 @@ public class TestFunctions {
         
        testPlaneMoveRightAndLeftHM++;
    }
+       
+    // ----------------------------------------------------------------
+    // METEOR TESTING:
+    
+    // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
     
     
-    
+       public static void testMeteorColorRM(MeteorRM m) throws Exception{
+       // Is the meteor either red or blue in REGULAR MODE?
+       if (!m.color.equals("red") && !m.color.equals("blue")) {
+           throw new Exception("Regular Meteor is not red or blue!");
+       }
+       testMeteorColorRM++;
+   }
+       
+       
+        public static void testMeteorColorHM(MeteorHM m) throws Exception {
+       // Is the meteor always white in HYPER MODE?
+        if (!m.color.equals("white")) {
+       // I know it's a class constant, but doing it with instance just to make
+        // sure it never changes
+            throw new Exception("Hyper Meteor is not white!");
+        }
+       testMeteorColorHM++;
+   }
     
     
     
@@ -395,10 +420,7 @@ public class TestFunctions {
 //       testMeteorAppear++;
 //   }
 //   
-//   public static void testMeteorColor(MeteorShower mS) {
-//       // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-//       testMeteorColor++;
-//   }
+
 //   
 //    // ----------------------------------------------------------------
 //    // REGULAR MODE & SCORING:

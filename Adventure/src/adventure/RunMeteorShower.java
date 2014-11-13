@@ -24,7 +24,7 @@ public class RunMeteorShower {
       
     public static void main(String[] args) throws Exception {
         
-        RegularMeteorShower meteorShower = new RegularMeteorShower();
+        MeteorShowerRM meteorShower = new MeteorShowerRM();
         meteorShower.bigBang();
        
         

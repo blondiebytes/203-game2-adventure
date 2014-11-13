@@ -10,36 +10,40 @@ import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
+import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
-/**
- *
- * @author kathrynhodge
- */
-public class HyperMeteorShower extends World {
+
+public class MeteorShowerRM extends World{
     Lives lives;
-    PlaneHM plane;
-    Meteor meteors;
+    PlaneRM plane;
+    MeteorDataStruct meteorDataStruct;
     Boolean gameOver;
     Score score;
-// TOADD: Add WorldImage plane property
+    // TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
     
-    public HyperMeteorShower() {
+    // 0 means regular mode; 1 means hyper-speed mode
+    int mode;
+    static int REGULARMODE = 0;
+    
+    public MeteorShowerRM() {
         super();
-        this.plane = new PlaneHM();
-        this.meteors = new Meteor();
+        this.plane = new PlaneRM();
+        this.meteorDataStruct = new MeteorDataStruct();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
+        this.mode = REGULARMODE;
     }
     
-    public HyperMeteorShower(PlaneHM plane, Meteor meteors, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerRM(PlaneRM plane, MeteorDataStruct meteors, Lives lives, Score score, boolean gameOver){
         super();
-        this.plane = new PlaneHM();
-        this.meteors = new Meteor();
-        this.lives = new Lives();
-        this.score = new Score();
-        this.gameOver = false;
+        this.plane = plane;
+        this.meteorDataStruct = meteors;
+        this.lives = lives;
+        this.score = score;
+        this.gameOver = gameOver;
+        this.mode = REGULARMODE;
     }
   
     
@@ -51,22 +55,20 @@ public class HyperMeteorShower extends World {
     }
     
     
-    // This method produces a new instance of the world as it should be after one tick of the clock has passed.
-    public World onTick() {
-        return this;
-    }
-    
+//    // This method produces a new instance of the world as it should be after one tick of the clock has passed.
+//    public World onTick() {
+//        return this;
+//    }
+//    
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
-        // Also have the plane switching sides -> 
-        if (ke.equals("right")) {
-            //switch plane image
+        if (ke.equals("0")) {
+            PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
+            return new MeteorShowerHM(newPlane, this.meteorDataStruct, this.lives, this.score, this.gameOver);
+        } else {
+            PlaneRM newPlane = plane.react(ke);
+            return new MeteorShowerRM(newPlane, this.meteorDataStruct, this.lives, this.score, this.gameOver);
         }
-        if (ke.equals("left")) {
-            // switch plane image
-        }
-        PlaneHM newPlane = plane.react(ke);
-        return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver);
     }
     
     // Draws the image on screen
@@ -88,5 +90,13 @@ public class HyperMeteorShower extends World {
 //    public WorldEnd worldEnds() {
 //        
 //    }
+//    public WorldEnd worldEnds(){
+//      return new WorldEnd(true, 
+//        this.makeImage());
+//  }
+  
 
+
+    
+    
 }

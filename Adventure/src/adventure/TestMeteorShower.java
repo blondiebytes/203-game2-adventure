@@ -1,6 +1,8 @@
 
 package adventure;
 import static adventure.TestFunctions.randomButton;
+import static adventure.TestFunctions.testMeteorColorHM;
+import static adventure.TestFunctions.testMeteorColorRM;
 import static adventure.TestFunctions.testPlaneMoveRightAndLeftHM;
 //
 //import static adventure.TestFunctions.testCollisionHyperMode;
@@ -23,7 +25,11 @@ public class TestMeteorShower {
     static int tests = 999;
     
     public static void main(String[] args) throws Exception {
+        
+        // ========================================================
         // TESTING PLANE:
+        // ========================================================
+        
         PlaneRM planeR = new PlaneRM();
         for (int i = 0; i <= tests; i++) {
         String k = randomButton();
@@ -34,7 +40,7 @@ public class TestMeteorShower {
         planeR = planeRegularReacted;
         }
         
-       System.out.println("testPlaneMoveRightAndLeft success: " + testPlaneMoveRightAndLeftRM + " times");
+       System.out.println("testPlaneMoveRightAndLeftRM success: " + testPlaneMoveRightAndLeftRM + " times");
         // 1 = hyperspeedmode
         PlaneHM planeH = new PlaneHM();
         for (int i = 0; i <= tests; i++) {
@@ -45,8 +51,20 @@ public class TestMeteorShower {
 //        System.out.println();
         planeH = planeHyperReacted;
         }
+        System.out.println("testPlaneMoveRightAndLeftHM " + testPlaneMoveRightAndLeftHM + " times");
         
-        System.out.println("testPlaneRotate: " + testPlaneMoveRightAndLeftHM + " times");
+        
+        // ========================================================
+        // TESTING METEOR:
+        // ========================================================
+        for (int i= 0; i <= tests; i++) {
+          MeteorRM mR = new MeteorRM();
+          testMeteorColorRM(mR);
+          MeteorHM mH = new MeteorHM();
+          testMeteorColorHM(mH);
+        }
+        System.out.println("testMeteorColorRM " + testMeteorColorRM + " times");
+       System.out.println("testMeteorColorHM " + testMeteorColorHM + " times");
         
         
         

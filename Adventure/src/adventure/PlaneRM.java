@@ -15,8 +15,8 @@ public class PlaneRM {
     int width;
     int deltaWidth;
     int height = 0;
-    static int MAXW = 450;
-    static int REGULAR_MULTIPLE = 1;
+    static int MAXW = 500;
+    static int REGULAR_MULTIPLE = 10;
     IColor color = new Black();
     
     static int middleOfScreenWidth = MAXW/2;
