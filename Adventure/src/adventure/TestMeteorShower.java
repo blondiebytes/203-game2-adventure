@@ -41,7 +41,7 @@ public class TestMeteorShower {
         String k = randomButton();
         PlaneHM planeHyperReacted = planeH.react(k);
         testPlaneMoveRightAndLeftHM(planeH, planeHyperReacted, k);
-        System.out.println("MOVE: " + k + " OLD: " + planeH.width + " NEW: " + planeHyperReacted.width);
+        System.out.println("MOVE: " + k + " OLD: " + planeH.height + " NEW: " + planeHyperReacted.height);
         System.out.println();
         planeH = planeHyperReacted;
         }

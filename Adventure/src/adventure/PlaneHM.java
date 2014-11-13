@@ -8,8 +8,8 @@ import javalib.worldimages.WorldImage;
 
 public class PlaneHM {
 
-    int height = MAXH/2;
-    int deltaHeight = -1;
+    int height;
+    int deltaHeight;
     int width = MAXW / 2;
     static int MAXH = 750;
     static int MAXW = 450;
@@ -20,7 +20,7 @@ public class PlaneHM {
     int topOfScreen;
 
     public PlaneHM() {
-        this(MAXW / 2, -1);
+        this(MAXH / 2, -1);
     }
 
     public PlaneHM(int height, int deltaHeight) {
