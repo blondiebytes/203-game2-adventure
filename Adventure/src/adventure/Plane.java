@@ -6,11 +6,11 @@ public class Plane {
     
     int width;
     int deltaWidth;
-    int angle;
-    int deltaAngle;
+    double angle;
+    double deltaAngle;
     int height;
     static int MAXW;
-    static int MAXANGLE;
+    static int MAXANGLE = 180;
     
     static int middleOfScreenWidth = MAXW/2;
     int topOfScreen;
@@ -25,7 +25,7 @@ public class Plane {
     }
     
     public Plane(int mode) throws Exception {
-        this(MAXW/2, -1, mode);
+            this(0, -30, mode);
     }
     
     private Plane (int width, int deltaWidth, int mode) throws Exception{
@@ -33,13 +33,18 @@ public class Plane {
             this.width = width;
             this.deltaWidth = deltaWidth;
             this.mode = mode;
-        } else if (mode == HYPERSPEEDMODE) {
-            this.width = MAXW/2;
-            this.angle = width;
-            this.deltaAngle = deltaWidth;
+        } else {
+            throw new Exception("Problem with constructor RM");
+        }
+    }
+    
+    private Plane (double angle, double deltaAngle, int mode) throws Exception {
+        if (mode == HYPERSPEEDMODE) {
+            this.angle = angle;
+            this.deltaAngle = deltaAngle;
             this.mode = mode;
         } else {
-            throw new Exception("Problem with constructor");
+            throw new Exception("Problem with constructor HM");
         }
     }
    
@@ -59,7 +64,7 @@ public class Plane {
    // ANGLED: ROTATE 30 DEGREES THAT THE WAY -> each rotation represented
    // by 1, 2, 3, 4, 5, 6,7 -> multiple by 30 in draw to get angle
    public Plane onTickHM() throws Exception{
-        int newAngle = angle + deltaAngle;
+        double newAngle = angle + deltaAngle;
         if (newAngle < 0) {
             return new Plane(0, deltaAngle, HYPERSPEEDMODE);
         } else if (newAngle >= MAXANGLE) {
