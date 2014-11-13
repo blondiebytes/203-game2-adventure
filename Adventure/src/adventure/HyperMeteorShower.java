@@ -17,35 +17,29 @@ import javalib.worldimages.WorldImage;
  * @author kathrynhodge
  */
 public class HyperMeteorShower extends World {
-       Lives lives;
-    Plane plane;
+    Lives lives;
+    PlaneHM plane;
     Meteor meteors;
     Boolean gameOver;
     Score score;
-    
-    // 0 means regular mode; 1 means hyper-speed mode
-    int mode;
-    static int REGULARMODE = 0;
-    static int HYPERSPEEDMODE = 1;
+
     
     public HyperMeteorShower() {
         super();
-        this.plane = new Plane();
+        this.plane = new PlaneHM();
         this.meteors = new Meteor();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
-        this.mode = REGULARMODE;
     }
     
-    public HyperMeteorShower(Plane plane, Meteor meteors, Lives lives, Score score, boolean gameOver, int mode){
+    public HyperMeteorShower(PlaneHM plane, Meteor meteors, Lives lives, Score score, boolean gameOver){
         super();
-        this.plane = new Plane();
+        this.plane = new PlaneHM();
         this.meteors = new Meteor();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
-        this.mode = REGULARMODE;
     }
   
     
@@ -64,8 +58,8 @@ public class HyperMeteorShower extends World {
     
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
-        Plane newPlane = plane.react(ke);
-        return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver,this.mode);
+        PlaneHM newPlane = plane.react(ke);
+        return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver);
     }
     
     // Draws the image on screen

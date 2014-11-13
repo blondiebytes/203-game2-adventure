@@ -17,8 +17,8 @@ import javalib.worldimages.WorldImage;
  * @author kathrynhodge
  */
 public class RegularMeteorShower extends World{
-       Lives lives;
-    Plane plane;
+    Lives lives;
+    PlaneRM plane;
     Meteor meteors;
     Boolean gameOver;
     Score score;
@@ -26,11 +26,10 @@ public class RegularMeteorShower extends World{
     // 0 means regular mode; 1 means hyper-speed mode
     int mode;
     static int REGULARMODE = 0;
-    static int HYPERSPEEDMODE = 1;
     
     public RegularMeteorShower() {
         super();
-        this.plane = new Plane();
+        this.plane = new PlaneRM();
         this.meteors = new Meteor();
         this.lives = new Lives();
         this.score = new Score();
@@ -38,9 +37,9 @@ public class RegularMeteorShower extends World{
         this.mode = REGULARMODE;
     }
     
-    public RegularMeteorShower(Plane plane, Meteor meteors, Lives lives, Score score, boolean gameOver, int mode){
+    public RegularMeteorShower(PlaneRM plane, Meteor meteors, Lives lives, Score score, boolean gameOver){
         super();
-        this.plane = new Plane();
+        this.plane = new PlaneRM();
         this.meteors = new Meteor();
         this.lives = new Lives();
         this.score = new Score();
@@ -64,9 +63,15 @@ public class RegularMeteorShower extends World{
     
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
-        Plane newPlane = plane.react(ke);
-        return new RegularMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver,this.mode);
+        if (ke.equals("0")) {
+            PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
+            return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver);
+        } else {
+            PlaneRM newPlane = plane.react(ke);
+            return new RegularMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver);
+        }
     }
+    
     
     // Draws the image on screen
      public WorldImage makeImage() {

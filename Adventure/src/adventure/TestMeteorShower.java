@@ -1,7 +1,7 @@
 
 package adventure;
-import adventure.Plane;
 import static adventure.TestFunctions.randomButton;
+import static adventure.TestFunctions.testPlaneMoveRightAndLeftHM;
 //
 //import static adventure.TestFunctions.testCollisionHyperMode;
 //import static adventure.TestFunctions.testCollisionRegularMode;
@@ -12,7 +12,6 @@ import static adventure.TestFunctions.randomButton;
 //import static adventure.TestFunctions.testMeteorAppear;
 //import static adventure.TestFunctions.testMeteorColor;
 import static adventure.TestFunctions.testPlaneMoveRightAndLeftRM;
-import static adventure.TestFunctions.testPlaneRotateHM;
 //import static adventure.TestFunctions.testPowerUpHyperMode;
 //import static adventure.TestFunctions.testShootLaser;
 //import static adventure.TestFunctions.testStartUporRestartDown;
@@ -25,27 +24,29 @@ public class TestMeteorShower {
     
     public static void main(String[] args) throws Exception {
         // TESTING PLANE:
-        Plane planeR = new Plane();
+        PlaneRM planeR = new PlaneRM();
         for (int i = 0; i <= tests; i++) {
         String k = randomButton();
-        Plane planeRegularReacted = planeR.react(k);
+        PlaneRM planeRegularReacted = planeR.react(k);
         testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted, k);
         System.out.println("MOVE: " + k + " OLD: " + planeR.width + " NEW: " + planeRegularReacted.width);
+        System.out.println();
         planeR = planeRegularReacted;
         }
         
        System.out.println("testPlaneMoveRightAndLeft success: " + testPlaneMoveRightAndLeftRM + " times");
         // 1 = hyperspeedmode
-        Plane planeH = new Plane(1);
+        PlaneHM planeH = new PlaneHM();
         for (int i = 0; i <= tests; i++) {
         String k = randomButton();
-        Plane planeHyperReacted = planeH.react(k);
-        testPlaneRotateHM(planeH, planeHyperReacted);
-         System.out.println("MOVE: " + k + " OLD: " + planeH.width + " NEW: " + planeHyperReacted.width);
+        PlaneHM planeHyperReacted = planeH.react(k);
+        testPlaneMoveRightAndLeftHM(planeH, planeHyperReacted, k);
+        System.out.println("MOVE: " + k + " OLD: " + planeH.width + " NEW: " + planeHyperReacted.width);
+        System.out.println();
         planeH = planeHyperReacted;
         }
         
-        System.out.println("testPlaneRotate: " + testPlaneRotateHM + " times");
+        System.out.println("testPlaneRotate: " + testPlaneMoveRightAndLeftHM + " times");
         
         
         

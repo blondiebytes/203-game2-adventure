@@ -115,7 +115,7 @@ public class TestFunctions {
     
     
      static int testPlaneMoveRightAndLeftRM = 0;
-     static int testPlaneRotateHM = 0;
+     static int testPlaneMoveRightAndLeftHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -161,56 +161,67 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // PLANE TESTING:
     
-    // In Regular Mode, after pressing the RIGHT arrow, does the plane move right?
+    // After pressing the RIGHT arrow, does the plane move right?
     // If it is about to go off-screen, does it stay where it is?
     
-    // In Regular Mode, after pressing the LEFT arrow, does the plane move left? 
+    // After pressing the LEFT arrow, does the plane move left? 
     // If it is about to go off-screen, does it stay where it is?
     
-    // In Regular Mode, if those buttons aren't is pressed, the plane shouldn't move. 
-    
-    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
-    // does the plane turn left after pressing the LEFT arrow? Does the plane 
-    // stay the same if those buttons aren't pressed? If the plane is about to
-    // go past the 180 degree line, does the rotation stop?
+    // If those buttons aren't is pressed, the plane shouldn't move. 
     
     // ----------------------------------------------------------------
     
     
-       public static void testPlaneMoveRightAndLeftRM(Plane oP, Plane nP, String rnb) throws Exception {
-   // After pressing the RIGHT arrow, does the plane move right? If it is
-   // about to go off-screen, does it stay where it is?
+       public static void testPlaneMoveRightAndLeftRM(PlaneRM oP, PlaneRM nP, String rnb) throws Exception {
         int dw = 0;
+        // After pressing the RIGHT arrow, does the plane move right? If it is
+        // about to go off-screen, does it stay where it is?
         if (rnb.equals("right")) {
             dw = 1;
         }
+        // After pressing the LEFT arrow, does the plane move left? If it is
+        // about to go off-screen, does it stay where it is?
         if (rnb.equals("left")) {
             dw = -1;
         }
-
-        if (oP.isEqualToRM(nP)) {
+        // If those buttons aren't is pressed, the plane shouldn't move. 
+        if (oP.isEqualTo(nP)) {
             dw = 0;
         }
 
         if ((oP.width + dw) != nP.width) {
-            throw new Exception("MoveSpike doesn't work: Old: "
+            throw new Exception("MovePlane doesn't work: Old: "
                     + oP.width + "New:" + nP.width
                     + "dw = " + dw);
         }
-   // After pressing the LEFT arrow, does the plane move left? If it is
-   // about to go off-screen, does it stay where it is?
-   // If those buttons aren't is pressed, the plane shouldn't move. 
-       // (or it shouldn't change direction)
        
-    testPlaneMoveRightAndLeftRM++;
+        testPlaneMoveRightAndLeftRM++;
    }
        
-       public static void testPlaneRotateHM(Plane oP, Plane nP) {
-//    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right 30 degrees?
-//    // does the plane turn left after pressing the LEFT arrow? Does the plane 
-//    // stay the same if those buttons aren't pressed? If the plane is about to
-//    // go past the 180 degree line, does the rotation stop?
-       testPlaneRotateHM++;
+       public static void testPlaneMoveRightAndLeftHM(PlaneHM oP, PlaneHM nP, String rnb) throws Exception{
+        int dw = 0;
+        // After pressing the RIGHT arrow, does the plane move right? If it is
+        // about to go off-screen, does it stay where it is?
+        if (rnb.equals("right")) {
+            dw = 5;
+        }
+        // After pressing the LEFT arrow, does the plane move left? If it is
+        // about to go off-screen, does it stay where it is?
+        if (rnb.equals("left")) {
+            dw = -5;
+        }
+        // If those buttons aren't is pressed, the plane shouldn't move. 
+        if (oP.isEqualTo(nP)) {
+            dw = 0;
+        }
+
+        if ((oP.width + dw) != nP.width) {
+            throw new Exception("MovePlance doesn't work: Old: "
+                    + oP.width + "New:" + nP.width
+                    + "dw = " + dw);
+        }
+        
+       testPlaneMoveRightAndLeftHM++;
    }
     
     
