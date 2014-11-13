@@ -24,8 +24,11 @@ public class RunMeteorShower {
       
     public static void main(String[] args) throws Exception {
         
+        MeteorShower meteorShower = new MeteorShower();
+        meteorShower.bigBang();
+        
+        
         while(true) {
-            MeteorShower meteorShower = new MeteorShower();
             while(!meteorShower.gameOver) {
                 // Update everything on screen
                 // Take a CharKey

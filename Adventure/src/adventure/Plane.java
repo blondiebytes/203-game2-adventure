@@ -1,6 +1,13 @@
 
 package adventure;
         
+import javafx.geometry.Pos;
+import javalib.colors.IColor;
+import javalib.colors.Yellow;
+import javalib.worldimages.CircleImage;
+import javalib.worldimages.Posn;
+import javalib.worldimages.WorldImage;
+
         
 public class Plane {
     
@@ -11,6 +18,7 @@ public class Plane {
     int height;
     static int MAXW;
     static int MAXANGLE = 180;
+    IColor color = new Yellow();
     
     static int middleOfScreenWidth = MAXW/2;
     int topOfScreen;
@@ -20,37 +28,35 @@ public class Plane {
     static int HYPERSPEEDMODE = MeteorShower.HYPERSPEEDMODE;
     int mode = REGULARMODE;
     
-    Plane() throws Exception {
+    // =============================
+    
+    Plane() {
         this(MAXW/2, -1, REGULARMODE);
     }
     
-    public Plane(int mode) throws Exception {
+    public Plane(int mode) {
             this(0, -30, mode);
     }
     
-    private Plane (int width, int deltaWidth, int mode) throws Exception{
+    private Plane (int width, int deltaWidth, int mode) {
         if (mode == REGULARMODE) {
             this.width = width;
             this.deltaWidth = deltaWidth;
             this.mode = mode;
-        } else {
-            throw new Exception("Problem with constructor RM");
-        }
+        } 
     }
     
-    private Plane (double angle, double deltaAngle, int mode) throws Exception {
+    private Plane (double angle, double deltaAngle, int mode)  {
         if (mode == HYPERSPEEDMODE) {
             this.angle = angle;
             this.deltaAngle = deltaAngle;
             this.mode = mode;
-        } else {
-            throw new Exception("Problem with constructor HM");
-        }
+        } 
     }
    
    
   // REGULAR: MOVE RIGHT AND LEFT
-   public Plane onTickRM() throws Exception{
+   public Plane onTickRM(){
        int newWidth = width + deltaWidth;
         if (newWidth < 0) {
             return new Plane(0, deltaWidth, REGULARMODE);
@@ -63,7 +69,7 @@ public class Plane {
    
    // ANGLED: ROTATE 30 DEGREES THAT THE WAY -> each rotation represented
    // by 1, 2, 3, 4, 5, 6,7 -> multiple by 30 in draw to get angle
-   public Plane onTickHM() throws Exception{
+   public Plane onTickHM(){
         double newAngle = angle + deltaAngle;
         if (newAngle < 0) {
             return new Plane(0, deltaAngle, HYPERSPEEDMODE);
@@ -74,30 +80,29 @@ public class Plane {
         }
    }
 
-   public Plane react(String s) throws Exception{
+   public Plane react(String s) {
      if (s.matches("right")) {
          if (this.mode == REGULARMODE) {
             return new Plane (width, Math.abs(deltaWidth),REGULARMODE).onTickRM();            
          } else if (this.mode == HYPERSPEEDMODE) {
              return new Plane(angle, Math.abs(deltaAngle), HYPERSPEEDMODE).onTickHM();
-         } else {
-             throw new Exception("PROBLEMS WITH REACT RIGHT");
-         }
+         } 
        } else if (s.matches("left")) {
            if (this.mode == REGULARMODE) {
+            System.out.println("ok");
             return new Plane (width, -Math.abs(deltaWidth), REGULARMODE).onTickRM();
             } else if (this.mode == HYPERSPEEDMODE) {
               return new Plane(angle, -Math.abs(deltaAngle), HYPERSPEEDMODE).onTickHM();
-           } else {
-                throw new Exception("PROBLEMS WITH REACT LEFT");
-            }
+           } 
        }
      return this;
    }
  
    // NEED TO LOOK AT GAMEWORLDS DOCUMENTATION
-    public void draw() {
-        
+    public WorldImage planeImage() {
+        return new CircleImage(new Posn(this.width, this.height), 50, color);
+//            return new FromFileImage(this.center, "Images/shark.png").
+//          overlayImages(new CircleImage(this.center, this.radius, this.col));
     }
     
     
