@@ -23,7 +23,7 @@ public class MeteorShower extends World {
     static int REGULARMODE = 0;
     static int HYPERSPEEDMODE = 1;
     
-    public MeteorShower() {
+    public MeteorShower() throws Exception {
         this.plane = new Plane();
         this.meteors = new Meteor();
         this.lives = new Lives();

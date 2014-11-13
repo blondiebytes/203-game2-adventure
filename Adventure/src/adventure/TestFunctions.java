@@ -114,12 +114,11 @@ public class TestFunctions {
     
     
     
-    
+     static int testPlaneMoveRightAndLeftRM = 0;
+     static int testPlaneRotateHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
-//     static int testPlaneMoveRightAndLeft = 0;
-//     static int testPlaneRotate = 0;
 //     static int testShootLaser = 0;
 //     static int testLaserColorsRegularMode = 0;
 //     static int testLaserColorsHyperMode = 0;
@@ -133,6 +132,31 @@ public class TestFunctions {
 //     static int tests = 5;
 //    
     
+   // ----------------------------------------------------------------
+   // RANDOM KEY GENERATOR
+   public static String randomButton() {
+       Random rnd = new Random();
+       int nextValue = rnd.nextInt(7);
+       if (nextValue == 0) {
+           return "up";
+       } else if (nextValue == 1) {
+           return "down";
+       } else if (nextValue == 2) {
+           return "right";
+       } else if (nextValue == 3) {
+           return "left";
+       } else if (nextValue == 4){
+           return "spacebar";
+       } else if (nextValue == 5) {
+           return "r";
+         } else if (nextValue ==6) {
+             return "b";
+         } else {
+          int stringVal = rnd.nextInt(25);
+          return Character.toChars(65 + stringVal).toString();
+                  }
+   }
+   
     
     // ----------------------------------------------------------------
     // PLANE TESTING:
@@ -153,7 +177,7 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     
     
-       public static void testPlaneMoveRightAndLeftRM(MeteorShower oG, MeteorShower nG) {
+       public static void testPlaneMoveRightAndLeftRM(Plane oP, Plane nP) {
    // After pressing the RIGHT arrow, does the plane move right? If it is
    // about to go off-screen, does it stay where it is?
    // After pressing the LEFT arrow, does the plane move left? If it is
@@ -161,15 +185,15 @@ public class TestFunctions {
    // If those buttons aren't is pressed, the plane shouldn't move. 
        // (or it shouldn't change direction)
        
-      // VAR--> testPlaneMoveRightAndLeftRM++;
+    testPlaneMoveRightAndLeftRM++;
    }
        
-       public static void testPlaneRotate(MeteorShower oG, MeteorShower nG) {
-//    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right?
+       public static void testPlaneRotateHM(Plane oP, Plane nP) {
+//    // In Hyper-Speed Mode, after pressing the RIGHT arrow, does the plane turn right 30 degrees?
 //    // does the plane turn left after pressing the LEFT arrow? Does the plane 
 //    // stay the same if those buttons aren't pressed? If the plane is about to
 //    // go past the 180 degree line, does the rotation stop?
-//       testPlaneRotate++;
+       testPlaneRotateHM++;
    }
     
     
@@ -401,31 +425,6 @@ public class TestFunctions {
 //   }
 //   
 //   // ================================================================
-//   
-//   // ----------------------------------------------------------------
-//   // RANDOM KEY GENERATOR
-//   public static String randomButton() {
-//       Random rnd = new Random();
-//       int nextValue = rnd.nextInt(7);
-//       if (nextValue == 0) {
-//           return "up";
-//       } else if (nextValue == 1) {
-//           return "down";
-//       } else if (nextValue == 2) {
-//           return "right";
-//       } else if (nextValue == 3) {
-//           return "left";
-//       } else if (nextValue == 4){
-//           return "spacebar";
-//       } else if (nextValue == 5) {
-//           return "r";
-//         } else if (nextValue ==6) {
-//             return "b";
-//         } else {
-//          int stringVal = rnd.nextInt(25);
-//          return Character.toChars(65 + stringVal).toString();
-//                  }
-//   }
 //   
 //   // ----------------------------------------------------------------
 //   // TESTING ALL!!!!

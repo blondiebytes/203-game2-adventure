@@ -24,6 +24,10 @@ public class Plane {
         this(MAXW/2, -1, REGULARMODE);
     }
     
+    public Plane(int mode) throws Exception {
+        this(MAXW/2, -1, mode);
+    }
+    
     private Plane (int width, int deltaWidth, int mode) throws Exception{
         if (mode == REGULARMODE) {
             this.width = width;
