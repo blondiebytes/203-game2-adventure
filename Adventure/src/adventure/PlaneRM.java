@@ -59,14 +59,14 @@ public class PlaneRM {
 
    public PlaneRM react(String s) {
      if (s.equals("right")) {
-             System.out.println("GOING RIGHT: ");
+      //       System.out.println("GOING RIGHT: ");
             return new PlaneRM(width, Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);            
          } 
         else if (s.equals("left")) {
-            System.out.println("GOING LEFT: ");
+    //        System.out.println("GOING LEFT: ");
             return new PlaneRM(width, -Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
        }
-     System.out.println("STAYING THE SAME");
+    // System.out.println("STAYING THE SAME");
      return this;
    }
  

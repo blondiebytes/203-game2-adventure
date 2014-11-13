@@ -20,7 +20,7 @@ import static adventure.TestFunctions.testPlaneMoveRightAndLeftRM;
 
 public class TestMeteorShower {
     
-    static int tests = 99;
+    static int tests = 999;
     
     public static void main(String[] args) throws Exception {
         // TESTING PLANE:

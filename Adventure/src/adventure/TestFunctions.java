@@ -161,10 +161,16 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // PLANE TESTING:
     
-    // After pressing the RIGHT arrow, does the plane move right?
+    // REGULAR MODE: After pressing the RIGHT arrow, does the plane move right?
     // If it is about to go off-screen, does it stay where it is?
     
-    // After pressing the LEFT arrow, does the plane move left? 
+    // REGULAR MODE: After pressing the LEFT arrow, does the plane move left? 
+    // If it is about to go off-screen, does it stay where it is?
+   
+    // HYPER MODE: After pressing the UP arrow, does the plane move up?
+    // If it is about to go off-screen, does it stay where it is?
+    
+    // HYPER MODE: After pressing the DOWN arrow, does the plane move down? 
     // If it is about to go off-screen, does it stay where it is?
     
     // If those buttons aren't is pressed, the plane shouldn't move. 
@@ -199,26 +205,26 @@ public class TestFunctions {
    }
        
        public static void testPlaneMoveRightAndLeftHM(PlaneHM oP, PlaneHM nP, String rnb) throws Exception{
-        int dw = 0;
-        // After pressing the RIGHT arrow, does the plane move right? If it is
+        int dh = 0;
+        // After pressing the UP arrow, does the plane move up? If it is
         // about to go off-screen, does it stay where it is?
-        if (rnb.equals("right")) {
-            dw = 5;
+        if (rnb.equals("up")) {
+            dh = 5;
         }
-        // After pressing the LEFT arrow, does the plane move left? If it is
+        // After pressing the DOWN arrow, does the plane move down? If it is
         // about to go off-screen, does it stay where it is?
-        if (rnb.equals("left")) {
-            dw = -5;
+        if (rnb.equals("down")) {
+            dh = -5;
         }
         // If those buttons aren't is pressed, the plane shouldn't move. 
         if (oP.isEqualTo(nP)) {
-            dw = 0;
+            dh = 0;
         }
 
-        if ((oP.width + dw) != nP.width) {
-            throw new Exception("MovePlance doesn't work: Old: "
-                    + oP.width + "New:" + nP.width
-                    + "dw = " + dw);
+        if ((oP.height + dh) != nP.height) {
+            throw new Exception("MovePlane doesn't work: Old: "
+                    + oP.height + "New:" + nP.height
+                    + "dw = " + dh);
         }
         
        testPlaneMoveRightAndLeftHM++;
