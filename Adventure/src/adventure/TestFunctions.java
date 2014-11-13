@@ -177,9 +177,26 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     
     
-       public static void testPlaneMoveRightAndLeftRM(Plane oP, Plane nP) {
+       public static void testPlaneMoveRightAndLeftRM(Plane oP, Plane nP, String rnb) throws Exception {
    // After pressing the RIGHT arrow, does the plane move right? If it is
    // about to go off-screen, does it stay where it is?
+        int dw = 0;
+        if (rnb.equals("right")) {
+            dw = 1;
+        }
+        if (rnb.equals("left")) {
+            dw = -1;
+        }
+
+        if (oP.isEqualToRM(nP)) {
+            dw = 0;
+        }
+
+        if ((oP.width + dw) != nP.width) {
+            throw new Exception("MoveSpike doesn't work: Old: "
+                    + oP.width + "New:" + nP.width
+                    + "dw = " + dw);
+        }
    // After pressing the LEFT arrow, does the plane move left? If it is
    // about to go off-screen, does it stay where it is?
    // If those buttons aren't is pressed, the plane shouldn't move. 

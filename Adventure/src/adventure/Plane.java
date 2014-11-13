@@ -24,8 +24,8 @@ public class Plane {
     int topOfScreen;
     
     // 0 means regular mode; 1 means hyper-speed mode
-    static int REGULARMODE = MeteorShower.REGULARMODE;
-    static int HYPERSPEEDMODE = MeteorShower.HYPERSPEEDMODE;
+    static int REGULARMODE = 0;
+    static int HYPERSPEEDMODE = 1;
     int mode = REGULARMODE;
     
     // =============================
@@ -52,6 +52,18 @@ public class Plane {
             this.deltaAngle = deltaAngle;
             this.mode = mode;
         } 
+    }
+    
+    public boolean isEqualToRM(Plane otherPlane) {
+        return (this.deltaWidth == otherPlane.deltaWidth) 
+                && (this.height == otherPlane.height) 
+                && (this.width == otherPlane.width);
+    }
+    
+    public boolean isEqualToHM(Plane otherPlane) {
+        return (this.deltaAngle == otherPlane.deltaAngle) 
+                && (this.height == otherPlane.height) 
+                && (this.angle== otherPlane.angle);
     }
    
    
@@ -83,18 +95,20 @@ public class Plane {
    public Plane react(String s) {
      if (s.equals("right")) {
          if (this.mode == REGULARMODE) {
+             System.out.println("GOING RIGHT: ");
             return new Plane (width, Math.abs(deltaWidth),REGULARMODE).onTickRM();            
          } else if (this.mode == HYPERSPEEDMODE) {
              return new Plane(angle, Math.abs(deltaAngle), HYPERSPEEDMODE).onTickHM();
          } 
        } else if (s.equals("left")) {
            if (this.mode == REGULARMODE) {
-            System.out.println("ok");
+            System.out.println("GOING LEFT: ");
             return new Plane (width, -Math.abs(deltaWidth), REGULARMODE).onTickRM();
             } else if (this.mode == HYPERSPEEDMODE) {
               return new Plane(angle, -Math.abs(deltaAngle), HYPERSPEEDMODE).onTickHM();
            } 
        }
+     System.out.println("STAYING THE SAME");
      return this;
    }
  

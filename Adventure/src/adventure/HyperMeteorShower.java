@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package adventure;
 
 import javalib.colors.Blue;
@@ -6,16 +10,14 @@ import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
-import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
 /**
  *
  * @author kathrynhodge
  */
-public class MeteorShower extends World {
-    
-    Lives lives;
+public class HyperMeteorShower extends World {
+       Lives lives;
     Plane plane;
     Meteor meteors;
     Boolean gameOver;
@@ -26,7 +28,8 @@ public class MeteorShower extends World {
     static int REGULARMODE = 0;
     static int HYPERSPEEDMODE = 1;
     
-    public MeteorShower() {
+    public HyperMeteorShower() {
+        super();
         this.plane = new Plane();
         this.meteors = new Meteor();
         this.lives = new Lives();
@@ -35,7 +38,7 @@ public class MeteorShower extends World {
         this.mode = REGULARMODE;
     }
     
-    public MeteorShower(Plane plane, Meteor meteors, Lives lives, Score score, boolean gameOver, int mode){
+    public HyperMeteorShower(Plane plane, Meteor meteors, Lives lives, Score score, boolean gameOver, int mode){
         super();
         this.plane = new Plane();
         this.meteors = new Meteor();
@@ -62,7 +65,7 @@ public class MeteorShower extends World {
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
         Plane newPlane = plane.react(ke);
-        return new MeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver,this.mode);
+        return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver,this.mode);
     }
     
     // Draws the image on screen
@@ -85,8 +88,4 @@ public class MeteorShower extends World {
 //        
 //    }
 
-
-
-    
-    
 }

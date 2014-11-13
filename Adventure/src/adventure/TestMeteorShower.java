@@ -29,14 +29,14 @@ public class TestMeteorShower {
         for (int i = 0; i <= tests; i++) {
         String k = randomButton();
         Plane planeRegularReacted = planeR.react(k);
-        testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted);
+        testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted, k);
         System.out.println("MOVE: " + k + " OLD: " + planeR.width + " NEW: " + planeRegularReacted.width);
         planeR = planeRegularReacted;
         }
         
        System.out.println("testPlaneMoveRightAndLeft success: " + testPlaneMoveRightAndLeftRM + " times");
-        
-        Plane planeH = new Plane(MeteorShower.HYPERSPEEDMODE);
+        // 1 = hyperspeedmode
+        Plane planeH = new Plane(1);
         for (int i = 0; i <= tests; i++) {
         String k = randomButton();
         Plane planeHyperReacted = planeH.react(k);
@@ -48,7 +48,6 @@ public class TestMeteorShower {
         System.out.println("testPlaneRotate: " + testPlaneRotateHM + " times");
         
         
-        MeteorShower meteorShower = new MeteorShower();
         
 //        while (!meteorShower.gameOver) {
 //                  // Pick random Key
