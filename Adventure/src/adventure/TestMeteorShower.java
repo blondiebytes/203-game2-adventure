@@ -27,8 +27,10 @@ public class TestMeteorShower {
         // TESTING PLANE:
         Plane planeR = new Plane();
         for (int i = 0; i <= tests; i++) {
-        Plane planeRegularReacted = planeR.react(randomButton());
+        String k = randomButton();
+        Plane planeRegularReacted = planeR.react(k);
         testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted);
+        System.out.println("MOVE: " + k + " OLD: " + planeR.width + " NEW: " + planeRegularReacted.width);
         planeR = planeRegularReacted;
         }
         
@@ -36,8 +38,10 @@ public class TestMeteorShower {
         
         Plane planeH = new Plane(MeteorShower.HYPERSPEEDMODE);
         for (int i = 0; i <= tests; i++) {
-        Plane planeHyperReacted = planeH.react(randomButton());
+        String k = randomButton();
+        Plane planeHyperReacted = planeH.react(k);
         testPlaneRotateHM(planeH, planeHyperReacted);
+         System.out.println("MOVE: " + k + " OLD: " + planeH.width + " NEW: " + planeHyperReacted.width);
         planeH = planeHyperReacted;
         }
         
