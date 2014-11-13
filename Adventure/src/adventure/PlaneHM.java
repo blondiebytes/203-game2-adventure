@@ -46,14 +46,6 @@ public class PlaneHM {
     }
 
     public PlaneHM react(String s) {
-        // Also have the plane switching sides -> 
-        if (s.equals("right")) {
-            //switch plane image
-        }
-        if (s.equals("left")) {
-            // switch plane image
-        }
-        
         switch (s) {
             case "up":
            //     System.out.println("GOING UP: ");

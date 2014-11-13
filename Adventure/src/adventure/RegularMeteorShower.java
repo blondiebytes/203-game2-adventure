@@ -13,16 +13,14 @@ import javalib.worldimages.RectangleImage;
 import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
-/**
- *
- * @author kathrynhodge
- */
+
 public class RegularMeteorShower extends World{
     Lives lives;
     PlaneRM plane;
     Meteor meteors;
     Boolean gameOver;
     Score score;
+    // TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
     
     // 0 means regular mode; 1 means hyper-speed mode
     int mode;

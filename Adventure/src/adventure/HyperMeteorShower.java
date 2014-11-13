@@ -22,7 +22,7 @@ public class HyperMeteorShower extends World {
     Meteor meteors;
     Boolean gameOver;
     Score score;
-
+// TOADD: Add WorldImage plane property
     
     public HyperMeteorShower() {
         super();
@@ -58,6 +58,13 @@ public class HyperMeteorShower extends World {
     
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
+        // Also have the plane switching sides -> 
+        if (ke.equals("right")) {
+            //switch plane image
+        }
+        if (ke.equals("left")) {
+            // switch plane image
+        }
         PlaneHM newPlane = plane.react(ke);
         return new HyperMeteorShower(newPlane, this.meteors, this.lives, this.score, this.gameOver);
     }
