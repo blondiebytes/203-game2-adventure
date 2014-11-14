@@ -39,7 +39,11 @@ public class TestFunctions {
     
     // REGULAR MODE: Is a meteor created every other second?
     
+    // REGULAR MODE: Does the meteor consistenly move upward?
+    
     // HYPERSPEED MODE: Is a meteor created every half second?
+    
+    // REGULAR MODE: Does the meteor consistenly move across?
     
     // ----------------------------------------------------------------
     // LASER TESTING:
