@@ -17,13 +17,13 @@ public class MeteorHM {
     
     // Starting off-screen height, but at the right width position
     MeteorHM() {
-        this(-500, 0, count);
+        this(0, -20, count);
         count++;
     }
     
     MeteorHM(int width, int height, int count) {
          this.width = width;
-        // Using Sentinal h = -500
+        // Using Sentinal h = -20
         if (height == -20) {
             Random random = new Random();
             this.height = planeIntervals * (Math.abs(random.nextInt()) + 1) % (400 / planeIntervals);
@@ -37,9 +37,10 @@ public class MeteorHM {
         return this;
     }
     
+    // Height is ranomly 
     MeteorHM onTick() {
-        // Make it go up 1;
-         return new MeteorHM(this.width, this.height - 1, this.identity);
+        // Make it across one
+         return new MeteorHM(this.width - 1, this.height, this.identity);
     
     }
    

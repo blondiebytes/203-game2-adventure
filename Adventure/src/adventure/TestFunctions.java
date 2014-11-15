@@ -34,16 +34,17 @@ public class TestFunctions {
     
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
     
+    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+    // when it's ticked?
+    
+    // Does the meteor stay the same after any key is pressed? (True in both modes)
+    
     // ----------------------------------------------------------------
     // METEORS (BIG DATA STRUCT) TESTING:
     
-    // REGULAR MODE: Is a meteor created every other second?
-    
     // REGULAR MODE: Does the meteor consistenly move upward?
     
-    // HYPERSPEED MODE: Is a meteor created every half second?
-    
-    // REGULAR MODE: Does the meteor consistenly move across?
+    // HYPERSPEED MODE: Does the meteor consistenly move across?
     
     // ----------------------------------------------------------------
     // LASER TESTING:
@@ -241,6 +242,11 @@ public class TestFunctions {
     // METEOR TESTING:
     
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
+       
+    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+    // when it's ticked?
+       
+    // Does the meteor stay the same after any key is pressed? (True in both modes)
     
     
        public static void testMeteorColorRM(MeteorRM m) throws Exception{
@@ -261,6 +267,13 @@ public class TestFunctions {
         }
        testMeteorColorHM++;
    }
+        
+        // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+        // when it's ticked?
+        
+        
+        
+        // Does the meteor stay the same after any key is pressed? (True in both modes)
     
     
     
