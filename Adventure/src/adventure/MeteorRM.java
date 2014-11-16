@@ -10,7 +10,7 @@ import java.util.Random;
 import javalib.colors.Black;
 import javalib.colors.IColor;
 
-public class MeteorRM {
+public class MeteorRM implements Comparable<MeteorRM>{
     String color;
     int height = MAXH;
     int deltaHeight = -1;
@@ -72,6 +72,16 @@ public class MeteorRM {
         return this.identity == otherMeteor.identity;
     }
    
+    public int compareTo(MeteorRM otherMeteor) {
+        if (this.isEqualToId(otherMeteor)) {
+            return 0;
+        } else if (this.identity < otherMeteor.identity) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     
     
     

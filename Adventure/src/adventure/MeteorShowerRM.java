@@ -5,6 +5,8 @@
  */
 package adventure;
 
+import adventure.SetBag.Bag;
+import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.Blue;
 import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
@@ -17,7 +19,7 @@ import javalib.worldimages.WorldImage;
 public class MeteorShowerRM extends World{
     Lives lives;
     PlaneRM plane;
-    MeteorDataStruct meteorDataStruct;
+    Bag meteorDataStructRM;
     Boolean gameOver;
     Score score;
     // TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
@@ -29,17 +31,17 @@ public class MeteorShowerRM extends World{
     public MeteorShowerRM() {
         super();
         this.plane = new PlaneRM();
-        this.meteorDataStruct = new MeteorDataStruct();
+        this.meteorDataStructRM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
         this.mode = REGULARMODE;
     }
     
-    public MeteorShowerRM(PlaneRM plane, MeteorDataStruct meteors, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerRM(PlaneRM plane, Bag meteors, Lives lives, Score score, boolean gameOver){
         super();
         this.plane = plane;
-        this.meteorDataStruct = meteors;
+        this.meteorDataStructRM = meteors;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -63,11 +65,11 @@ public class MeteorShowerRM extends World{
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
         if (ke.equals("0")) {
-            PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
-            return new MeteorShowerHM(newPlane, this.meteorDataStruct, this.lives, this.score, this.gameOver);
+          //  PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
+            return new MeteorShowerHM(new PlaneHM(), empty(), this.lives, this.score, this.gameOver);
         } else {
             PlaneRM newPlane = plane.react(ke);
-            return new MeteorShowerRM(newPlane, this.meteorDataStruct, this.lives, this.score, this.gameOver);
+            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lives, this.score, this.gameOver);
         }
     }
     

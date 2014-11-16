@@ -3,7 +3,7 @@ package adventure;
 
 import java.util.Random;
 
-public class MeteorHM {
+public class MeteorHM implements Comparable<MeteorHM> {
     int width;
     int deltaWidth;
     int height;
@@ -62,6 +62,16 @@ public class MeteorHM {
     
     boolean isEqualToId(MeteorHM otherMeteor) {
         return this.identity == otherMeteor.identity;
+    }
+    
+    public int compareTo(MeteorHM otherMeteor) {
+        if (this.isEqualToId(otherMeteor)) {
+            return 0;
+        } else if (this.identity < otherMeteor.identity) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
    
     

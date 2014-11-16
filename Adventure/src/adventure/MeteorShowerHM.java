@@ -5,6 +5,8 @@
  */
 package adventure;
 
+import adventure.SetBag.Bag;
+import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.Blue;
 import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
@@ -19,7 +21,7 @@ import javalib.worldimages.WorldImage;
 public class MeteorShowerHM extends World {
     Lives lives;
     PlaneHM plane;
-    MeteorDataStruct meteorDataStruct;
+    Bag meteorDataStructHM;
     Boolean gameOver;
     Score score;
 // TOADD: Add WorldImage plane property
@@ -27,16 +29,16 @@ public class MeteorShowerHM extends World {
     public MeteorShowerHM() {
         super();
         this.plane = new PlaneHM();
-        this.meteorDataStruct = new MeteorDataStruct();
+        this.meteorDataStructHM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
     }
     
-    public MeteorShowerHM(PlaneHM plane, MeteorDataStruct meteors, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerHM(PlaneHM plane, Bag meteors, Lives lives, Score score, boolean gameOver){
         super();
         this.plane = plane;
-        this.meteorDataStruct = meteors;
+        this.meteorDataStructHM = meteors;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -66,7 +68,7 @@ public class MeteorShowerHM extends World {
             // switch plane image
         }
         PlaneHM newPlane = plane.react(ke);
-        return new MeteorShowerHM(newPlane, this.meteorDataStruct, this.lives, this.score, this.gameOver);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, this.lives, this.score, this.gameOver);
     }
     
     // Draws the image on screen
