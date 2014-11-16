@@ -27,8 +27,7 @@ public class TestFunctions {
     // Does the meteor stay the same after any key is pressed? (True in both modes)
     // ----------------------------------------------------------------
     // LASER TESTING:
-    // REGUALR MODE: After pressing R, do the lasers turn red?
-    // REGUALR MODE: After pressing B, do the lasers turn blue?
+    // REGUALR MODE: After pressing enter, do the future lasers switch color?
     // After pressing the SPACEBAR, does the plane shoot an laser?
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
@@ -100,7 +99,7 @@ public class TestFunctions {
     // RANDOM KEY GENERATOR
     public static String randomButton() {
         Random rnd = new Random();
-        int nextValue = rnd.nextInt(7);
+        int nextValue = rnd.nextInt(6);
         if (nextValue == 0) {
             return "up";
         } else if (nextValue == 1) {
@@ -112,9 +111,7 @@ public class TestFunctions {
         } else if (nextValue == 4) {
             return "spacebar";
         } else if (nextValue == 5) {
-            return "r";
-        } else if (nextValue == 6) {
-            return "b";
+            return "enter";
         } else {
             int stringVal = rnd.nextInt(25);
             return Character.toChars(65 + stringVal).toString();
@@ -249,8 +246,7 @@ public class TestFunctions {
     }
     // ----------------------------------------------------------------
     // LASER TESTING:
-    // REGUALR MODE: After pressing R, do the lasers turn red?
-    // REGUALR MODE: After pressing B, do the lasers turn blue?
+    // REGUALR MODE: After pressing enter, do the future lasers switch color?
     // After pressing the SPACEBAR, does the plane shoot an laser?
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
