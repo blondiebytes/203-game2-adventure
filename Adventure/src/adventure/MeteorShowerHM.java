@@ -5,6 +5,7 @@
  */
 package adventure;
 
+import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.Blue;
@@ -55,8 +56,28 @@ public class MeteorShowerHM extends World {
     
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
     public World onTick() {
-        return this;
+        // Plane updated in its react
+        // Do some type of collision function to figure out if a meteor is off screen
+        MeteorShowerHM updateLSGM = this.collisionLSGM();
+        Bag newMeteorStruct = this.meteorDataStructHM.add(new MeteorHM());
+        /*check for collision of laser and meteor and update score */
+        return new MeteorShowerHM(this.plane, newMeteorStruct, updateLSGM.lives, updateLSGM.score, updateLSGM.gameOver);
     }
+    
+    public MeteorShowerHM collisionLSGM() {
+        PlaneHM newPlane = this.plane;
+        Bag newMeteors = this.meteorDataStructHM;
+        Lives newLives = this.lives;
+        Boolean newGameOver = this.gameOver;
+        Sequence<MeteorHM> seqMeteors = this.meteorDataStructHM.seq();
+//        newMeteors = seqMeteors.moveAcross(); /* onTick all meteors */
+//        if ( /*check if any meteors are at the same width as spike */ ) {
+//            /* if so, then lose a life */
+//            /* check if all lives are lost */
+//       }
+        return new MeteorShowerHM(newPlane, newMeteors, newLives, this.score, newGameOver);
+    }
+    
     
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
@@ -68,6 +89,7 @@ public class MeteorShowerHM extends World {
             // switch plane image
         }
         PlaneHM newPlane = plane.react(ke);
+        /* if spacebar pressed then, shoot laser */
         return new MeteorShowerHM(newPlane, this.meteorDataStructHM, this.lives, this.score, this.gameOver);
     }
     

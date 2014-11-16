@@ -26,10 +26,6 @@ public class TestFunctions {
     // when it's ticked?
     // Does the meteor stay the same after any key is pressed? (True in both modes)
     // ----------------------------------------------------------------
-    // METEORS (BIG DATA STRUCT) TESTING:
-    // REGULAR MODE: Does the meteor consistenly move upward?
-    // HYPERSPEED MODE: Does the meteor consistenly move across?
-    // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing R, do the lasers turn red?
     // REGUALR MODE: After pressing B, do the lasers turn blue?
@@ -251,7 +247,22 @@ public class TestFunctions {
         }
         reactMeteorRMHM++;
     }
-
+    // ----------------------------------------------------------------
+    // LASER TESTING:
+    // REGUALR MODE: After pressing R, do the lasers turn red?
+    // REGUALR MODE: After pressing B, do the lasers turn blue?
+    // After pressing the SPACEBAR, does the plane shoot an laser?
+    // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
+    // same color?
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static void testingIndividualComponents() throws Exception {
         // ========================================================
         // TESTING PLANE INDIVIDUALLY:
