@@ -43,7 +43,7 @@ public class MeteorHM {
         this.identity = count;
     }
     
-    MeteorHM react() {
+    MeteorHM react(String se) {
         return this;
     }
     
@@ -54,9 +54,10 @@ public class MeteorHM {
     
     }
     
-    boolean isEqualToDWH(MeteorHM otherMeteor) {
+    boolean isEqualToDWHC(MeteorHM otherMeteor) {
         return (this.width == otherMeteor.width) && 
-                (this.height == otherMeteor.height) && (this.deltaWidth == otherMeteor.deltaWidth);
+                (this.height == otherMeteor.height) &&
+                (this.color.equals(otherMeteor.color));
     }
     
     boolean isEqualToId(MeteorHM otherMeteor) {

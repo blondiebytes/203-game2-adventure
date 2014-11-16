@@ -1,131 +1,89 @@
-
 package adventure;
 
 import java.util.Random;
 
-
 public class TestFunctions {
-    
+
     // FOCUSING ON THE PLANE & METEORS NOW: IGNORE THE REST
-    
     // ================================================================
     // BITS & PIECES OF GAME TESTING:
     // ================================================================
-    
     // ----------------------------------------------------------------
     // PLANE TESTING:
-    
     // REGULAR MODE: After pressing the RIGHT arrow, does the plane move right?
     // If it is about to go off-screen, does it stay where it is?
-    
     // REGULAR MODE: After pressing the LEFT arrow, does the plane move left? 
     // If it is about to go off-screen, does it stay where it is?
-   
     // HYPER MODE: After pressing the UP arrow, does the plane move up?
     // If it is about to go off-screen, does it stay where it is?
-    
     // HYPER MODE: After pressing the DOWN arrow, does the plane move down? 
     // If it is about to go off-screen, does it stay where it is?
-    
     // If those buttons aren't is pressed, the plane shouldn't move. 
-    
     // ----------------------------------------------------------------
     // METEOR TESTING:
-    
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-    
     // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
     // when it's ticked?
-    
     // Does the meteor stay the same after any key is pressed? (True in both modes)
-    
     // ----------------------------------------------------------------
     // METEORS (BIG DATA STRUCT) TESTING:
-    
     // REGULAR MODE: Does the meteor consistenly move upward?
-    
     // HYPERSPEED MODE: Does the meteor consistenly move across?
-    
     // ----------------------------------------------------------------
     // LASER TESTING:
-    
     // REGUALR MODE: After pressing R, do the lasers turn red?
     // REGUALR MODE: After pressing B, do the lasers turn blue?
-    
     // After pressing the SPACEBAR, does the plane shoot an laser?
-    
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
-    
     // ================================================================
     // GAME LOGIC TESTING:
     // ================================================================
-    
     // ----------------------------------------------------------------
     // REGULAR MODE & SCORING:
-
     // When a laser and a meteor collide and they are the same color,
     // does the score increase? do the lives stay the same?
-    
     // When a laser and a meteor collide and they are different colors,
     // does the score decrease? do the lives stay the same?
-    
     // When a meteor passes the top of the screen, do you lose a life?
     // does the score stay the same?
-    
     // ----------------------------------------------------------------
     // HYPERSPEED MODE & SCORING:
-    
     // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
     // after pressing Enter?
-    
     // After shooting 20 meteors in a row correctly, 
     // is Hyper-Speed PowerUp given to the user?
-    
     // When a laser and meteor collide, does the score increase? 
     // do the lives stay the same?
-    
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
-    
     // ----------------------------------------------------------------
     // GAME OVER:
-   
     // When a player loses his or her last life, does the game end? 
     // If the player still has lives, is the game still going?
-   
     // ----------------------------------------------------------------
     // INITIAL CONDITIONS (OTHER):
-    
     // Does the plane start at the top middle of the screen?
     // Are there no meteors on screen?
     // Does the player start with three lives?
     // Does the player start with a score of 0?
     // When the game starts, is the gameOver false?
     // Does the game start in Regular Mode?
-    
     // After pressing the UP button, does the game start?
     // After pressing the DOWN button, does the game restart?
-   
-    
-    
-    
     // ================================================================
-
     // For all tests oG = old Game; nG = new Game; mS = Meteor Shower; 
     //               p = plane; m = meteor mD = meteor-datastruct
     //               mode = gamemod; l = laser
-    
     // ================================================================
-    
-    
-    
-     static int testPlaneMoveRightAndLeftRM = 0;
-     static int testPlaneMoveRightAndLeftHM = 0;
-     static int testMeteorColorRM = 0;
-     static int testMeteorColorHM = 0;
-     static int testMeteorMoveRM = 0;
-     static int testMeteorMoveHM = 0;
+    static int tests = 999;
+    static int testPlaneMoveRightAndLeftRM = 0;
+    static int testPlaneMoveRightAndLeftHM = 0;
+    static int testMeteorColorRM = 0;
+    static int testMeteorColorHM = 0;
+    static int testMeteorMoveRM = 0;
+    static int testMeteorMoveHM = 0;
+    static int reactMeteorRMHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -141,54 +99,45 @@ public class TestFunctions {
 //     static int testGameOverLives = 0;
 //     static int tests = 5;
 //    
-    
-   // ----------------------------------------------------------------
-   // RANDOM KEY GENERATOR
-   public static String randomButton() {
-       Random rnd = new Random();
-       int nextValue = rnd.nextInt(7);
-       if (nextValue == 0) {
-           return "up";
-       } else if (nextValue == 1) {
-           return "down";
-       } else if (nextValue == 2) {
-           return "right";
-       } else if (nextValue == 3) {
-           return "left";
-       } else if (nextValue == 4){
-           return "spacebar";
-       } else if (nextValue == 5) {
-           return "r";
-         } else if (nextValue ==6) {
-             return "b";
-         } else {
-          int stringVal = rnd.nextInt(25);
-          return Character.toChars(65 + stringVal).toString();
-                  }
-   }
-   
-    
+
+    // ----------------------------------------------------------------
+    // RANDOM KEY GENERATOR
+    public static String randomButton() {
+        Random rnd = new Random();
+        int nextValue = rnd.nextInt(7);
+        if (nextValue == 0) {
+            return "up";
+        } else if (nextValue == 1) {
+            return "down";
+        } else if (nextValue == 2) {
+            return "right";
+        } else if (nextValue == 3) {
+            return "left";
+        } else if (nextValue == 4) {
+            return "spacebar";
+        } else if (nextValue == 5) {
+            return "r";
+        } else if (nextValue == 6) {
+            return "b";
+        } else {
+            int stringVal = rnd.nextInt(25);
+            return Character.toChars(65 + stringVal).toString();
+        }
+    }
+
     // ----------------------------------------------------------------
     // PLANE TESTING:
-    
     // REGULAR MODE: After pressing the RIGHT arrow, does the plane move right?
     // If it is about to go off-screen, does it stay where it is?
-    
     // REGULAR MODE: After pressing the LEFT arrow, does the plane move left? 
     // If it is about to go off-screen, does it stay where it is?
-   
     // HYPER MODE: After pressing the UP arrow, does the plane move up?
     // If it is about to go off-screen, does it stay where it is?
-    
     // HYPER MODE: After pressing the DOWN arrow, does the plane move down? 
     // If it is about to go off-screen, does it stay where it is?
-    
     // If those buttons aren't is pressed, the plane shouldn't move. 
-    
     // ----------------------------------------------------------------
-    
-    
-       public static void testPlaneMoveRightAndLeftRM(PlaneRM oP, PlaneRM nP, String rnb) throws Exception {
+    public static void testPlaneMoveRightAndLeftRM(PlaneRM oP, PlaneRM nP, String rnb) throws Exception {
         int dw = 0;
         // After pressing the RIGHT arrow, does the plane move right? If it is
         // about to go off-screen, does it stay where it is?
@@ -210,11 +159,11 @@ public class TestFunctions {
                     + oP.width + "New:" + nP.width
                     + "dw = " + dw);
         }
-       
+
         testPlaneMoveRightAndLeftRM++;
-   }
-       
-       public static void testPlaneMoveRightAndLeftHM(PlaneHM oP, PlaneHM nP, String rnb) throws Exception{
+    }
+
+    public static void testPlaneMoveRightAndLeftHM(PlaneHM oP, PlaneHM nP, String rnb) throws Exception {
         int dh = 0;
         // After pressing the UP arrow, does the plane move up? If it is
         // about to go off-screen, does it stay where it is?
@@ -236,101 +185,122 @@ public class TestFunctions {
                     + oP.height + "New:" + nP.height
                     + "dw = " + dh);
         }
-        
-       testPlaneMoveRightAndLeftHM++;
-   }
-       
+
+        testPlaneMoveRightAndLeftHM++;
+    }
+
     // ----------------------------------------------------------------
     // METEOR TESTING:
-    
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-       
     // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
     // when it's ticked?
-       
     // Does the meteor stay the same after any key is pressed? (True in both modes)
-    
-    
-       public static void testMeteorColorRM(MeteorRM m) throws Exception{
-       // Is the meteor either red or blue in REGULAR MODE?
-       if (!m.color.equals("red") && !m.color.equals("blue")) {
-           throw new Exception("Regular Meteor is not red or blue!");
-       }
-       testMeteorColorRM++;
-   }
-       
-       
-        public static void testMeteorColorHM(MeteorHM m) throws Exception {
-       // Is the meteor always white in HYPER MODE?
+    public static void testMeteorColorRM(MeteorRM m) throws Exception {
+        // Is the meteor either red or blue in REGULAR MODE?
+        if (!m.color.equals("red") && !m.color.equals("blue")) {
+            throw new Exception("Regular Meteor is not red or blue!");
+        }
+        testMeteorColorRM++;
+    }
+
+    public static void testMeteorColorHM(MeteorHM m) throws Exception {
+        // Is the meteor always white in HYPER MODE?
         if (!m.color.equals("white")) {
-       // I know it's a class constant, but doing it with instance just to make
-        // sure it never changes
+            // I know it's a class constant, but doing it with instance just to make
+            // sure it never changes
             throw new Exception("Hyper Meteor is not white!");
         }
-       testMeteorColorHM++;
-   }
-        
-        
-        // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
-        // when it's ticked? Also making sure movement doesn't change anything 
-        // else except height
-        public static void testMeteorMoveRM(MeteorRM m, MeteorRM tickedM) throws Exception{
-            if (tickedM.height + 1 != m.height) {
-                throw new Exception("Doesn't Tick!");
-            }
-            if (tickedM.width != m.width || tickedM.deltaHeight != m.deltaHeight 
-                    || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
-                throw new Exception("RM: Something other than height changes when ticked!");
-            }
-            testMeteorMoveRM++;
+        testMeteorColorHM++;
+    }
+
+    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+    // when it's ticked? Also making sure movement doesn't change anything 
+    // else except height
+    public static void testMeteorMoveRM(MeteorRM m, MeteorRM tickedM) throws Exception {
+        if (tickedM.height + 1 != m.height) {
+            throw new Exception("Doesn't Tick!");
         }
-        
-        // Does a meteor move across the screen when it's ticked in Hyper Mode?
-        // Also making sure movement doesn't change anything 
-        // else except width
-        public static void testMeteorMoveHM(MeteorHM m, MeteorHM tickedM) throws Exception {
-            if (tickedM.width != m.width + m.deltaWidth) {
-                throw new Exception("Doesn't Tick!");
-            }
-            if (tickedM.height != m.height
-                    || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
-                throw new Exception("HM: Something other than width changes when ticked!");
-            }
-            testMeteorMoveHM++;
+        if (tickedM.width != m.width || tickedM.deltaHeight != m.deltaHeight
+                || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
+            throw new Exception("RM: Something other than height changes when ticked!");
         }
-        
-        
-        
-        
-        // Does the meteor stay the same after any key is pressed? (True in both modes)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        testMeteorMoveRM++;
+    }
+
+    // Does a meteor move across the screen when it's ticked in Hyper Mode?
+    // Also making sure movement doesn't change anything 
+    // else except width
+    public static void testMeteorMoveHM(MeteorHM m, MeteorHM tickedM) throws Exception {
+        if (tickedM.width != m.width + m.deltaWidth) {
+            throw new Exception("Doesn't Tick!");
+        }
+        if (tickedM.height != m.height
+                || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
+            throw new Exception("HM: Something other than width changes when ticked!");
+        }
+        testMeteorMoveHM++;
+    }
+
+    // Does the meteor stay the same after any key is pressed? (True in both modes)
+    public static void reactMeteorRMHM(MeteorRM mR, MeteorRM mRreacted, MeteorHM mH, MeteorHM mHreacted) throws Exception {
+        if (!mR.isEqualToDWHC(mRreacted) || !mH.isEqualToDWHC(mHreacted)) {
+            throw new Exception("React changed meteor components");
+        }
+        if (!mR.isEqualToId(mRreacted) || !mH.isEqualToId(mHreacted)) {
+            throw new Exception("React changed ID's!");
+        }
+        reactMeteorRMHM++;
+    }
+
+    public static void testingIndividualComponents() throws Exception {
+        // ========================================================
+        // TESTING PLANE INDIVIDUALLY:
+        // ========================================================
+        PlaneRM planeR = new PlaneRM();
+        PlaneHM planeH = new PlaneHM();
+        for (int i = 0; i <= tests; i++) {
+            String k = randomButton();
+            // ---------REACT & TICK---------
+            PlaneRM planeRegularReacted = planeR.react(k);
+            PlaneHM planeHyperReacted = planeH.react(k);
+            testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted, k);
+            testPlaneMoveRightAndLeftHM(planeH, planeHyperReacted, k);
+            planeH = planeHyperReacted;
+            planeR = planeRegularReacted;
+        }
+
+        System.out.println("testPlaneMoveRightAndLeftRM success: " + testPlaneMoveRightAndLeftRM + " times");
+        System.out.println("testPlaneMoveRightAndLeftHM success:" + testPlaneMoveRightAndLeftHM + " times");
+
+        // ========================================================
+        // TESTING METEOR INDIVIDUALLY:
+        // ========================================================
+        MeteorHM mH = new MeteorHM();
+        MeteorRM mR = new MeteorRM();
+        for (int i = 0; i <= tests; i++) {
+            // --------REACT-----------
+            String rnd = randomButton();
+            MeteorRM reactmR = mR.react(rnd);
+            MeteorHM reactmH = mH.react(rnd);
+            reactMeteorRMHM(mR, reactmR, mH, reactmH);
+            // --------COLOR--------------
+            testMeteorColorRM(mR);
+            testMeteorColorHM(mH);
+            // ---------TICK-------------
+            MeteorRM tickedmR = mR.onTick();
+            testMeteorMoveRM(mR, tickedmR);
+            mR = tickedmR;
+            MeteorHM tickedmH = mH.onTick();
+            testMeteorMoveHM(mH, tickedmH);
+            mH = tickedmH;
+        }
+        System.out.println("testMeteorColorRM success:" + testMeteorColorRM + " times");
+        System.out.println("testMeteorColorHM success:" + testMeteorColorHM + " times");
+        System.out.println("testMeteorMoveRM success:" + testMeteorMoveRM + " times");
+        System.out.println("testMeteorMoveHM success:" + testMeteorMoveHM + " times");
+
+    }
+
     
     
     
@@ -344,13 +314,10 @@ public class TestFunctions {
     
     // ----------------------------------------------------------------
     // INITIAL CONDITIONS: 
-    
     // Does the plane start at the top middle of the screen?
     // Are there no meteors on screen?
     // Does the player start with three lives?
     // Does the player start with a score of 0?
-    
-    
 //    public static void testConstructor() throws Exception {
 //        MeteorShower mS = new MeteorShower();
 //        // Does the plane start at the top middle of the screen?
@@ -434,7 +401,6 @@ public class TestFunctions {
 //       return rk.matches("down");
 //   }
 //   
-
 //   
 //   
 //   public static void testShootLaser(MeteorShower oG, MeteorShower nG) {
@@ -466,7 +432,6 @@ public class TestFunctions {
 //       testMeteorAppear++;
 //   }
 //   
-
 //   
 //    // ----------------------------------------------------------------
 //    // REGULAR MODE & SCORING:
@@ -550,9 +515,4 @@ public class TestFunctions {
 //       testGameOverLives(oG, nG);
 //       
 //   }
-    
-    
-    
-    
-    
 }

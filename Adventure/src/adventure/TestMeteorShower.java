@@ -15,7 +15,7 @@ import static adventure.TestFunctions.testPlaneMoveRightAndLeftHM;
 //import static adventure.TestFunctions.testLaserColorsRegularMode;
 //import static adventure.TestFunctions.testMeteorAppear;
 //import static adventure.TestFunctions.testMeteorColor;
-import static adventure.TestFunctions.testPlaneMoveRightAndLeftRM;
+import static adventure.TestFunctions.testingIndividualComponents;
 //import static adventure.TestFunctions.testPowerUpHyperMode;
 //import static adventure.TestFunctions.testShootLaser;
 //import static adventure.TestFunctions.testStartUporRestartDown;
@@ -27,52 +27,18 @@ public class TestMeteorShower {
     static int tests = 999;
     
     public static void main(String[] args) throws Exception {
-        
-        // ========================================================
-        // TESTING PLANE:
-        // ========================================================
-        
-        PlaneRM planeR = new PlaneRM();
-        for (int i = 0; i <= tests; i++) {
-        String k = randomButton();
-        PlaneRM planeRegularReacted = planeR.react(k);
-        testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted, k);
-//        System.out.println("MOVE: " + k + " OLD: " + planeR.width + " NEW: " + planeRegularReacted.width);
-//        System.out.println();
-        planeR = planeRegularReacted;
-        }
-        
-       System.out.println("testPlaneMoveRightAndLeftRM success: " + testPlaneMoveRightAndLeftRM + " times");
-        // 1 = hyperspeedmode
-        PlaneHM planeH = new PlaneHM();
-        for (int i = 0; i <= tests; i++) {
-        String k = randomButton();
-        PlaneHM planeHyperReacted = planeH.react(k);
-        testPlaneMoveRightAndLeftHM(planeH, planeHyperReacted, k);
-//        System.out.println("MOVE: " + k + " OLD: " + planeH.height + " NEW: " + planeHyperReacted.height);
-//        System.out.println();
-        planeH = planeHyperReacted;
-        }
-        System.out.println("testPlaneMoveRightAndLeftHM " + testPlaneMoveRightAndLeftHM + " times");
+        testingIndividualComponents();
         
         
-        // ========================================================
-        // TESTING METEOR:
-        // ========================================================
-        MeteorHM mH = new MeteorHM();
-        MeteorRM mR = new MeteorRM();
-        for (int i= 0; i <= tests; i++) {
-          testMeteorColorRM(mR);
-          MeteorRM tickedmR = mR.onTick();
-          testMeteorMoveRM(mR, tickedmR);
-          mR = tickedmR;
-          testMeteorColorHM(mH);
-          MeteorHM tickedmH = mH.onTick();
-          testMeteorMoveHM(mH, tickedmH);
-          mH = tickedmH;
-        }
-        System.out.println("testMeteorColorRM " + testMeteorColorRM + " times");
-       System.out.println("testMeteorColorHM " + testMeteorColorHM + " times");
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
