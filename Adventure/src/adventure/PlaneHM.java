@@ -18,8 +18,6 @@ public class PlaneHM {
 
     static int middleOfScreenWidth = MAXW / 2;
     int topOfScreen;
-
-    // Haave them start from each side -> make starting width randomized (from each end)
     
     public PlaneHM() {
         this(MAXH / 2, -1);

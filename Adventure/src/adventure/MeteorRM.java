@@ -60,6 +60,18 @@ public class MeteorRM {
         // Make it go up 1;
          return new MeteorRM( this.width, this.height - 1, this.identity, this.color);
     }
+   
+    boolean isEqualToDWHC(MeteorRM otherMeteor) {
+        return (this.width == otherMeteor.width) && 
+                (this.height == otherMeteor.height) && 
+                (this.deltaHeight == otherMeteor.deltaHeight) &&
+                (this.color.equals(otherMeteor.color));
+    }
+    
+    boolean isEqualToId(MeteorRM otherMeteor) {
+        return this.identity == otherMeteor.identity;
+    }
+   
     
     
     

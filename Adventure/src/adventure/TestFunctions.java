@@ -124,6 +124,8 @@ public class TestFunctions {
      static int testPlaneMoveRightAndLeftHM = 0;
      static int testMeteorColorRM = 0;
      static int testMeteorColorHM = 0;
+     static int testMeteorMoveRM = 0;
+     static int testMeteorMoveHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -268,8 +270,35 @@ public class TestFunctions {
        testMeteorColorHM++;
    }
         
+        
         // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
-        // when it's ticked?
+        // when it's ticked? Also making sure movement doesn't change anything 
+        // else except height
+        public static void testMeteorMoveRM(MeteorRM m, MeteorRM tickedM) throws Exception{
+            if (tickedM.height + 1 != m.height) {
+                throw new Exception("Doesn't Tick!");
+            }
+            if (tickedM.width != m.width || tickedM.deltaHeight != m.deltaHeight 
+                    || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
+                throw new Exception("RM: Something other than height changes when ticked!");
+            }
+            testMeteorMoveRM++;
+        }
+        
+        // Does a meteor move across the screen when it's ticked in Hyper Mode?
+        // Also making sure movement doesn't change anything 
+        // else except width
+        public static void testMeteorMoveHM(MeteorHM m, MeteorHM tickedM) throws Exception {
+            if (tickedM.width != m.width + m.deltaWidth) {
+                throw new Exception("Doesn't Tick!");
+            }
+            if (tickedM.width != m.width || tickedM.deltaWidth != m.deltaWidth
+                    || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
+                throw new Exception("HM: Something other than width changes when ticked!");
+            }
+            testMeteorMoveHM++;
+        }
+        
         
         
         

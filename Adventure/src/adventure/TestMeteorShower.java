@@ -3,6 +3,8 @@ package adventure;
 import static adventure.TestFunctions.randomButton;
 import static adventure.TestFunctions.testMeteorColorHM;
 import static adventure.TestFunctions.testMeteorColorRM;
+import static adventure.TestFunctions.testMeteorMoveHM;
+import static adventure.TestFunctions.testMeteorMoveRM;
 import static adventure.TestFunctions.testPlaneMoveRightAndLeftHM;
 //
 //import static adventure.TestFunctions.testCollisionHyperMode;
@@ -57,11 +59,17 @@ public class TestMeteorShower {
         // ========================================================
         // TESTING METEOR:
         // ========================================================
+        MeteorHM mH = new MeteorHM();
+        MeteorRM mR = new MeteorRM();
         for (int i= 0; i <= tests; i++) {
-          MeteorRM mR = new MeteorRM();
           testMeteorColorRM(mR);
-          MeteorHM mH = new MeteorHM();
+          MeteorRM tickedmR = mR.onTick();
+          testMeteorMoveRM(mR, tickedmR);
+          mR = tickedmR;
           testMeteorColorHM(mH);
+          MeteorHM tickedmH = mH.onTick();
+          testMeteorMoveHM(mH, tickedmH);
+          mH = tickedmH;
         }
         System.out.println("testMeteorColorRM " + testMeteorColorRM + " times");
        System.out.println("testMeteorColorHM " + testMeteorColorHM + " times");
