@@ -292,7 +292,7 @@ public class TestFunctions {
             if (tickedM.width != m.width + m.deltaWidth) {
                 throw new Exception("Doesn't Tick!");
             }
-            if (tickedM.width != m.width || tickedM.deltaWidth != m.deltaWidth
+            if (tickedM.height != m.height
                     || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
                 throw new Exception("HM: Something other than width changes when ticked!");
             }
