@@ -8,6 +8,7 @@ public class LaserHM {
     // After pressing the SPACEBAR, does the plane shoot an laser?
     // HYPERSPEED MODE: After pressing ENTER, do the lasers stay the 
     // same color?
+    // Is the laser removed once off screen?
     
     String color = "white";
     int width;

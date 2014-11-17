@@ -20,6 +20,7 @@ public class MeteorShowerRM extends World{
     Lives lives;
     PlaneRM plane;
     Bag meteorDataStructRM;
+    Bag lasersRM;
     Boolean gameOver;
     Score score;
     // TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
@@ -32,16 +33,18 @@ public class MeteorShowerRM extends World{
         super();
         this.plane = new PlaneRM();
         this.meteorDataStructRM = empty();
+        this.lasersRM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
         this.mode = REGULARMODE;
     }
     
-    public MeteorShowerRM(PlaneRM plane, Bag meteors, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM>meteors, Bag lasers, Lives lives, Score score, boolean gameOver){
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
+        this.lasersRM = lasers;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -66,10 +69,12 @@ public class MeteorShowerRM extends World{
     public World onKeyEvent(String ke) {
         if (ke.equals("0")) {
           //  PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
-            return new MeteorShowerHM(new PlaneHM(), empty(), this.lives, this.score, this.gameOver);
+            return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
         } else {
             PlaneRM newPlane = plane.react(ke);
-            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lives, this.score, this.gameOver);
+            /* no need for meteors to react b/c independent of user */
+            Bag newLasersRM = /* something that moves all the lasers laser.react(ke); */ null;
+            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lasersRM, this.lives, this.score, this.gameOver);
         }
     }
     

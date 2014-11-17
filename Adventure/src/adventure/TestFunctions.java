@@ -250,6 +250,7 @@ public class TestFunctions {
     // After pressing the SPACEBAR, does the plane shoot an laser?
     // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
     // same color?
+    // Is the laser removed once off screen?
     
     
     
@@ -301,10 +302,10 @@ public class TestFunctions {
             testMeteorMoveHM(mH, tickedmH);
             mH = tickedmH;
         }
-        System.out.println("testMeteorColorRM success:" + testMeteorColorRM + " times");
-        System.out.println("testMeteorColorHM success:" + testMeteorColorHM + " times");
-        System.out.println("testMeteorMoveRM success:" + testMeteorMoveRM + " times");
-        System.out.println("testMeteorMoveHM success:" + testMeteorMoveHM + " times");
+        System.out.println("testMeteorColorRM success: " + testMeteorColorRM + " times");
+        System.out.println("testMeteorColorHM success: " + testMeteorColorHM + " times");
+        System.out.println("testMeteorMoveRM success: " + testMeteorMoveRM + " times");
+        System.out.println("testMeteorMoveHM success: " + testMeteorMoveHM + " times");
 
     }
 

@@ -23,6 +23,7 @@ public class MeteorShowerHM extends World {
     Lives lives;
     PlaneHM plane;
     Bag meteorDataStructHM;
+    Bag lasersHM;
     Boolean gameOver;
     Score score;
 // TOADD: Add WorldImage plane property
@@ -31,15 +32,17 @@ public class MeteorShowerHM extends World {
         super();
         this.plane = new PlaneHM();
         this.meteorDataStructHM = empty();
+        this.lasersHM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
     }
     
-    public MeteorShowerHM(PlaneHM plane, Bag meteors, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerHM(PlaneHM plane, Bag meteors, Bag lasers, Lives lives, Score score, boolean gameOver){
         super();
         this.plane = plane;
         this.meteorDataStructHM = meteors;
+        this.lasersHM = lasers;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -58,16 +61,19 @@ public class MeteorShowerHM extends World {
     public World onTick() {
         // Plane updated in its react
         // Do some type of collision function to figure out if a meteor is off screen
+        // Also check if lasers are off-screen
         MeteorShowerHM updateLSGM = this.collisionLSGM();
         Bag newMeteorStruct = this.meteorDataStructHM.add(new MeteorHM());
         /*check for collision of laser and meteor and update score */
-        return new MeteorShowerHM(this.plane, newMeteorStruct, updateLSGM.lives, updateLSGM.score, updateLSGM.gameOver);
+        return new MeteorShowerHM(this.plane, newMeteorStruct, updateLSGM.lasersHM, updateLSGM.lives, updateLSGM.score, updateLSGM.gameOver);
     }
     
     public MeteorShowerHM collisionLSGM() {
         PlaneHM newPlane = this.plane;
         Bag newMeteors = this.meteorDataStructHM;
+        Bag newLasers = this.lasersHM;
         Lives newLives = this.lives;
+        Score newScore = this.score;
         Boolean newGameOver = this.gameOver;
         Sequence<MeteorHM> seqMeteors = this.meteorDataStructHM.seq();
 //        newMeteors = seqMeteors.moveAcross(); /* onTick all meteors */
@@ -75,7 +81,7 @@ public class MeteorShowerHM extends World {
 //            /* if so, then lose a life */
 //            /* check if all lives are lost */
 //       }
-        return new MeteorShowerHM(newPlane, newMeteors, newLives, this.score, newGameOver);
+        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newLives, newScore, newGameOver);
     }
     
     
@@ -90,7 +96,8 @@ public class MeteorShowerHM extends World {
         }
         PlaneHM newPlane = plane.react(ke);
         /* if spacebar pressed then, shoot laser */
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, this.lives, this.score, this.gameOver);
+        Bag newLasersRM = /* something that moves all the lasers laser.react(ke); */ null;
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersRM, this.lives, this.score, this.gameOver);
     }
     
     // Draws the image on screen

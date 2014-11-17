@@ -9,9 +9,11 @@ public class LaserRM {
     // LASER TESTING:
     // REGUALR MODE: After pressing ENTER, do the future lasers switch color?
     // After pressing the SPACEBAR, does the plane shoot an laser?
+    // Is the laser removed once off screen?
     
     // PROBLEM: How to store these? In a bag? So more than one laser can 
-    // be on screen? Also, how to track once off-screen
+    // be on screen? Also, how to track once off-screen? --> check if height too high
+    
     
     String color;
     int width;
