@@ -19,6 +19,8 @@ public class PlaneHM {
     static int middleOfScreenWidth = MAXW / 2;
     int topOfScreen;
     
+    
+    // ========== CONSTRUCTORS ==========
     public PlaneHM() {
         this(MAXH / 2, -1);
     }
@@ -27,13 +29,9 @@ public class PlaneHM {
         this.height = height;
         this.deltaHeight = deltaHeight;
     }
+    
 
-    public boolean isEqualTo(PlaneHM otherPlane) {
-        return (this.deltaHeight == otherPlane.deltaHeight)
-                && (this.height == otherPlane.height)
-                && (this.width == otherPlane.width);
-    }
-
+    // ========== REACT ==========
     public PlaneHM onTick(int multiple) {
         int newHeight = height + (deltaHeight * multiple);
         if (newHeight < 0) {
@@ -45,6 +43,8 @@ public class PlaneHM {
         }
     }
 
+    
+    // ========== REACT ==========
     public PlaneHM react(String s) {
         switch (s) {
             case "up":
@@ -59,10 +59,21 @@ public class PlaneHM {
         }
     }
 
+    
+    
+    // ========== DRAW ==========
     public WorldImage planeImage() {
         return new CircleImage(new Posn(this.width, this.height), 10, color);
 //            return new FromFileImage(this.center, "Images/shark.png").
 //          overlayImages(new CircleImage(this.center, this.radius, this.col));
+    }
+    
+    
+    // ========== EQUALITY ==========
+    public boolean isEqualTo(PlaneHM otherPlane) {
+        return (this.deltaHeight == otherPlane.deltaHeight)
+                && (this.height == otherPlane.height)
+                && (this.width == otherPlane.width);
     }
 
 }

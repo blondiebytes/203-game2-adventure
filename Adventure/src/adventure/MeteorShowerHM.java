@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package adventure;
 
 import adventure.Sequence.Sequence;
@@ -15,19 +11,18 @@ import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
 import javalib.worldimages.WorldImage;
 
-/**
- *
- * @author kathrynhodge
- */
 public class MeteorShowerHM extends World {
     Lives lives;
     PlaneHM plane;
-    Bag meteorDataStructHM;
-    Bag lasersHM;
-    Boolean gameOver;
+    Bag<MeteorHM> meteorDataStructHM;
+    Bag<LaserHM> lasersHM;
     Score score;
-// TOADD: Add WorldImage plane property
+    int missingMeteorsCounter;
+    int powerUps;
+// NEEDTO: Add WorldImage plane property !!!!!!!!!!!<<<<===========
     
+    
+    // ========== CONSTRUCTORS ==========
     public MeteorShowerHM() {
         super();
         this.plane = new PlaneHM();
@@ -35,56 +30,72 @@ public class MeteorShowerHM extends World {
         this.lasersHM = empty();
         this.lives = new Lives();
         this.score = new Score();
-        this.gameOver = false;
+        this.missingMeteorsCounter = 0;
+        this.powerUps = 0;
     }
     
-    public MeteorShowerHM(PlaneHM plane, Bag meteors, Bag lasers, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Lives lives, Score score, int missingMeteors, int powerUps){
         super();
         this.plane = plane;
         this.meteorDataStructHM = meteors;
         this.lasersHM = lasers;
         this.lives = lives;
         this.score = score;
-        this.gameOver = gameOver;
+        this.missingMeteorsCounter = missingMeteors;
+        this.powerUps = powerUps;
     }
   
+
     
-    // REQUIRED METHODS BY GAMEWORLDS
-    
-    // To run the world game:
+    // ========== CREATE GAME ==========
     public boolean bigBang() {
         return this.bigBang(500, 500, 1);
     }
     
     
+
+    // ========== TICK ==========
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
     public World onTick() {
-        // Plane updated in its react
-        // Do some type of collision function to figure out if a meteor is off screen
-        // Also check if lasers are off-screen
-        MeteorShowerHM updateLSGM = this.collisionLSGM();
-        Bag newMeteorStruct = this.meteorDataStructHM.add(new MeteorHM());
-        /*check for collision of laser and meteor and update score */
-        return new MeteorShowerHM(this.plane, newMeteorStruct, updateLSGM.lasersHM, updateLSGM.lives, updateLSGM.score, updateLSGM.gameOver);
+        Bag<MeteorHM> newMeteors = this.meteorDataStructHM.add(new MeteorHM()).tickMeteors();
+        Bag<LaserHM> newLasers = this.lasersHM.tickLasers();
+        return new MeteorShowerHM(this.plane, newMeteors, newLasers, 
+                this.lives, this.score, this.missingMeteorsCounter, this.powerUps).update(); /*check for collision of laser and meteor and update score */
     }
     
-    public MeteorShowerHM collisionLSGM() {
-        PlaneHM newPlane = this.plane;
-        Bag newMeteors = this.meteorDataStructHM;
-        Bag newLasers = this.lasersHM;
+    
+    
+     // ========== COLLISION ==========
+    // This checks for a collision and updates the lives, score, and missingMeteorCounter
+    // Multiple Types of Collisions:
+    // 1. Meteor passes the plane --> score same, add 1 to missingMeteorCounter --> check if end game; if so, back to RM
+    // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
+    public World update() {
         Lives newLives = this.lives;
         Score newScore = this.score;
-        Boolean newGameOver = this.gameOver;
-        Sequence<MeteorHM> seqMeteors = this.meteorDataStructHM.seq();
-//        newMeteors = seqMeteors.moveAcross(); /* onTick all meteors */
-//        if ( /*check if any meteors are at the same width as spike */ ) {
-//            /* if so, then lose a life */
-//            /* check if all lives are lost */
-//       }
-        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newLives, newScore, newGameOver);
+        int newCounter = this.missingMeteorsCounter;
+        // 1. Meteor passes the plane --> score same, add 1 to missingMeteorCounter --> check if end game; if so, back to RM
+        if (/* meteor passes plane */) {
+            // NEED TO: Find it and tak it out!!!!!!!!!!!!<<<<===========
+            newCounter = this.missingMeteorsCounter + 1;
+            if (this.backToRegularMode()) {
+                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), newLives, newScore, false, this.powerUps, 0);
+            }
+        }
+        // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
+        if (/* laser hits meteor */) {
+            // NEED TO: take out meteor and laser!!!!!!!!!!!<<<<===========
+            newScore = this.score.addScore();
+        }
+        return new MeteorShowerHM(this.plane, this.meteorDataStructHM, this.lasersHM, newLives, newScore, newCounter, this.powerUps);
+    }
+    
+    public boolean backToRegularMode() {
+        return this.missingMeteorsCounter >= 5;
     }
     
     
+    // ========== REACT ==========
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
         // Also have the plane switching sides -> 
@@ -97,18 +108,15 @@ public class MeteorShowerHM extends World {
         PlaneHM newPlane = plane.react(ke);
         /* if spacebar pressed then, shoot laser */
         Bag newLasersRM = /* something that moves all the lasers laser.react(ke); */ null;
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersRM, this.lives, this.score, this.gameOver);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersRM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
     }
     
+    
+    // ========== DRAW ==========
     // Draws the image on screen
      public WorldImage makeImage() {
 //         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
          return new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
-    }
-    
-    // This method responds to a mouse click anywhere on the game’s canvas. 
-    public World onMouseClicked(Posn p) {
-     return this;   
     }
     
     

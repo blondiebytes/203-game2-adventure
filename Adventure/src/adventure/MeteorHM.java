@@ -14,7 +14,7 @@ public class MeteorHM implements Comparable<MeteorHM> {
     static int count = 0;
     static String color = "white";
     
-    
+    // ========== CONSTRUCTORS ==========
     // Starting from off screen height
     MeteorHM() {
         this(0, -20, count);
@@ -43,10 +43,12 @@ public class MeteorHM implements Comparable<MeteorHM> {
         this.identity = count;
     }
     
+    // ========== REACT ==========
     public MeteorHM react(String se) {
         return this;
     }
     
+    // ========== TICK ==========
     // Height is ranomly 
     public MeteorHM onTick() {
         // Make it across one
@@ -54,6 +56,7 @@ public class MeteorHM implements Comparable<MeteorHM> {
     
     }
     
+    // ========== EQUALITY ==========
     public boolean isEqualToDWHC(MeteorHM otherMeteor) {
         return (this.width == otherMeteor.width) && 
                 (this.height == otherMeteor.height) &&
@@ -64,6 +67,8 @@ public class MeteorHM implements Comparable<MeteorHM> {
         return this.identity == otherMeteor.identity;
     }
     
+    
+    // ========== COMPARETO ==========
     public int compareTo(MeteorHM otherMeteor) {
         if (this.isEqualToId(otherMeteor)) {
             return 0;

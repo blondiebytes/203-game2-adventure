@@ -75,6 +75,8 @@ public class MeteorShowerRM extends World {
     // 2. Laser hits Meteor --> plane same, lives same, ------, gameOver same, -------, --------
     //      A. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
     //      B. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter++
+    
+    // NEED TO ADD -> If off-screen, take it out!
     public MeteorShowerRM update() {
         PlaneRM newPlane = this.plane;
         Lives newLives = this.lives;
@@ -84,6 +86,7 @@ public class MeteorShowerRM extends World {
         int newShootCounter = this.correctShootCounter;
         // 1. Meteor passes the plane -->  plane same, lose life, score same, check for gameOver, powerUp same, correct shoot counter to 0,
         if (/*Meteor does pass plane */) {
+            // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!!<<<<===========
             newLives = this.lives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
@@ -94,7 +97,8 @@ public class MeteorShowerRM extends World {
         //      A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
         //      B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
         if (/*Laser does hit Meteor*/) {
-            // Pick out that meteor
+            // REMOVE LASER & METEOR!!!!!!!!!!!<<<<===========
+            // PICK OUT THAT METEOR !!!!!!!!!!!<<<<===========
             if (new MeteorRM().color.equals(new LaserRM(5, 5, "red").color)) {
                 newScore = this.score.addScore();
                 if (this.getPowerUp()) {
@@ -112,12 +116,24 @@ public class MeteorShowerRM extends World {
     }
     
     public boolean doesMeteorPassPlane() {
+        // Basically we want to say, for all the meteors in the meteor data struct
+        // does one pass the plane? if so? which one
+        
+        return true;
+    }
+    
+    public int whichMeteorPassesPlane() {
         
     }
     
     public boolean doesLaserHitMeteor() {
         
     }
+    
+      public int whichLaserHitsMeteor() {
+        
+    }
+    
 
 
     // ========== REACT ==========
@@ -141,7 +157,7 @@ public class MeteorShowerRM extends World {
 
     // ========== GOING HYPER ==========
     public MeteorShowerHM goHyper() {
-        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
+        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, 0, this.powerUp);
     }
 
     public boolean hasPowerUp() {
