@@ -110,6 +110,7 @@ public class MeteorShowerHM extends World {
     // ========== REACT ==========
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
+         Bag<LaserHM> newLasersHM = this.lasersHM;
         // Also have the plane switching sides -> 
         if (ke.equals("right")) {
             //switch plane image
@@ -117,10 +118,11 @@ public class MeteorShowerHM extends World {
         if (ke.equals("left")) {
             // switch plane image
         }
+        if (ke.equals("spacebar")) {
+           newLasersHM = this.lasersHM.add(new LaserHM(this.plane));
+        }
         PlaneHM newPlane = plane.react(ke);
-        /* if spacebar pressed then, shoot laser */
-        Bag newLasersRM = /* something that moves all the lasers laser.react(ke); */ null;
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersRM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
     }
     
     

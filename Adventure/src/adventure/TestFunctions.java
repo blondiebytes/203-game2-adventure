@@ -28,9 +28,10 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing enter, do the future lasers switch color?
-    // After pressing the SPACEBAR, does the plane shoot an laser?
-    // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
+    // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
     // same color?
+    // REGULAR MODE: Do the lasers move down when ticked?
+    // HYPERSPEED MODE: Do the lasers move down when ticked?
     // ================================================================
     // GAME LOGIC TESTING:
     // ================================================================
@@ -42,6 +43,8 @@ public class TestFunctions {
     // does the score decrease? do the lives stay the same?
     // When a meteor passes the top of the screen, do you lose a life?
     // does the score stay the same?
+    // After pressing the SPACEBAR, does the plane shoot an laser?
+    // Is the laser removed once off screen?
     // ----------------------------------------------------------------
     // HYPERSPEED MODE & SCORING:
     // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
@@ -52,6 +55,8 @@ public class TestFunctions {
     // do the lives stay the same?
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
+    // After pressing the SPACEBAR, does the plane shoot an laser?
+    // Is the laser removed once off screen?
     // ----------------------------------------------------------------
     // GAME OVER:
     // When a player loses his or her last life, does the game end? 
@@ -79,6 +84,8 @@ public class TestFunctions {
     static int testMeteorMoveRM = 0;
     static int testMeteorMoveHM = 0;
     static int reactMeteorRMHM = 0;
+    static int testSwitchLaserColorRM = 0;
+    static int testSameLaserColorHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -244,13 +251,36 @@ public class TestFunctions {
         }
         reactMeteorRMHM++;
     }
+    
+    
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing enter, do the future lasers switch color?
-    // After pressing the SPACEBAR, does the plane shoot an laser?
-    // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
+    // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
     // same color?
-    // Is the laser removed once off screen?
+    // REGULAR MODE: Do the lasers move down when ticked?
+    // HYPERSPEED MODE: Do the lasers move down when ticked?
+    
+
+    // REGUALR MODE: After pressing enter, do the future lasers switch color?
+    public static void testSwitchLaserColorRM(LaserRM laser, LaserRM reactedLaser, String key) throws Exception {
+        if (laser.color.equals(reactedLaser.color) && key.equals("enter")) {
+            throw new Exception("Colors equal, but should have changed");
+        }
+        if (!laser.color.equals(reactedLaser.color) && !key.equals("enter")) {
+            throw new Exception("Colors not equal, but shouldn't have changed");
+        }
+        testSwitchLaserColorRM++;
+    }
+    
+    // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
+    // same color?
+   public static void testSameLaserColorHM(LaserHM laser, LaserHM reactedLaser) throws Exception {
+       if (!laser.color.equals(reactedLaser.color)) {
+            throw new Exception("Colors Should NEVER CHANGE");
+        }
+       testSameLaserColorHM++;
+   }
     
     
     
@@ -307,13 +337,36 @@ public class TestFunctions {
         System.out.println("testMeteorMoveRM success: " + testMeteorMoveRM + " times");
         System.out.println("testMeteorMoveHM success: " + testMeteorMoveHM + " times");
 
+        // ========================================================
+        // TESTING LASERS: INDIVIDUALLY:
+        // ========================================================
+        LaserRM LR = new LaserRM(planeR);
+        LaserHM LH = new LaserHM(planeH);
+        for (int i = 0; i <= tests; i++) {
+            // --------REACT & COLOR-----------
+            String rnd = randomButton();
+            LaserRM reactedLR = LR.react(rnd);
+            testSwitchLaserColorRM(LR, reactedLR, rnd);
+            LR = reactedLR;
+            LaserHM reactedLH = LH.react(rnd);
+            testSameLaserColorHM(LH, reactedLH);
+            // ---------TICK-------------
+           
+        }
+        System.out.println("testSwitchLaserColorRM success: " + testSwitchLaserColorRM + " times");
+        System.out.println("testSwitchLaserColorHM success: " + testSameLaserColorHM + " times");
+       
+        
+        
     }
 
     
+    // FOR GAME LOGIC:
+    //    public static void shootLaser(MeteorShowerRMHM old, MeteorShowerRMHM new, String key) throws Exception {
+
+//    }
     
-    
-    
-    
+    // Is the laser removed once off screen?
     
     
     

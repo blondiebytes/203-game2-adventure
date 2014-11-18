@@ -61,16 +61,15 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
      
     
     // ========== REACT ==========
-    public void react(String se) {
-        if (se.equals("spacebar")) {
-            //shoot laser
-        }
+    public LaserRM react(String se) {
         if (se.equals("enter")) {
             if (color.equals("red")) {
-                color = "blue";
+                return new LaserRM(this.width, this.height, "blue", this.identity);
             } else {
-                color = "red";
+                return new LaserRM(this.width, this.height, "red", this.identity);
             }
+        } else {
+            return this;
         }
     }
     

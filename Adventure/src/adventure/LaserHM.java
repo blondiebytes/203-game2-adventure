@@ -44,10 +44,9 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     
     
     // ========== REACT ==========
-    public void react(String se) {
-        if (se.equals("spacebar")) {
-            //shoot laser
-        }
+    public LaserHM react(String se) {
+        //done in game logic
+        return this;
     }
     
     
