@@ -4,7 +4,7 @@ package adventure;
 import java.util.Random;
 
 
-public class LaserRM {
+public class LaserRM implements Comparable<LaserRM>{
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing ENTER, do the future lasers switch color?
@@ -19,7 +19,13 @@ public class LaserRM {
     int width;
     int height;
     int deltaHeight = 1;
+    int identity;
+    static int count = 0;
     
+    // ========== CONSTRUCTORS ==========
+    
+    
+    // Two ways lasers 
     LaserRM(PlaneRM plane) {
         this.width = plane.width;
         this.height = plane.height;
@@ -29,11 +35,8 @@ public class LaserRM {
         } else {
             this.color = "blue";
         }
-    }
-    
-    LaserRM(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.identity = count;
+        count++;
     }
     
     LaserRM(int width, int height, String color) {
@@ -42,6 +45,15 @@ public class LaserRM {
         this.color = color;
     }
     
+    LaserRM(int width, int height, String color, int identity) {
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+    
+    
+    
+    // ========== REACT ==========
     public void react(String se) {
         if (se.equals("spacebar")) {
             //shoot laser
@@ -55,10 +67,32 @@ public class LaserRM {
         }
     }
     
+    
+    // ========== TICK ==========
     public LaserRM onTick() {
-        return new LaserRM(this.width, this.height + deltaHeight, this.color);
+        return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
+    
+    
+    
+    // ========== EQUALITY ==========
+     public boolean isEqualToId(LaserRM otherLaser) {
+        return this.identity == otherLaser.identity;
+    }
+    
+     
+    
+     // ========== COMPARETO ==========
+    public int compareTo(LaserRM otherLaser) {
+        if (this.isEqualToId(otherLaser)) {
+            return 0;
+        } else if (this.identity < otherLaser.identity) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
     
     
 }

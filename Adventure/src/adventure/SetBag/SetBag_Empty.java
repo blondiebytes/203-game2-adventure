@@ -2,6 +2,8 @@
 package adventure.SetBag;
 
 
+import adventure.MeteorHM;
+import adventure.MeteorRM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Empty;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
@@ -56,6 +58,24 @@ public class SetBag_Empty<D extends Comparable> implements Bag<D> {
     public String stringItS(Sequence<D> as) {
         return "";
     }
+    
+    // METEOR METHODS
+    
+     public Bag<D> tickMeteors() {
+        return tickItMeteors(this.seq());
+    }
+    
+    public Bag<D> tickItMeteors(Sequence<D> as){
+        return empty();
+    }
+    
+   public Bag<D> tickLasers() {
+       return tickItLasers(this.seq());
+   }
+   
+   public Bag<D> tickItLasers(Sequence<D> as) {
+       return empty();
+   }
     
     // Finite Set Bag Methods
     
@@ -115,6 +135,7 @@ public class SetBag_Empty<D extends Comparable> implements Bag<D> {
     public boolean subset (Bag u) {
         return true; 
     }
+
 
 
     

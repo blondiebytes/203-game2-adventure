@@ -2,7 +2,7 @@
 package adventure;
 
 
-public class LaserHM {
+public class LaserHM implements Comparable<LaserHM> {
     // ----------------------------------------------------------------
     // LASER TESTING:
     // After pressing the SPACEBAR, does the plane shoot an laser?
@@ -14,23 +14,62 @@ public class LaserHM {
     int width;
     int height;
     int deltaWidth;
+    int identity;
+    int count = 0;
     
+    
+    // ========== CONSTRUCTORS ==========
     LaserHM(PlaneHM plane) {
         this.width = plane.width;
         this.height = plane.height;
+        // something where if plane is this direction have this delta, otherwise other delta 
+        this.identity = count;
+        count++;
     }
     
+    LaserHM(int width, int deltaWidth, int height, int identity) {
+        this.width = width;
+        this.deltaWidth = deltaWidth;
+        this.height = height;
+        this.identity = identity;
+    }
+    
+    
+    
+    // ========== REACT ==========
     public void react(String se) {
         if (se.equals("spacebar")) {
             //shoot laser
         }
     }
     
-     public LaserRM onTick() {
-        return new LaserRM(this.width + deltaWidth, this.height, this.color);
+    
+    
+    // ========== TICK ==========
+     public LaserHM onTick() {
+        return new LaserHM(this.width + deltaWidth, this.deltaWidth, this.height, this.identity);
     }
     
+     
+     
+     
+     // ========== EQUALITY ==========
+     public boolean isEqualToId(LaserHM otherLaser) {
+        return this.identity == otherLaser.identity;
+    }
     
+     
+    
+     // ========== COMPARETO ==========
+    public int compareTo(LaserHM otherLaser) {
+        if (this.isEqualToId(otherLaser)) {
+            return 0;
+        } else if (this.identity < otherLaser.identity) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
     
     
     

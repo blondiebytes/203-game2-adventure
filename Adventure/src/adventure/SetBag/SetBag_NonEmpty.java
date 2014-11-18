@@ -1,6 +1,10 @@
 package adventure.SetBag;
 
 // REQUIREMENTS: 
+import adventure.LaserHM;
+import adventure.LaserRM;
+import adventure.MeteorHM;
+import adventure.MeteorRM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Cat;
 import adventure.Sequence.Sequence_NonEmpty;
@@ -97,6 +101,45 @@ public class SetBag_NonEmpty<D extends Comparable> implements Bag<D>, Sequenced<
         }
         return all.toString();
     }
+    
+    public Bag<D> tickMeteors() {
+        return tickItMeteors(this.seq());
+    }
+    
+    public Bag<D> tickItMeteors(Sequence<D> as){
+        Bag newMeteors = empty();
+        while (as.hasNext()) {
+            if (as instanceof MeteorRM) {
+                MeteorRM rm = (MeteorRM) as.next();
+                newMeteors.add(rm.onTick());
+            } else {
+                MeteorHM rm = (MeteorHM) as.next();
+                newMeteors.add(rm.onTick());
+            }
+        }
+        return newMeteors;
+    }
+    
+   public Bag<D> tickLasers() {
+        return tickItLasers(this.seq());
+    }
+    
+    public Bag<D> tickItLasers(Sequence<D> as){
+        Bag newLasers = empty();
+        while (as.hasNext()) {
+            if (as instanceof LaserRM) {
+                LaserRM rm = (LaserRM) as.next();
+                newLasers.add(rm.onTick());
+            } else {
+                LaserHM rm = (LaserHM) as.next();
+                newLasers.add(rm.onTick());
+            }
+        }
+        return newLasers;
+    }
+    
+    
+    
 
     public static Bag empty() {
         return new SetBag_Empty();

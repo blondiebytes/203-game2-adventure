@@ -21,6 +21,7 @@ public class MeteorRM implements Comparable<MeteorRM>{
     static int MAXW = 450;
     static int count = 0;
     
+    // ========== CONSTRUCTORS ==========
 // Starting off-screen width, but at the right height position
     MeteorRM() {
         this(MAXH, -500, count, "none");
@@ -52,26 +53,38 @@ public class MeteorRM implements Comparable<MeteorRM>{
         this.identity = count;
     }
     
-    MeteorRM react(String se) {
+    
+    
+    // ========== REACT ==========
+    public MeteorRM react(String se) {
         return this;
     }
     
-    MeteorRM onTick() {
+    
+    
+    // ========== TICK ==========
+    public MeteorRM onTick() {
         // Make it go up 1;
          return new MeteorRM( this.width, this.height - 1, this.identity, this.color);
     }
    
-    boolean isEqualToDWHC(MeteorRM otherMeteor) {
+    
+    
+    // ========== EQUALITY ==========
+    public boolean isEqualToDWHC(MeteorRM otherMeteor) {
         return (this.width == otherMeteor.width) && 
                 (this.height == otherMeteor.height) && 
                 (this.deltaHeight == otherMeteor.deltaHeight) &&
                 (this.color.equals(otherMeteor.color));
     }
     
-    boolean isEqualToId(MeteorRM otherMeteor) {
+    public boolean isEqualToId(MeteorRM otherMeteor) {
         return this.identity == otherMeteor.identity;
     }
    
+    
+    
+    // ========== COMPARETO ==========
     public int compareTo(MeteorRM otherMeteor) {
         if (this.isEqualToId(otherMeteor)) {
             return 0;

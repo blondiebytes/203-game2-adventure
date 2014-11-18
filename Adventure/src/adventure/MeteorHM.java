@@ -43,24 +43,24 @@ public class MeteorHM implements Comparable<MeteorHM> {
         this.identity = count;
     }
     
-    MeteorHM react(String se) {
+    public MeteorHM react(String se) {
         return this;
     }
     
     // Height is ranomly 
-    MeteorHM onTick() {
+    public MeteorHM onTick() {
         // Make it across one
          return new MeteorHM(this.width + deltaWidth, this.height, this.identity);
     
     }
     
-    boolean isEqualToDWHC(MeteorHM otherMeteor) {
+    public boolean isEqualToDWHC(MeteorHM otherMeteor) {
         return (this.width == otherMeteor.width) && 
                 (this.height == otherMeteor.height) &&
                 (this.color.equals(otherMeteor.color));
     }
     
-    boolean isEqualToId(MeteorHM otherMeteor) {
+    public boolean isEqualToId(MeteorHM otherMeteor) {
         return this.identity == otherMeteor.identity;
     }
     

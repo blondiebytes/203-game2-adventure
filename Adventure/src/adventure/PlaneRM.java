@@ -9,7 +9,8 @@ import javalib.worldimages.CircleImage;
 import javalib.worldimages.Posn;
 import javalib.worldimages.WorldImage;
 
-        
+// TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
+    
 public class PlaneRM {
     
     int width;
@@ -21,9 +22,8 @@ public class PlaneRM {
     
     static int middleOfScreenWidth = MAXW/2;
     int topOfScreen;
-
-    // =============================
     
+    // ========== CONSTRUCTORS ==========
     PlaneRM() {
         this(MAXW/2, -1);
     }
@@ -33,18 +33,10 @@ public class PlaneRM {
             this.width = width;
             this.deltaWidth = deltaWidth;
     }
-    
-    public boolean isEqualTo(PlaneRM otherPlane) {
-        return (this.deltaWidth == otherPlane.deltaWidth) 
-                && (this.height == otherPlane.height) 
-                && (this.width == otherPlane.width);
-    }
-    
-   public PlaneHM goHyper() {
-        return new PlaneHM(this.width, this.deltaWidth);
-    }
    
-  // REGULAR: MOVE RIGHT AND LEFT
+    
+   
+    // ========== TICK ==========
    public PlaneRM onTick(int multiple){
        int newWidth = width + deltaWidth * multiple;
         if (newWidth < 0) {
@@ -56,7 +48,9 @@ public class PlaneRM {
         }
    }
    
-
+   
+   
+   // ========== REACT ==========
    public PlaneRM react(String s) {
         switch (s) {
             case "right":
@@ -70,12 +64,25 @@ public class PlaneRM {
      return this;
    }
  
-   // NEED TO LOOK AT GAMEWORLDS DOCUMENTATION
+   
+   
+   // ========== DRAW ==========
     public WorldImage planeImage() {
         return new CircleImage(new Posn(this.width, this.height), 10, color);
 //            return new FromFileImage(this.center, "Images/shark.png").
 //          overlayImages(new CircleImage(this.center, this.radius, this.col));
     }
+    
+    
+    
+    
+    // ========== EQUALITY ==========
+    public boolean isEqualTo(PlaneRM otherPlane) {
+        return (this.deltaWidth == otherPlane.deltaWidth) 
+                && (this.height == otherPlane.height) 
+                && (this.width == otherPlane.width);
+    }
+   
     
     
     

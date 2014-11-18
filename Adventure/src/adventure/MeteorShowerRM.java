@@ -5,6 +5,7 @@
  */
 package adventure;
 
+import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.Blue;
@@ -23,12 +24,11 @@ public class MeteorShowerRM extends World{
     Bag lasersRM;
     Boolean gameOver;
     Score score;
-    // TOADD: Add WorldImage plane property that's static b/c no change in Regular Mode
+    boolean powerUp;
+    int correctShootCounter;
     
-    // 0 means regular mode; 1 means hyper-speed mode
-    int mode;
-    static int REGULARMODE = 0;
     
+    // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
         super();
         this.plane = new PlaneRM();
@@ -37,10 +37,11 @@ public class MeteorShowerRM extends World{
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
-        this.mode = REGULARMODE;
+        this.powerUp = false;
+        this.correctShootCounter = 0;
     }
     
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM>meteors, Bag lasers, Lives lives, Score score, boolean gameOver){
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM>meteors, Bag lasers, Lives lives, Score score, boolean gameOver, boolean powerUp, int shootCounter){
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
@@ -48,47 +49,67 @@ public class MeteorShowerRM extends World{
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
-        this.mode = REGULARMODE;
+        this.powerUp = powerUp;
+        this.correctShootCounter = shootCounter;
     }
-  
-    
-    // REQUIRED METHODS BY GAMEWORLDS
-    
-    // To run the world game:
+
+   // ========== CREATE GAME ==========
     public boolean bigBang() {
         return this.bigBang(500, 500, 1);
     }
     
     
-//    // This method produces a new instance of the world as it should be after one tick of the clock has passed.
-//    public World onTick() {
-//        return this;
-//    }
-//    
-    // This method produces the world in response to the user pressing a key on the keyboard. 
+   // ========== TICK ==========
+    public World onTick() {
+        // Need to tick the meteors
+        Bag newMeteors = this.meteorDataStructRM.tickMeteors();
+        // Need to tick the lasers
+        Bag newLasers = this.lasersRM.tickLasers();
+        // Need to see if their was collision & need to update lives, score, gameover
+        return this;
+    }
+    
+ 
+    
+    // ========== REACT ==========
     public World onKeyEvent(String ke) {
         if (ke.equals("0")) {
-          //  PlaneHM newPlane = plane.goHyper(); //new PlaneHM(plane.w);
-            return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
+            if (this.hasPowerUp()) {
+                return this.goHyper();
+            } else {
+                return this;
+            }
         } else {
+            // Do we need to call onTick to make this all update? or will that happen automatically?
             PlaneRM newPlane = plane.react(ke);
             /* no need for meteors to react b/c independent of user */
-            Bag newLasersRM = /* something that moves all the lasers laser.react(ke); */ null;
-            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lasersRM, this.lives, this.score, this.gameOver);
+            /* something that adds a laser */
+            Bag newLasersRM = this.lasersRM.add(new LaserRM(this.plane));
+            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score, 
+                    this.gameOver, this.powerUp, this.correctShootCounter);
         }
     }
     
-    // Draws the image on screen
+    
+    // ========== GOING HYPER ==========
+    public MeteorShowerHM goHyper() {
+       return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
+    }
+    
+    public boolean hasPowerUp() {
+        return this.powerUp;
+    }
+    
+  
+    
+    
+    // ========== DRAWING IMAGE ==========
      public WorldImage makeImage() {
 //         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
          return new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
     }
     
-    // This method responds to a mouse click anywhere on the game’s canvas. 
-    public World onMouseClicked(Posn p) {
-     return this;   
-    }
-    
+   
     
     // This method produces an instance of a class WorldEnd that consists of a boolean value 
     // indicating whether the world is ending (false if the world goes on) and the WorldImage 

@@ -27,6 +27,10 @@ public interface Bag<D extends Comparable> extends Sequenced<D>{
     public Bag<D> balance();
     public boolean isBlackHuh();
     public Bag<D> blacken();
-
+    public Bag<D> tickMeteors();
+    public Bag<D> tickItMeteors(Sequence<D> as);
+    public Bag<D> tickLasers();
+    public Bag<D> tickItLasers(Sequence<D> as);
+    
 }
 
