@@ -16,18 +16,17 @@ import javalib.worldimages.RectangleImage;
 import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
+public class MeteorShowerRM extends World {
 
-public class MeteorShowerRM extends World{
     Lives lives;
     PlaneRM plane;
-    Bag meteorDataStructRM;
-    Bag lasersRM;
+    Bag<MeteorRM> meteorDataStructRM;
+    Bag<LaserRM> lasersRM;
     Boolean gameOver;
     Score score;
-    boolean powerUp;
+    int powerUp;
     int correctShootCounter;
-    
-    
+
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
         super();
@@ -37,11 +36,11 @@ public class MeteorShowerRM extends World{
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
-        this.powerUp = false;
+        this.powerUp = 0;
         this.correctShootCounter = 0;
     }
-    
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM>meteors, Bag lasers, Lives lives, Score score, boolean gameOver, boolean powerUp, int shootCounter){
+
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter) {
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
@@ -53,24 +52,74 @@ public class MeteorShowerRM extends World{
         this.correctShootCounter = shootCounter;
     }
 
-   // ========== CREATE GAME ==========
+    // ========== CREATE GAME ==========
     public boolean bigBang() {
         return this.bigBang(500, 500, 1);
     }
-    
-    
-   // ========== TICK ==========
+
+    // ========== TICK ==========
     public World onTick() {
-        // Need to tick the meteors
-        Bag newMeteors = this.meteorDataStructRM.tickMeteors();
-        // Need to tick the lasers
-        Bag newLasers = this.lasersRM.tickLasers();
-        // Need to see if their was collision & need to update lives, score, gameover
-        return this;
+        Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tickMeteors(); /* Need to tick the meteors & add a new one */
+
+        Bag newLasers = this.lasersRM.tickLasers(); /* Need to tick the lasers */
+
+        return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
+                this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
+
+    }
+
+    // ========== COLLISION ==========
+    // This checks for a collision and updates the lives, score, gameOver, powerUp, and correctShootCounter
+    // Multiple Types of Collisions:
+    // 1. Meteor passes the plane -->  plane same, lose life, score same, check for gameOver, powerUp same, correct shoot counter to 0,
+    // 2. Laser hits Meteor --> plane same, lives same, ------, gameOver same, -------, --------
+    //      A. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
+    //      B. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter++
+    public MeteorShowerRM update() {
+        PlaneRM newPlane = this.plane;
+        Lives newLives = this.lives;
+        Score newScore = this.score;
+        boolean newGameOver = this.gameOver;
+        int newPowerUp = this.powerUp;
+        int newShootCounter = this.correctShootCounter;
+        // 1. Meteor passes the plane -->  plane same, lose life, score same, check for gameOver, powerUp same, correct shoot counter to 0,
+        if (/*Meteor does pass plane */) {
+            newLives = this.lives.subtractLife();
+            if (newLives.gameOver()) {
+                newGameOver = true;
+            }
+            newShootCounter = 0;
+        }
+        // 2. Laser hits Meteor --> plane same, lives same, ------, gameOver same, -------, --------
+        //      A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
+        //      B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
+        if (/*Laser does hit Meteor*/) {
+            // Pick out that meteor
+            if (new MeteorRM().color.equals(new LaserRM(5, 5, "red").color)) {
+                newScore = this.score.addScore();
+                if (this.getPowerUp()) {
+                    newPowerUp = this.powerUp + 1;
+                }
+                newShootCounter = this.correctShootCounter + 1;
+            } else {
+                newScore = this.score.subtractScore();
+                newShootCounter = 0;
+            }
+        }
+        return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lasersRM,
+                newLives, newScore, newGameOver, newPowerUp, newShootCounter);
+
     }
     
- 
+    public boolean doesMeteorPassPlane() {
+        
+    }
     
+    public boolean doesLaserHitMeteor() {
+        
+    }
+
+
     // ========== REACT ==========
     public World onKeyEvent(String ke) {
         if (ke.equals("0")) {
@@ -83,48 +132,41 @@ public class MeteorShowerRM extends World{
             // Do we need to call onTick to make this all update? or will that happen automatically?
             PlaneRM newPlane = plane.react(ke);
             /* no need for meteors to react b/c independent of user */
-            /* something that adds a laser */
-            Bag newLasersRM = this.lasersRM.add(new LaserRM(this.plane));
-            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score, 
+            Bag newLasersRM = this.lasersRM.add(new LaserRM(this.plane)); /* something that adds a laser */
+
+            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score,
                     this.gameOver, this.powerUp, this.correctShootCounter);
         }
     }
-    
-    
+
     // ========== GOING HYPER ==========
     public MeteorShowerHM goHyper() {
-       return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
+        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, this.gameOver);
     }
-    
+
     public boolean hasPowerUp() {
-        return this.powerUp;
+        return this.powerUp > 0;
     }
-    
-  
-    
-    
+
+    public boolean getPowerUp() {
+        return this.correctShootCounter == 20;
+    }
+
     // ========== DRAWING IMAGE ==========
-     public WorldImage makeImage() {
+    public WorldImage makeImage() {
 //         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
-         return new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
+        return new OverlayImages(new RectangleImage(new Posn(0, 0), 2000, 2000, new Blue()), this.plane.planeImage());
     }
-    
-   
-    
-    // This method produces an instance of a class WorldEnd that consists of a boolean value 
-    // indicating whether the world is ending (false if the world goes on) and the WorldImage 
-    // that represents the last image to be displayed - for example announcing the winner of the game, 
+
+    // This method produces an instance of a class WorldEnd that consists of a boolean value
+    // indicating whether the world is ending (false if the world goes on) and the WorldImage
+    // that represents the last image to be displayed - for example announcing the winner of the game,
     // or the final score.
 //    public WorldEnd worldEnds() {
-//        
+//
 //    }
 //    public WorldEnd worldEnds(){
-//      return new WorldEnd(true, 
+//      return new WorldEnd(true,
 //        this.makeImage());
 //  }
-  
-
-
-    
-    
 }
