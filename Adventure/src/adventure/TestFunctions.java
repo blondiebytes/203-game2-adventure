@@ -86,6 +86,8 @@ public class TestFunctions {
     static int reactMeteorRMHM = 0;
     static int testSwitchLaserColorRM = 0;
     static int testSameLaserColorHM = 0;
+    static int testLaserMoveRM = 0;
+    static int testLaserMoveHM = 0;
 //    
 //     static int testConstructor = 0;
 //     static int testStartUporRestartDown = 0;
@@ -282,6 +284,26 @@ public class TestFunctions {
        testSameLaserColorHM++;
    }
     
+   // REGULAR MODE: Do the lasers move down when ticked?
+   public static void testLaserMoveRM(LaserRM laser, LaserRM tickedLaser) throws Exception {
+       if (laser.height != tickedLaser.height - 1) {
+           throw new Exception("Laser didn't tick!" + laser.height + " " + tickedLaser.height);
+       }
+       if (laser.width != laser.width) {
+           throw new Exception("Width changed in regular mode!");
+       }
+       testLaserMoveRM++;
+   }
+   
+      public static void testLaserMoveHM(LaserHM laser, LaserHM tickedLaser) throws Exception {
+       if (laser.width != tickedLaser.width - 1) {
+           throw new Exception("Laser didn't tick!" + laser.width + " " + tickedLaser.width);
+       }
+       if (laser.height != laser.height) {
+           throw new Exception("Height changed in hyper mode!");
+       }
+       testLaserMoveHM++;
+   }
     
     
     
@@ -350,8 +372,14 @@ public class TestFunctions {
             LR = reactedLR;
             LaserHM reactedLH = LH.react(rnd);
             testSameLaserColorHM(LH, reactedLH);
+            LH = reactedLH;
             // ---------TICK-------------
-           
+            LaserRM tickedLR = LR.onTick();
+            LaserHM tickedLH = LH.onTick();
+            testLaserMoveRM(LR, tickedLR);
+            testLaserMoveHM(LH, tickedLH);
+            LR = tickedLR;
+            LH = tickedLH;
         }
         System.out.println("testSwitchLaserColorRM success: " + testSwitchLaserColorRM + " times");
         System.out.println("testSameLaserColorHM success: " + testSameLaserColorHM + " times");

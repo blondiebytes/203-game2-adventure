@@ -16,6 +16,8 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     int deltaWidth;
     int identity;
     int count = 0;
+    // Need something to change direction
+    String direction = "left";
     
     
     // ========== CONSTRUCTORS ==========
@@ -24,6 +26,12 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
         this.height = plane.height;
         // something where if plane is this direction have this delta, otherwise other delta 
         this.identity = count;
+        this.direction = plane.direction;
+        if (this.direction.equals("left")) {
+            deltaWidth = -1;
+        } else {
+            deltaWidth = 1;
+        }
         count++;
     }
     

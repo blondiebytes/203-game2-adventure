@@ -11,6 +11,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int height;
     int deltaHeight;
     int width = MAXW / 2;
+    String direction;
     static int MAXH = 750;
     static int MAXW = 450;
     static int HYPER_MULTIPLE = 25;
@@ -21,12 +22,13 @@ public class PlaneHM implements Collideable<PlaneHM> {
 
     // ========== CONSTRUCTORS ==========
     public PlaneHM() {
-        this(MAXH / 2, -1);
+        this(MAXH / 2, -1, "left");
     }
 
-    public PlaneHM(int height, int deltaHeight) {
+    public PlaneHM(int height, int deltaHeight, String direction) {
         this.height = height;
         this.deltaHeight = deltaHeight;
+        this.direction = direction;
     }
 
     public int getWidth() {
@@ -41,11 +43,11 @@ public class PlaneHM implements Collideable<PlaneHM> {
     public PlaneHM onTick(int multiple) {
         int newHeight = height + (deltaHeight * multiple);
         if (newHeight < 0) {
-            return new PlaneHM(0, deltaHeight);
+            return new PlaneHM(0, deltaHeight, direction);
         } else if (newHeight >= MAXH) {
-            return new PlaneHM(MAXH, -deltaHeight);
+            return new PlaneHM(MAXH, -deltaHeight, direction);
         } else {
-            return new PlaneHM(newHeight, deltaHeight);
+            return new PlaneHM(newHeight, deltaHeight, direction);
         }
     }
 
@@ -54,10 +56,14 @@ public class PlaneHM implements Collideable<PlaneHM> {
         switch (s) {
             case "up":
                 //     System.out.println("GOING UP: ");
-                return new PlaneHM(height, Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
             case "down":
                 //    System.out.println("GOING DOWN: ");
-                return new PlaneHM(height, -Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, -Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
+            case "left":
+                    return new PlaneHM(height, deltaHeight, "left");
+            case "right":
+                return new PlaneHM(height, deltaHeight, "right");
             default:
                 //    System.out.println("STAYING THE SAME");
                 return this;
@@ -75,7 +81,8 @@ public class PlaneHM implements Collideable<PlaneHM> {
     public boolean isEqualTo(PlaneHM otherPlane) {
         return (this.deltaHeight == otherPlane.deltaHeight)
                 && (this.height == otherPlane.height)
-                && (this.width == otherPlane.width);
+                && (this.width == otherPlane.width)
+                && (this.direction == otherPlane.direction);
     }
     
     

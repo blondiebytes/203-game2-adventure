@@ -79,7 +79,6 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== TICK ==========
     public LaserRM onTick() {
-        System.out.println("I updated");
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
