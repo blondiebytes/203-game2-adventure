@@ -59,9 +59,9 @@ public class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
-        Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tickMeteors(); /* Need to tick the meteors & add a new one */
+        Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
 
-        Bag newLasers = this.lasersRM.tickLasers(); /* Need to tick the lasers */
+        Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
 
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
@@ -75,66 +75,58 @@ public class MeteorShowerRM extends World {
     // 2. Laser hits Meteor --> plane same, lives same, ------, gameOver same, -------, --------
     //      A. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
     //      B. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter++
-    
     // NEED TO ADD -> If off-screen, take it out!
     public MeteorShowerRM update() {
         PlaneRM newPlane = this.plane;
+        Bag<MeteorRM> newMeteors = this.meteorDataStructRM;
+        Bag<LaserRM> newLasers = this.lasersRM;
         Lives newLives = this.lives;
         Score newScore = this.score;
         boolean newGameOver = this.gameOver;
         int newPowerUp = this.powerUp;
         int newShootCounter = this.correctShootCounter;
-        // 1. Meteor passes the plane -->  plane same, lose life, score same, check for gameOver, powerUp same, correct shoot counter to 0,
-        if (/*Meteor does pass plane */) {
-            // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!!<<<<===========
-            newLives = this.lives.subtractLife();
+        // 1. Meteor passes the plane -->  plane same, takes out colliding meteor, lose life, 
+        // score same, check for gameOver, powerUp same, correct shoot counter to 0,
+        MeteorRM collider = newMeteors.collidesWith(newPlane);
+        if (collider != null /* if a meteor passes the plane... */) {
+            newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+
+            newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
             }
             newShootCounter = 0;
         }
-        // 2. Laser hits Meteor --> plane same, lives same, ------, gameOver same, -------, --------
-        //      A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
-        //      B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
-        if (/*Laser does hit Meteor*/) {
-            // REMOVE LASER & METEOR!!!!!!!!!!!<<<<===========
-            // PICK OUT THAT METEOR !!!!!!!!!!!<<<<===========
-            if (new MeteorRM().color.equals(new LaserRM(5, 5, "red").color)) {
-                newScore = this.score.addScore();
-                if (this.getPowerUp()) {
-                    newPowerUp = this.powerUp + 1;
+        // 2. Laser hits Meteor --> 
+        // plane same, takes out colliding meteor, takes out colliding laser, 
+        // lives same, ------, gameOver same, -------, --------
+        Sequence<LaserRM> seqLaser = newLasers.seq();
+        while (seqLaser.hasNext()) {
+            LaserRM collidingLaser = seqLaser.here();
+            MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
+            if (collidingMeteor != null) {
+                newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
+
+                newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
+               //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
+                if (new MeteorRM().color.equals(new LaserRM(5, 5, "red").color)) {
+                    newScore = newScore.addScore();
+                    if (this.getPowerUp()) {
+                        newPowerUp = newPowerUp + 1;
+                    }
+                    newShootCounter = newShootCounter + 1;
+                } 
+                //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
+                else {
+                    newScore = newScore.subtractScore();
+                    newShootCounter = 0;
                 }
-                newShootCounter = this.correctShootCounter + 1;
-            } else {
-                newScore = this.score.subtractScore();
-                newShootCounter = 0;
+
             }
         }
-        return new MeteorShowerRM(newPlane, this.meteorDataStructRM, this.lasersRM,
-                newLives, newScore, newGameOver, newPowerUp, newShootCounter);
-
+            return new MeteorShowerRM(newPlane, newMeteors, newLasers,
+                    newLives, newScore, newGameOver, newPowerUp, newShootCounter);    
     }
-    
-    public boolean doesMeteorPassPlane() {
-        // Basically we want to say, for all the meteors in the meteor data struct
-        // does one pass the plane? if so? which one
-        
-        return true;
-    }
-    
-    public int whichMeteorPassesPlane() {
-        
-    }
-    
-    public boolean doesLaserHitMeteor() {
-        
-    }
-    
-      public int whichLaserHitsMeteor() {
-        
-    }
-    
-
 
     // ========== REACT ==========
     public World onKeyEvent(String ke) {

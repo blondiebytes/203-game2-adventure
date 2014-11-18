@@ -10,7 +10,7 @@ import java.util.Random;
 import javalib.colors.Black;
 import javalib.colors.IColor;
 
-public class MeteorRM implements Comparable<MeteorRM>{
+public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Tickable<MeteorRM> {
     String color;
     int height = MAXH;
     int deltaHeight = -1;
@@ -53,6 +53,13 @@ public class MeteorRM implements Comparable<MeteorRM>{
         this.identity = count;
     }
     
+    public int getWidth() {
+        return this.width;
+    }
+    
+    public int getHeight() {
+        return this.height;
+    }
     
     
     // ========== REACT ==========
@@ -93,6 +100,16 @@ public class MeteorRM implements Comparable<MeteorRM>{
         } else {
             return -1;
         }
+    }
+    
+    // ========== COLLISIONS ========== 
+    public MeteorRM collidesWith(Collideable thing) {
+        if (this.height == thing.getHeight()) {
+            return this;
+        } else {
+            // I HATE NULL;
+            return null;
+        }     
     }
 
     

@@ -1,10 +1,12 @@
 
 package adventure.SetBag;
 
+import adventure.Collideable;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequenced;
+import adventure.Tickable;
 
-public interface Bag<D extends Comparable> extends Sequenced<D>{
+public interface Bag<D extends Comparable & Tickable & Collideable> extends Sequenced<D>{
     public int cardinality();
     public int getCount(D elt);
     public  boolean isEmptyHuh();
@@ -27,10 +29,8 @@ public interface Bag<D extends Comparable> extends Sequenced<D>{
     public Bag<D> balance();
     public boolean isBlackHuh();
     public Bag<D> blacken();
-    public Bag<D> tickMeteors();
-    public Bag<D> tickItMeteors(Sequence<D> as);
-    public Bag<D> tickLasers();
-    public Bag<D> tickItLasers(Sequence<D> as);
+    public Bag<D> tick();
+    public D collidesWith(Collideable thing);
     
 }
 

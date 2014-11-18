@@ -4,7 +4,7 @@ package adventure;
 import java.util.Random;
 
 
-public class LaserRM implements Comparable<LaserRM>{
+public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Tickable<LaserRM> {
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing ENTER, do the future lasers switch color?
@@ -51,7 +51,14 @@ public class LaserRM implements Comparable<LaserRM>{
         this.color = color;
     }
     
-    
+     public int getWidth() {
+         return this.width;
+     }
+     
+     public int getHeight() {
+         return this.height;
+     }
+     
     
     // ========== REACT ==========
     public void react(String se) {
@@ -92,6 +99,16 @@ public class LaserRM implements Comparable<LaserRM>{
         } else {
             return -1;
         }
+    }
+
+    // ========== COLLISION ==========
+    public LaserRM collidesWith(Collideable thing) {
+      if (this.height == thing.getHeight()) {
+            return this;
+        } else {
+            // I HATE NULL;
+            return null;
+        }    
     }
     
     

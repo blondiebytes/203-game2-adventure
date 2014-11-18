@@ -3,7 +3,7 @@ package adventure;
 
 import java.util.Random;
 
-public class MeteorHM implements Comparable<MeteorHM> {
+public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Tickable<MeteorHM> {
     int width;
     int deltaWidth;
     int height;
@@ -43,6 +43,15 @@ public class MeteorHM implements Comparable<MeteorHM> {
         this.identity = count;
     }
     
+    public int getWidth() {
+        return this.width;
+    }
+    
+    public int getHeight() {
+        return this.height;
+    }
+    
+    
     // ========== REACT ==========
     public MeteorHM react(String se) {
         return this;
@@ -77,6 +86,16 @@ public class MeteorHM implements Comparable<MeteorHM> {
         } else {
             return -1;
         }
+    }
+    
+     // ========== COLLISIONS ========== 
+    public MeteorHM collidesWith(Collideable thing) {
+        if (this.height == thing.getHeight()) {
+            return this;
+        } else {
+            // I HATE NULL;
+            return null;
+        }     
     }
    
     

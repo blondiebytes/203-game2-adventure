@@ -2,7 +2,7 @@
 package adventure;
 
 
-public class LaserHM implements Comparable<LaserHM> {
+public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Tickable<LaserHM>{
     // ----------------------------------------------------------------
     // LASER TESTING:
     // After pressing the SPACEBAR, does the plane shoot an laser?
@@ -34,6 +34,13 @@ public class LaserHM implements Comparable<LaserHM> {
         this.identity = identity;
     }
     
+    public int getWidth() {
+         return this.width;
+     }
+     
+     public int getHeight() {
+         return this.height;
+     }
     
     
     // ========== REACT ==========
@@ -50,9 +57,6 @@ public class LaserHM implements Comparable<LaserHM> {
         return new LaserHM(this.width + deltaWidth, this.deltaWidth, this.height, this.identity);
     }
     
-     
-     
-     
      // ========== EQUALITY ==========
      public boolean isEqualToId(LaserHM otherLaser) {
         return this.identity == otherLaser.identity;
@@ -71,6 +75,15 @@ public class LaserHM implements Comparable<LaserHM> {
         }
     }
     
+    // ========== COMPARETO ==========
+    public LaserHM collidesWith(Collideable thing) {
+      if (this.height == thing.getHeight()) {
+            return this;
+        } else {
+            // I HATE NULL;
+            return null;
+        }    
+    }
     
     
     

@@ -57,8 +57,8 @@ public class MeteorShowerHM extends World {
     // ========== TICK ==========
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
     public World onTick() {
-        Bag<MeteorHM> newMeteors = this.meteorDataStructHM.add(new MeteorHM()).tickMeteors();
-        Bag<LaserHM> newLasers = this.lasersHM.tickLasers();
+        Bag<MeteorHM> newMeteors = this.meteorDataStructHM.add(new MeteorHM()).tick();
+        Bag<LaserHM> newLasers = this.lasersHM.tick();
         return new MeteorShowerHM(this.plane, newMeteors, newLasers, 
                 this.lives, this.score, this.missingMeteorsCounter, this.powerUps).update(); /*check for collision of laser and meteor and update score */
     }
@@ -71,28 +71,40 @@ public class MeteorShowerHM extends World {
     // 1. Meteor passes the plane --> score same, add 1 to missingMeteorCounter --> check if end game; if so, back to RM
     // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
     public World update() {
+        PlaneHM newPlane = this.plane;
+        Bag<MeteorHM> newMeteors = this.meteorDataStructHM;
+        Bag<LaserHM> newLasers = this.lasersHM;
         Lives newLives = this.lives;
         Score newScore = this.score;
         int newCounter = this.missingMeteorsCounter;
-        // 1. Meteor passes the plane --> score same, add 1 to missingMeteorCounter --> check if end game; if so, back to RM
-        if (/* meteor passes plane */) {
-            // NEED TO: Find it and tak it out!!!!!!!!!!!!<<<<===========
-            newCounter = this.missingMeteorsCounter + 1;
+        // 1. Meteor passes the plane --> score same, 
+        // add 1 to missingMeteorCounter --> check if end game; if so, back to RM
+        MeteorHM collider = newMeteors.collidesWith(newPlane);
+        if (collider != null /* if a meteor passes the plane... */) {
+            newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+            newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
                 return new MeteorShowerRM(new PlaneRM(), empty(), empty(), newLives, newScore, false, this.powerUps, 0);
             }
         }
         // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
-        if (/* laser hits meteor */) {
-            // NEED TO: take out meteor and laser!!!!!!!!!!!<<<<===========
-            newScore = this.score.addScore();
+        Sequence<LaserHM> seqLaser = newLasers.seq();
+        while (seqLaser.hasNext()) {
+            LaserHM collidingLaser = seqLaser.here();
+            MeteorHM collidingMeteor = newMeteors.collidesWith(collidingLaser);
+            if (collidingMeteor != null) {
+                /* remove that colliding meteor! */ newMeteors = newMeteors.remove(collidingMeteor);
+                /*remove that colliding laser! */ newLasers = newLasers.remove(collidingLaser); 
+            newScore = newScore.addScore();
+            }
         }
-        return new MeteorShowerHM(this.plane, this.meteorDataStructHM, this.lasersHM, newLives, newScore, newCounter, this.powerUps);
+        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newLives, newScore, newCounter, this.powerUps);
     }
     
     public boolean backToRegularMode() {
         return this.missingMeteorsCounter >= 5;
     }
+    
     
     
     // ========== REACT ==========

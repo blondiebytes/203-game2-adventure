@@ -2,15 +2,17 @@
 package adventure.SetBag;
 
 
+import adventure.Collideable;
 import adventure.MeteorHM;
 import adventure.MeteorRM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Empty;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import adventure.Tickable;
 
 
 
-public class SetBag_Empty<D extends Comparable> implements Bag<D> {
+public class SetBag_Empty<D extends Comparable & Tickable & Collideable> implements Bag<D> {
     boolean isBlack;
     
     
@@ -61,20 +63,12 @@ public class SetBag_Empty<D extends Comparable> implements Bag<D> {
     
     // METEOR METHODS
     
-     public Bag<D> tickMeteors() {
-        return tickItMeteors(this.seq());
+     public Bag<D> tick() {
+        return this;
     }
-    
-    public Bag<D> tickItMeteors(Sequence<D> as){
-        return empty();
-    }
-    
-   public Bag<D> tickLasers() {
-       return tickItLasers(this.seq());
-   }
    
-   public Bag<D> tickItLasers(Sequence<D> as) {
-       return empty();
+   public D collidesWith(Collideable thing) {
+       return null;
    }
     
     // Finite Set Bag Methods
@@ -135,6 +129,8 @@ public class SetBag_Empty<D extends Comparable> implements Bag<D> {
     public boolean subset (Bag u) {
         return true; 
     }
+
+
 
 
 

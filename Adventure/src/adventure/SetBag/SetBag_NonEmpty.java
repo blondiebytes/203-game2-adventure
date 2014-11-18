@@ -1,6 +1,7 @@
 package adventure.SetBag;
 
 // REQUIREMENTS: 
+import adventure.Collideable;
 import adventure.LaserHM;
 import adventure.LaserRM;
 import adventure.MeteorHM;
@@ -9,8 +10,9 @@ import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Cat;
 import adventure.Sequence.Sequence_NonEmpty;
 import adventure.Sequence.Sequenced;
+import adventure.Tickable;
 
-public class SetBag_NonEmpty<D extends Comparable> implements Bag<D>, Sequenced<D> {
+public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> implements Bag<D>, Sequenced<D> {
 
     boolean isBlack;
     int count;
@@ -102,42 +104,27 @@ public class SetBag_NonEmpty<D extends Comparable> implements Bag<D>, Sequenced<
         return all.toString();
     }
     
-    public Bag<D> tickMeteors() {
-        return tickItMeteors(this.seq());
+    public Bag<D> tick(){
+        return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
     }
-    
-    public Bag<D> tickItMeteors(Sequence<D> as){
-        Bag newMeteors = empty();
-        while (as.hasNext()) {
-            if (as instanceof MeteorRM) {
-                MeteorRM rm = (MeteorRM) as.next();
-                newMeteors.add(rm.onTick());
+   
+   public D collidesWith(Collideable thing) {
+        // Basically we want to say, for all the meteors in the meteor data struct
+        // does one pass the plane? if so? which one
+        if (this.root.collidesWith(thing) != null) {
+            return this.root;
+        } else {
+            D onleft = this.left.collidesWith(thing);
+            if (onleft != null) {
+              return onleft;
             } else {
-                MeteorHM rm = (MeteorHM) as.next();
-                newMeteors.add(rm.onTick());
+                return this.right.collidesWith(thing);
             }
         }
-        return newMeteors;
+//      THE LOGIC:
+        // this.here.collidesWith(plane) = true -> return this.here
+        // ow. call on left and right
     }
-    
-   public Bag<D> tickLasers() {
-        return tickItLasers(this.seq());
-    }
-    
-    public Bag<D> tickItLasers(Sequence<D> as){
-        Bag newLasers = empty();
-        while (as.hasNext()) {
-            if (as instanceof LaserRM) {
-                LaserRM rm = (LaserRM) as.next();
-                newLasers.add(rm.onTick());
-            } else {
-                LaserHM rm = (LaserHM) as.next();
-                newLasers.add(rm.onTick());
-            }
-        }
-        return newLasers;
-    }
-    
     
     
 
@@ -317,6 +304,8 @@ public class SetBag_NonEmpty<D extends Comparable> implements Bag<D>, Sequenced<
             return this;
         }
     }
+
+   
     
 
 }

@@ -6,7 +6,7 @@ import javalib.worldimages.CircleImage;
 import javalib.worldimages.Posn;
 import javalib.worldimages.WorldImage;
 
-public class PlaneHM {
+public class PlaneHM implements Collideable<PlaneHM> {
 
     int height;
     int deltaHeight;
@@ -18,8 +18,7 @@ public class PlaneHM {
 
     static int middleOfScreenWidth = MAXW / 2;
     int topOfScreen;
-    
-    
+
     // ========== CONSTRUCTORS ==========
     public PlaneHM() {
         this(MAXH / 2, -1);
@@ -29,7 +28,14 @@ public class PlaneHM {
         this.height = height;
         this.deltaHeight = deltaHeight;
     }
-    
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
 
     // ========== REACT ==========
     public PlaneHM onTick(int multiple) {
@@ -43,37 +49,44 @@ public class PlaneHM {
         }
     }
 
-    
     // ========== REACT ==========
     public PlaneHM react(String s) {
         switch (s) {
             case "up":
-           //     System.out.println("GOING UP: ");
+                //     System.out.println("GOING UP: ");
                 return new PlaneHM(height, Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
             case "down":
-            //    System.out.println("GOING DOWN: ");
+                //    System.out.println("GOING DOWN: ");
                 return new PlaneHM(height, -Math.abs(deltaHeight)).onTick(HYPER_MULTIPLE);
             default:
-            //    System.out.println("STAYING THE SAME");
+                //    System.out.println("STAYING THE SAME");
                 return this;
         }
     }
 
-    
-    
     // ========== DRAW ==========
     public WorldImage planeImage() {
         return new CircleImage(new Posn(this.width, this.height), 10, color);
 //            return new FromFileImage(this.center, "Images/shark.png").
 //          overlayImages(new CircleImage(this.center, this.radius, this.col));
     }
-    
-    
+
     // ========== EQUALITY ==========
     public boolean isEqualTo(PlaneHM otherPlane) {
         return (this.deltaHeight == otherPlane.deltaHeight)
                 && (this.height == otherPlane.height)
                 && (this.width == otherPlane.width);
+    }
+    
+    
+    // ========== COLLISIONS ==========
+    public PlaneHM collidesWith(Collideable thing) {
+        if (this.height == thing.getHeight()) {
+            return this;
+        } else {
+            // I HATE NULL;
+            return null;
+        }
     }
 
 }
