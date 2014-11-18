@@ -8,6 +8,7 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import javalib.colors.Black;
 import javalib.colors.Blue;
 import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
@@ -62,7 +63,6 @@ public class MeteorShowerRM extends World {
         Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
 
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
-
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
 
@@ -97,6 +97,7 @@ public class MeteorShowerRM extends World {
             }
             newShootCounter = 0;
         }
+        
         // 2. Laser hits Meteor --> 
         // plane same, takes out colliding meteor, takes out colliding laser, 
         // lives same, ------, gameOver same, -------, --------
@@ -165,7 +166,14 @@ public class MeteorShowerRM extends World {
     // ========== DRAWING IMAGE ==========
     public WorldImage makeImage() {
 //         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
-        return new OverlayImages(new RectangleImage(new Posn(0, 0), 2000, 2000, new Blue()), this.plane.planeImage());
+        WorldImage finalImage =  new OverlayImages(new RectangleImage(new Posn(0, 0), 2000, 2000, new Black()), this.plane.planeImage());
+        //WorldImage finalImage2 = new OverlayImages(finalImage,  new LaserRM(10, 10, "red", 5).laserImage());
+        Sequence<LaserRM> seqLaser = this.lasersRM.seq();
+        while (seqLaser.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
+            }
+        return finalImage;
+        }
     }
 
     // This method produces an instance of a class WorldEnd that consists of a boolean value
@@ -179,4 +187,4 @@ public class MeteorShowerRM extends World {
 //      return new WorldEnd(true,
 //        this.makeImage());
 //  }
-}
+

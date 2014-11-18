@@ -5,6 +5,7 @@ import javalib.colors.Black;
 import javalib.colors.IColor;
 import javalib.colors.Yellow;
 import javalib.worldimages.CircleImage;
+import javalib.worldimages.FromFileImage;
 import javalib.worldimages.Posn;
 import javalib.worldimages.WorldImage;
 
@@ -67,9 +68,8 @@ public class PlaneRM implements Collideable<PlaneRM> {
 
     // ========== DRAW ==========
     public WorldImage planeImage() {
-        return new CircleImage(new Posn(this.width, this.height), 10, color);
-//            return new FromFileImage(this.center, "Images/shark.png").
-//          overlayImages(new CircleImage(this.center, this.radius, this.col));
+       // return new CircleImage(new Posn(this.width, this.height), 10, color);
+           return new FromFileImage(new Posn(this.width, this.height), "fighter-01.png");
     }
 
     // ========== EQUALITY ==========

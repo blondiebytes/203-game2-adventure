@@ -105,7 +105,13 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
     }
     
     public Bag<D> tick(){
-        return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
+        Bag newStuff = empty();
+        Sequence<D> seq = this.seq();
+        while (seq.hasNext()) {
+            newStuff.add(seq.here().onTick());
+        }
+        return newStuff;
+        //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
     }
    
    public D collidesWith(Collideable thing) {

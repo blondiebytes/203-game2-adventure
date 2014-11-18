@@ -2,6 +2,9 @@
 package adventure;
 
 import java.util.Random;
+import javalib.worldimages.FromFileImage;
+import javalib.worldimages.Posn;
+import javalib.worldimages.WorldImage;
 
 
 public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Tickable<LaserRM> {
@@ -27,8 +30,8 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // Two ways lasers 
     LaserRM(PlaneRM plane) {
-        this.width = plane.width;
-        this.height = plane.height;
+        this.width = plane.width + 10;
+        this.height = plane.height + 10;
         Random rnd = new Random();
         if (rnd.nextInt() % 2 == 1) {
             this.color = "red";
@@ -76,6 +79,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== TICK ==========
     public LaserRM onTick() {
+        System.out.println("I updated");
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
@@ -108,6 +112,14 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
             // I HATE NULL;
             return null;
         }    
+    }
+    
+    // ========== DRAW ==========
+    public WorldImage laserImage() {
+        if (color.equals("red")) {
+            return new FromFileImage(new Posn(this.width, this.height), "Red_Laser.png");
+        } else 
+           return new FromFileImage(new Posn(this.width, this.height), "Blue_Laser.png");
     }
     
     

@@ -354,7 +354,7 @@ public class TestFunctions {
            
         }
         System.out.println("testSwitchLaserColorRM success: " + testSwitchLaserColorRM + " times");
-        System.out.println("testSwitchLaserColorHM success: " + testSameLaserColorHM + " times");
+        System.out.println("testSameLaserColorHM success: " + testSameLaserColorHM + " times");
        
         
         
