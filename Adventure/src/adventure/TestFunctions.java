@@ -117,9 +117,9 @@ public class TestFunctions {
         } else if (nextValue == 3) {
             return "left";
         } else if (nextValue == 4) {
-            return "spacebar";
+            return "s";
         } else if (nextValue == 5) {
-            return "enter";
+            return "d";
         } else {
             int stringVal = rnd.nextInt(25);
             return Character.toChars(65 + stringVal).toString();
@@ -255,18 +255,18 @@ public class TestFunctions {
 
     // ----------------------------------------------------------------
     // LASER TESTING:
-    // REGUALR MODE: After pressing enter, do the future lasers switch color?
-    // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
+    // REGUALR MODE: After pressing D, do the future lasers switch color?
+    // HYPERSPEED MODE: After pressing D, do the lasers stay the 
     // same color?
     // REGULAR MODE: Do the lasers move down when ticked?
     // HYPERSPEED MODE: Do the lasers move down when ticked?
-    // REGUALR MODE: After pressing enter, do the future lasers switch color?
+    // REGUALR MODE: After pressing D, do the future lasers switch color?
     public static void testSwitchLaserColorRM(LaserRM laser, LaserRM reactedLaser, String key) throws Exception {
-        if (laser.color.equals(reactedLaser.color) && key.equals("enter")) {
+        if (laser.color.equals(reactedLaser.color) && key.equals("d")) {
             throw new Exception("Colors equal, but should have changed");
         }
-        if (!laser.color.equals(reactedLaser.color) && !key.equals("enter")) {
-            throw new Exception("Colors not equal, but shouldn't have changed");
+        if (!laser.color.equals(reactedLaser.color) && !key.equals("d")) {
+            throw new Exception("Colors not equal, but shouldn't have changed" + laser.color + reactedLaser.color + key);
         }
         testSwitchLaserColorRM++;
     }
@@ -282,7 +282,7 @@ public class TestFunctions {
 
     // REGULAR MODE: Do the lasers move down when ticked?
     public static void testLaserMoveRM(LaserRM laser, LaserRM tickedLaser) throws Exception {
-        if (laser.height != tickedLaser.height - 1) {
+        if (laser.height != tickedLaser.height - 10) {
             throw new Exception("Laser didn't tick!" + laser.height + " " + tickedLaser.height);
         }
         if (laser.width != laser.width) {
@@ -518,7 +518,7 @@ public class TestFunctions {
             laserSeq = laserSeq.next();
         }
 
-        if (key.equals("spacebar")) {
+        if (key.equals("s")) {
             if (old.lasersRM.cardinality() + 1 - lasersAboutToLeave != newG.lasersRM.cardinality()) {
                 throw new Exception("Spacebar pressed, but laser isn't added");
             }
@@ -544,7 +544,7 @@ public class TestFunctions {
             laserSeq = laserSeq.next();
         }
 
-        if (key.equals("spacebar")) {
+        if (key.equals("s")) {
             if (old.lasersHM.cardinality() + 1 - lasersAboutToLeave != newG.lasersHM.cardinality()) {
                 throw new Exception("Spacebar pressed, but laser isn't added");
             }
@@ -766,6 +766,14 @@ public class TestFunctions {
             testCollisionRegularMode(oG, nG);
             testPowerUpHyperMode(oG, nG);
             testGameOverLives(oG, nG);
+            System.out.println("testConstructorRM" + testConstructorRM + " times");
+            System.out.println("testStartUpOrRestartDown " + testStartUporRestartDown + " times");
+            System.out.println("testShootLaserRM " + testShootLaserRM + " times");
+            System.out.println("testLaserMeteorRemovedRM" + testLaserMeteorRemovedRM + " times");
+            System.out.println("testTriggerHyperSpeedMode " + testTriggerHyperSpeedMode + " times");
+            System.out.println("testCollisionRegularMode " + testCollisionRegularMode + " times");
+            System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode+ " times");
+            System.out.println("testGameOverLives " + testGameOverLives + " times");
         }
     }
 
@@ -776,6 +784,11 @@ public class TestFunctions {
             testShootLaser(oG, nG, key);
             testLaserMeteorRemoved(oG, nG);
             testCollisionHyperMode(oG, nG);
+             System.out.println("testConstructorHM" + testConstructorHM + " times");
+            System.out.println("testStartUpOrRestartDown " + testStartUporRestartDown + " times");
+            System.out.println("testShootLaserHM " + testShootLaserHM + " times");
+            System.out.println("testLaserMeteorRemovedHM" + testLaserMeteorRemovedHM + " times");
+            System.out.println("testCollisionHyperMode " + testCollisionHyperMode + " times");
         }
 
     }

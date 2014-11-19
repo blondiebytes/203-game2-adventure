@@ -106,7 +106,6 @@ public class MeteorShowerRM extends World {
             MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
             if (collidingMeteor != null) {
                 newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
-
                 newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
                //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
                 if (collidingLaser.color.equals(collidingMeteor.color)) {
@@ -115,14 +114,17 @@ public class MeteorShowerRM extends World {
                         newPowerUp = newPowerUp + 1;
                     }
                     newShootCounter = newShootCounter + 1;
+                    System.out.println("hit same color");
                 } 
                 //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
                 else {
                     newScore = newScore.subtractScore();
                     newShootCounter = 0;
+                    System.out.println("hit diff color");
                 }
 
             }
+            seqLaser = seqLaser.next();
         }
             return new MeteorShowerRM(newPlane, newMeteors, newLasers,
                     newLives, newScore, newGameOver, newPowerUp, newShootCounter);    
@@ -141,7 +143,6 @@ public class MeteorShowerRM extends World {
             PlaneRM newPlane = plane.react(ke);
             Bag<LaserRM> newLasersRM = this.lasersRM;
             /* no need for meteors to react b/c independent of user */
-            System.out.println(ke);
               if (ke.equals("s")) {
                      newLasersRM = this.lasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
                       }
@@ -170,14 +171,14 @@ public class MeteorShowerRM extends World {
         //WorldImage finalImage2 = new OverlayImages(finalImage,  new LaserRM(10, 10, "red", 5).laserImage());
         Sequence<LaserRM> seqLaser = this.lasersRM.seq();
         Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();
-        while (seqLaser.hasNext()) {
-            finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
-            seqLaser = seqLaser.next();
-            }
         while (seqMeteor.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
             seqMeteor = seqMeteor.next();
         }
+        while (seqLaser.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
+            seqLaser = seqLaser.next();
+            }
         return finalImage;
         }
     }

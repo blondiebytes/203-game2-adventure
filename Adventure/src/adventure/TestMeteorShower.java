@@ -26,7 +26,6 @@ public class TestMeteorShower {
     public static void main(String[] args) throws Exception {
         testingIndividualComponents();
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();
-        meteorShowerR.bigBang();
         for(int i = 0; i > tests; i++) {
             while (meteorShowerR.gameOver) {
             String key = randomButton();
@@ -39,7 +38,6 @@ public class TestMeteorShower {
         }
         
         MeteorShowerHM mH = new MeteorShowerHM();
-        mH.bigBang();
         for(int i = 0; i > tests; i++) {
             String key = randomButton();
             mH.onTick();

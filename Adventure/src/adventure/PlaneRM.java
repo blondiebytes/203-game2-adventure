@@ -18,18 +18,20 @@ public class PlaneRM implements Collideable<PlaneRM> {
     static int MAXW = 430;
     static int REGULAR_MULTIPLE = 10;
     IColor color = new Black();
+    String colorLaser = "red";
 
     static int middleOfScreenWidth = 250;
     int topOfScreen;
 
     // ========== CONSTRUCTORS ==========
     PlaneRM() {
-        this(middleOfScreenWidth, -1);
+        this(middleOfScreenWidth, -1, "red");
     }
 
-    private PlaneRM(int width, int deltaWidth) {
+    private PlaneRM(int width, int deltaWidth, String color) {
         this.width = width;
         this.deltaWidth = deltaWidth;
+        this.colorLaser = color;
     }
 
     public int getWidth() {
@@ -44,11 +46,11 @@ public class PlaneRM implements Collideable<PlaneRM> {
     public PlaneRM onTick(int multiple) {
         int newWidth = width + deltaWidth * multiple;
         if (newWidth < 50) {
-            return new PlaneRM(50, deltaWidth);
+            return new PlaneRM(50, deltaWidth, colorLaser);
         } else if (newWidth >= MAXW) {
-            return new PlaneRM(MAXW, -deltaWidth);
+            return new PlaneRM(MAXW, -deltaWidth, colorLaser);
         } else {
-            return new PlaneRM(newWidth, deltaWidth);
+            return new PlaneRM(newWidth, deltaWidth, colorLaser);
         }
     }
 
@@ -57,10 +59,15 @@ public class PlaneRM implements Collideable<PlaneRM> {
         switch (s) {
             case "right":
 //                       System.out.println("GOING RIGHT: ");
-                return new PlaneRM(width, Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
+                return new PlaneRM(width, Math.abs(deltaWidth), colorLaser).onTick(REGULAR_MULTIPLE);
             case "left":
 //                        System.out.println("GOING LEFT: ");
-                return new PlaneRM(width, -Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
+                return new PlaneRM(width, -Math.abs(deltaWidth), colorLaser).onTick(REGULAR_MULTIPLE);
+            case "d":
+                if (this.colorLaser.equals("red")) {
+                    return new PlaneRM(width, deltaWidth, "blue");
+                }
+                    return new PlaneRM(width, deltaWidth, "red");
         }
         // System.out.println("STAYING THE SAME");
         return this;

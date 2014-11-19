@@ -21,7 +21,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     String color;
     int width;
     int height;
-    int deltaHeight = 1;
+    int deltaHeight = 10;
     int identity;
     int leavingHeight = 200;
     static int count = 0;
@@ -34,11 +34,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
         this.width = plane.width + 10;
         this.height = plane.height + 10;
         Random rnd = new Random();
-        if (rnd.nextInt() % 2 == 1) {
-            this.color = "red";
-        } else {
-            this.color = "blue";
-        }
+        this.color = plane.colorLaser;
         this.identity = count;
         count++;
     }
@@ -66,7 +62,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== REACT ==========
     public LaserRM react(String se) {
-        if (se.equals("enter")) {
+        if (se.equals("d")) {
             if (color.equals("red")) {
                 return new LaserRM(this.width, this.height, "blue", this.identity);
             } else {
