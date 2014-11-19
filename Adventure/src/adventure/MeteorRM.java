@@ -9,23 +9,27 @@ import java.awt.Color;
 import java.util.Random;
 import javalib.colors.Black;
 import javalib.colors.IColor;
+import javalib.worldimages.FromFileImage;
+import javalib.worldimages.Posn;
+import javalib.worldimages.WorldImage;
 
 public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Tickable<MeteorRM> {
     String color;
     int height = MAXH;
     int deltaHeight = -1;
+    int multiple =  25;
     int width;
     int identity;
     int leavingHeight = 200;
     static int planeIntervals = 10;
-    static int MAXH = 750;
+    static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
     
     // ========== CONSTRUCTORS ==========
 // Starting off-screen width, but at the right height position
     MeteorRM() {
-        this(MAXH, -500, count, "none");
+        this(-500, MAXH, count, "none");
         count++;
     }
     
@@ -35,7 +39,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         if (width == -500) {
             Random random = new Random();
             // This makes sure that they are in one of the plane intervals so that it can be hit
-            this.width = planeIntervals * (Math.abs(random.nextInt()) + 1) % (400 / planeIntervals);
+            this.width = Math.abs(random.nextInt()) % MAXW;
         } else 
             this.width = width;
         
@@ -73,7 +77,8 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     // ========== TICK ==========
     public MeteorRM onTick() {
         // Make it go up 1;
-         return new MeteorRM( this.width, this.height - 1, this.identity, this.color);
+//        System.out.println("Tick.Tick. Meteor." + this.width + " H: " + this.height);
+         return new MeteorRM( this.width, this.height - multiple, this.identity, this.color);
     }
    
     
@@ -113,8 +118,13 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         }     
     }
     
-
-
+    public WorldImage meteorImage() {
+        if (this.color.equals("red")) {
+            return new FromFileImage(new Posn(this.width, this.height), "Red-Meteor.png");
+        } else {
+           return new FromFileImage(new Posn(this.width, this.height), "Blue-Meteor.png");
+        }
+    }
     
     
     

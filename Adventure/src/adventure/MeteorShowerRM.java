@@ -109,7 +109,7 @@ public class MeteorShowerRM extends World {
 
                 newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
                //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
-                if (new MeteorRM().color.equals(new LaserRM(5, 5, "red").color)) {
+                if (collidingLaser.color.equals(collidingMeteor.color)) {
                     newScore = newScore.addScore();
                     if (this.getPowerUp()) {
                         newPowerUp = newPowerUp + 1;
@@ -168,9 +168,15 @@ public class MeteorShowerRM extends World {
         WorldImage finalImage =  new OverlayImages(new RectangleImage(new Posn(0, 0), 2000, 2000, new Black()), this.plane.planeImage());
         //WorldImage finalImage2 = new OverlayImages(finalImage,  new LaserRM(10, 10, "red", 5).laserImage());
         Sequence<LaserRM> seqLaser = this.lasersRM.seq();
+        Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();
         while (seqLaser.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
+            seqLaser = seqLaser.next();
             }
+        while (seqMeteor.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
+            seqMeteor = seqMeteor.next();
+        }
         return finalImage;
         }
     }

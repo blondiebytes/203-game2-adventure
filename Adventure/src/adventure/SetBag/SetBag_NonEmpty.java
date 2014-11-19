@@ -109,6 +109,7 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         Sequence<D> seq = this.seq();
         while (seq.hasNext()) {
             newStuff = newStuff.add(seq.here().onTick());
+//            System.out.println("tickticktick");
             seq = seq.next();
         }
         return newStuff;
@@ -128,9 +129,6 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
                 return this.right.collidesWith(thing);
             }
         }
-//      THE LOGIC:
-        // this.here.collidesWith(plane) = true -> return this.here
-        // ow. call on left and right
     }
     
     

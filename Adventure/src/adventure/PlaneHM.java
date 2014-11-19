@@ -55,17 +55,17 @@ public class PlaneHM implements Collideable<PlaneHM> {
     public PlaneHM react(String s) {
         switch (s) {
             case "up":
-                     System.out.println("GOING UP: ");
+                //     System.out.println("GOING UP: ");
                 return new PlaneHM(height, -Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
             case "down":
-                    System.out.println("GOING DOWN: ");
+                //    System.out.println("GOING DOWN: ");
                 return new PlaneHM(height, Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
             case "left":
                     return new PlaneHM(height, deltaHeight, "left");
             case "right":
                 return new PlaneHM(height, deltaHeight, "right");
             default:
-                    System.out.println("STAYING THE SAME");
+                //    System.out.println("STAYING THE SAME");
                 return this;
         }
     }
