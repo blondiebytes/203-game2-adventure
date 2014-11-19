@@ -502,29 +502,80 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // GENERAL CONDITIONS TO TEST:
     // ----------------------------------------------------------------
-    public static void testShootLaserRM(MeteorShowerRM old, MeteorShowerRM newG, String key) throws Exception {
+    public static void testShootLaser(MeteorShowerRM old, MeteorShowerRM newG, String key) throws Exception {
         // Is a laser shot when the spacebar is pressed?
+        //if for each laser in RM, none of them are about to leave
+        if (key.equals("spacebar")) {
+            if (old.lasersRM.cardinality() + 1 != newG.lasersRM.cardinality()) {
+                throw new Exception("Spacebar pressed, but laser isn't added");
+            }
+        } else {
+            //if for each laser in RM, none of them are about to leave
+            if (old.lasersRM.cardinality() != newG.lasersRM.cardinality()) {
+                throw new Exception("Spacebar isn't pressed, but laser cardinality changed");
+            }
+        }
         testShootLaserRM++;
     }
 
-    public static void testShootLaserHM(MeteorShowerHM old, MeteorShowerHM newG, String key) throws Exception {
+    public static void testShootLaser(MeteorShowerHM old, MeteorShowerHM newG, String key) throws Exception {
         // Is a laser shot when the spacebar is pressed?
+        //if for each laser in RM, none of them are about to leave
+        if (key.equals("spacebar")) {
+            if (old.lasersHM.cardinality() + 1 != newG.lasersHM.cardinality()) {
+                throw new Exception("Spacebar pressed, but laser isn't added");
+            }
+        } else {
+            //if for each laser in RM, none of them are about to leave
+            if (old.lasersHM.cardinality() != newG.lasersHM.cardinality()) {
+                throw new Exception("Spacebar isn't pressed, but laser cardinality changed");
+            }
+        }
         testShootLaserHM++;
     }
     
-    public static void testLaserMeteorRemovedRM(MeteorShowerRM old, MeteorShowerRM newG) throws Exception {
+    public static void testLaserMeteorRemoved(MeteorShowerRM old, MeteorShowerRM newG) throws Exception {
         // Is the laser/meteor removed once off screen?
+        
+       // Going through each meteor, if one is about to leave the screen
+        if (meteor.aboutToLeave()) {
+            if (newG.meteorDataStructRM.member(meteor)) {
+                throw new Exception("A meteor was about to leave, but it's still here");
+            }
+        }
+       // / Going through each laser, if one is about to leave the screen
+        if (laser.aboutToLeave()) {
+            if (newG.lasersRM.member(laser)) {
+                throw new Exception("A laser was about to leave, but still here");
+            }
+        }
+        
         testLaserMeteorRemovedRM++;
     }
     
-    public static void testLaserMeteorRemovedHM(MeteorShowerHM old, MeteorShowerHM newG) throws Exception {
+    public static void testLaserMeteorRemoved(MeteorShowerHM old, MeteorShowerHM newG) throws Exception {
         // Is the laser/meteor removed once off screen?
+        // Going through each meteor, if one is about to leave the screen
+        if (meteor.aboutToLeave()) {
+            if (newG.meteorDataStructRM.member(meteor)) {
+                throw new Exception("A meteor was about to leave, but it's still here");
+            }
+        }
+       // / Going through each laser, if one is about to leave the screen
+        if (laser.aboutToLeave()) {
+            if (newG.lasersRM.member(laser)) {
+                throw new Exception("A laser was about to leave, but still here");
+            }
+        }
         testLaserMeteorRemovedHM++;
     }
 
-    public static void testTriggerHyperSpeedMode(MeteorShowerRM oG, MeteorShowerRM nG) {
+    public static void testTriggerHyperSpeedMode(MeteorShowerRM oG, MeteorShowerRM nG, String rnb) {
 //    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
 //    // after pressing 0?
+        if (oG.powerUp > 0 && (rnb.equals("0"))) {
+            //???
+        }
         testTriggerHyperSpeedMode++;
     }
 
@@ -549,18 +600,25 @@ public class TestFunctions {
 //    // HYPERSPEED MODE & SCORING:
       // ----------------------------------------------------------------
 //    
-   public static void testPowerUpHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) {
-    // After shooting 20 meteors in a row correctly, 
-    // does the user get a powerUp?
+   public static void testPowerUpHyperMode(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception{
+    // After shooting 20 meteors in a row correctly, does the user get a powerUp?
+       if (oG.correctShootCounter == 19) {
+           if (oG.powerUp + 1 != nG.powerUp) {
+               throw new Exception("PowerUp not Collected");
+           }
+       }
        testPowerUpHyperMode++;
     }
-//   
+ 
    public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) {
     // When a laser and meteor collide, does the score increase? 
     // do the lives stay the same?
     
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
+       
+       // for all meteors, if this meteor isn't member, then score/lives the same?
+       
        testCollisionHyperMode++;
     }
 //
@@ -570,9 +628,27 @@ public class TestFunctions {
 //    // GAME OVER:
       // ----------------------------------------------------------------
    
-   public static void testGameOverLives(MeteorShowerRM oG, MeteorShowerRM nG) {
+   public static void testGameOverLives(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception{
     // When a player loses his or her last life, does the game end? 
     // If the player still has lives, is the game still going?
+      if (oG.gameOver) {
+            if (oG.lives.life != 0) {
+                throw new Exception("Still have lives & gameOver");
+            }
+        } else {
+            if (oG.lives.life == 0) {
+                throw new Exception("0 Lives & gameNotOver");
+            }
+            if (nG.gameOver) {
+                if (nG.lives.life!= 0 || nG.lives.life != 1 || nG.lives.life != 2) {
+                    throw new Exception("Still have lives & gameOver");
+                }
+            } else {
+                if (nG.lives.life == 0) {
+                    throw new Exception("0 Lives & gameNotOver");
+                }
+            }
+        }
        testGameOverLives++;
    }
 //   
@@ -588,7 +664,7 @@ public class TestFunctions {
        
     public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception {
        for (int i = 0; i > tests; i++) {
-           testConstructorRM();
+           testConstructorHM();
            testStartUpOrRestartDown();
        }
 
