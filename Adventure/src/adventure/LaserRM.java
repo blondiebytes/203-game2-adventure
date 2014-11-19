@@ -84,9 +84,6 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
-    
-    
-    
     // ========== EQUALITY ==========
      public boolean isEqualToId(LaserRM otherLaser) {
         return this.identity == otherLaser.identity;

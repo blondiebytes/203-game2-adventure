@@ -22,9 +22,12 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     int identity;
     int leavingHeight = 200;
     static int planeIntervals = 10;
+    static int planeStartingPoint = 50;
+    static int numberOfPlaneIntervals = 38;
     static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
+    // Plane goes between 50 and 430
     
     // ========== CONSTRUCTORS ==========
 // Starting off-screen width, but at the right height position
@@ -39,7 +42,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         if (width == -500) {
             Random random = new Random();
             // This makes sure that they are in one of the plane intervals so that it can be hit
-            this.width = Math.abs(random.nextInt()) % MAXW;
+            this.width = planeStartingPoint + ((Math.abs(random.nextInt()) % numberOfPlaneIntervals) * planeIntervals);
         } else 
             this.width = width;
         

@@ -141,7 +141,8 @@ public class MeteorShowerRM extends World {
             PlaneRM newPlane = plane.react(ke);
             Bag<LaserRM> newLasersRM = this.lasersRM;
             /* no need for meteors to react b/c independent of user */
-              if (ke.equals("spacebar")) {
+            System.out.println(ke);
+              if (ke.equals("s")) {
                      newLasersRM = this.lasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
                       }
             return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score,

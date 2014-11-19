@@ -112,6 +112,7 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
 //            System.out.println("tickticktick");
             seq = seq.next();
         }
+        System.out.println("size of stuff:" + newStuff.cardinality());
         return newStuff;
         //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
     }

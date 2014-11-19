@@ -218,7 +218,7 @@ public class TestFunctions {
     // when it's ticked? Also making sure movement doesn't change anything 
     // else except height
     public static void testMeteorMoveRM(MeteorRM m, MeteorRM tickedM) throws Exception {
-        if (tickedM.height + 1 != m.height) {
+        if (tickedM.height + 25 != m.height) {
             throw new Exception("Doesn't Tick!");
         }
         if (tickedM.width != m.width || tickedM.deltaHeight != m.deltaHeight

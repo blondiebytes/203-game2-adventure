@@ -15,16 +15,16 @@ public class PlaneRM implements Collideable<PlaneRM> {
     int width;
     int deltaWidth;
     int height = 0;
-    static int MAXW = 500;
+    static int MAXW = 430;
     static int REGULAR_MULTIPLE = 10;
     IColor color = new Black();
 
-    static int middleOfScreenWidth = MAXW / 2;
+    static int middleOfScreenWidth = 250;
     int topOfScreen;
 
     // ========== CONSTRUCTORS ==========
     PlaneRM() {
-        this(MAXW / 2, -1);
+        this(middleOfScreenWidth, -1);
     }
 
     private PlaneRM(int width, int deltaWidth) {
@@ -43,8 +43,8 @@ public class PlaneRM implements Collideable<PlaneRM> {
     // ========== TICK ==========
     public PlaneRM onTick(int multiple) {
         int newWidth = width + deltaWidth * multiple;
-        if (newWidth < 0) {
-            return new PlaneRM(0, deltaWidth);
+        if (newWidth < 50) {
+            return new PlaneRM(50, deltaWidth);
         } else if (newWidth >= MAXW) {
             return new PlaneRM(MAXW, -deltaWidth);
         } else {
