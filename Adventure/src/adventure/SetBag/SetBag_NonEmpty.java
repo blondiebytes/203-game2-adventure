@@ -108,7 +108,8 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         Bag newStuff = empty();
         Sequence<D> seq = this.seq();
         while (seq.hasNext()) {
-            newStuff.add(seq.here().onTick());
+            newStuff = newStuff.add(seq.here().onTick());
+            seq = seq.next();
         }
         return newStuff;
         //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
@@ -183,9 +184,9 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
             return new SetBag_NonEmpty(this.root, max, this.isBlack, this.left, this.right);
         } else {
             if (elt.compareTo(this.root) < 0) {
-                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left.addN(elt, n), this.right).balance();
+                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left.addN(elt, n), this.right);
             } else {
-                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left, this.right.addN(elt, n)).balance();
+                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left, this.right.addN(elt, n));
             }
         }
     }

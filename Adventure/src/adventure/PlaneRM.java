@@ -56,10 +56,10 @@ public class PlaneRM implements Collideable<PlaneRM> {
     public PlaneRM react(String s) {
         switch (s) {
             case "right":
-                       System.out.println("GOING RIGHT: ");
+//                       System.out.println("GOING RIGHT: ");
                 return new PlaneRM(width, Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
             case "left":
-                        System.out.println("GOING LEFT: ");
+//                        System.out.println("GOING LEFT: ");
                 return new PlaneRM(width, -Math.abs(deltaWidth)).onTick(REGULAR_MULTIPLE);
         }
         // System.out.println("STAYING THE SAME");

@@ -23,6 +23,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     int height;
     int deltaHeight = 1;
     int identity;
+    int leavingHeight = 200;
     static int count = 0;
     
     // ========== CONSTRUCTORS ==========
@@ -111,6 +112,10 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
             // I HATE NULL;
             return null;
         }    
+    }
+    
+    public boolean aboutToLeave() {
+       return this.height == leavingHeight;
     }
     
     // ========== DRAW ==========

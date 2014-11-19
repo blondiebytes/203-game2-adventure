@@ -60,9 +60,7 @@ public class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
-        System.out.println("ticked");
         Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
-        System.out.println("ticked meteor");
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
@@ -78,7 +76,6 @@ public class MeteorShowerRM extends World {
     //      B. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter++
     // NEED TO ADD -> If off-screen, take it out!
     public MeteorShowerRM update() {
-        System.out.println("updated");
         PlaneRM newPlane = this.plane;
         Bag<MeteorRM> newMeteors = this.meteorDataStructRM;
         Bag<LaserRM> newLasers = this.lasersRM;
@@ -134,7 +131,6 @@ public class MeteorShowerRM extends World {
     // ========== REACT ==========
     public World onKeyEvent(String ke) {
         if (ke.equals("0")) {
-            System.out.println("keyed");
             if (this.hasPowerUp()) {
                 return this.goHyper();
             } else {
@@ -142,7 +138,6 @@ public class MeteorShowerRM extends World {
             }
         }
         else {
-            System.out.println("keyed");
             PlaneRM newPlane = plane.react(ke);
             Bag<LaserRM> newLasersRM = this.lasersRM;
             /* no need for meteors to react b/c independent of user */

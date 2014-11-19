@@ -16,6 +16,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     int deltaHeight = -1;
     int width;
     int identity;
+    int leavingHeight = 200;
     static int planeIntervals = 10;
     static int MAXH = 750;
     static int MAXW = 450;
@@ -111,6 +112,8 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
             return null;
         }     
     }
+    
+
 
     
     

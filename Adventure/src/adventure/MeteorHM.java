@@ -8,6 +8,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     int deltaWidth;
     int height;
     int identity;
+    int leavingWidth = MAXW/2;
     static int planeIntervals = 20;
     static int MAXH = 750;
     static int MAXW = 450;
@@ -97,6 +98,8 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
             return null;
         }     
     }
+    
+ 
    
     
 }

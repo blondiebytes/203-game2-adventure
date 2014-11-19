@@ -16,7 +16,7 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     int deltaWidth;
     int identity;
     int count = 0;
-    // Need something to change direction
+    int leavingWidth = PlaneHM.middleOfScreenWidth;
     String direction = "left";
     
     
@@ -90,6 +90,10 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
             // I HATE NULL;
             return null;
         }    
+    }
+    
+    public boolean aboutToLeave() {
+       return this.width == leavingWidth;
     }
     
     

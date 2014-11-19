@@ -1,6 +1,8 @@
 package adventure;
 
+import adventure.Sequence.Sequence;
 import java.util.Random;
+import javalib.funworld.World;
 
 public class TestFunctions {
 
@@ -96,10 +98,10 @@ public class TestFunctions {
     static int testLaserMeteorRemovedRM = 0;
     static int testLaserMeteorRemovedHM = 0;
     static int testTriggerHyperSpeedMode = 0;
-     static int testCollisionRegularMode = 0;
-     static int testPowerUpHyperMode = 0;
-     static int testCollisionHyperMode = 0;
-     static int testGameOverLives = 0;    
+    static int testCollisionRegularMode = 0;
+    static int testPowerUpHyperMode = 0;
+    static int testCollisionHyperMode = 0;
+    static int testGameOverLives = 0;
 
     // ----------------------------------------------------------------
     // RANDOM KEY GENERATOR
@@ -453,7 +455,7 @@ public class TestFunctions {
     }
 
     public static void testStartUpOrRestartDown() throws Exception {
-       // Some kind of graphics where you pick a random button
+        // Some kind of graphics where you pick a random button
 
         String rk = randomButton();
 
@@ -503,15 +505,26 @@ public class TestFunctions {
     // GENERAL CONDITIONS TO TEST:
     // ----------------------------------------------------------------
     public static void testShootLaser(MeteorShowerRM old, MeteorShowerRM newG, String key) throws Exception {
+
         // Is a laser shot when the spacebar is pressed?
-        //if for each laser in RM, none of them are about to leave
+        int lasersAboutToLeave = 0;
+
+        // Going through all lasers; checking if going to disappear or colliding
+        Sequence<LaserRM> laserSeq = old.lasersRM.seq();
+        while (laserSeq.hasNext() || old.meteorDataStructRM.collidesWith(laserSeq.here()) != null) {
+            if (laserSeq.here().aboutToLeave()) {
+                lasersAboutToLeave++;
+            }
+            laserSeq = laserSeq.next();
+        }
+
         if (key.equals("spacebar")) {
-            if (old.lasersRM.cardinality() + 1 != newG.lasersRM.cardinality()) {
+            if (old.lasersRM.cardinality() + 1 - lasersAboutToLeave != newG.lasersRM.cardinality()) {
                 throw new Exception("Spacebar pressed, but laser isn't added");
             }
         } else {
             //if for each laser in RM, none of them are about to leave
-            if (old.lasersRM.cardinality() != newG.lasersRM.cardinality()) {
+            if (old.lasersRM.cardinality() - lasersAboutToLeave != newG.lasersRM.cardinality()) {
                 throw new Exception("Spacebar isn't pressed, but laser cardinality changed");
             }
         }
@@ -520,61 +533,101 @@ public class TestFunctions {
 
     public static void testShootLaser(MeteorShowerHM old, MeteorShowerHM newG, String key) throws Exception {
         // Is a laser shot when the spacebar is pressed?
-        //if for each laser in RM, none of them are about to leave
+        int lasersAboutToLeave = 0;
+
+        //Going through all lasers
+        Sequence<LaserHM> laserSeq = old.lasersHM.seq();
+        while (laserSeq.hasNext()) {
+            if (laserSeq.here().aboutToLeave() || old.meteorDataStructHM.collidesWith(laserSeq.here()) != null) {
+                lasersAboutToLeave++;
+            }
+            laserSeq = laserSeq.next();
+        }
+
         if (key.equals("spacebar")) {
-            if (old.lasersHM.cardinality() + 1 != newG.lasersHM.cardinality()) {
+            if (old.lasersHM.cardinality() + 1 - lasersAboutToLeave != newG.lasersHM.cardinality()) {
                 throw new Exception("Spacebar pressed, but laser isn't added");
             }
         } else {
             //if for each laser in RM, none of them are about to leave
-            if (old.lasersHM.cardinality() != newG.lasersHM.cardinality()) {
+            if (old.lasersHM.cardinality() - lasersAboutToLeave != newG.lasersHM.cardinality()) {
                 throw new Exception("Spacebar isn't pressed, but laser cardinality changed");
             }
         }
         testShootLaserHM++;
     }
-    
+
     public static void testLaserMeteorRemoved(MeteorShowerRM old, MeteorShowerRM newG) throws Exception {
         // Is the laser/meteor removed once off screen?
-        
-       // Going through each meteor, if one is about to leave the screen
-        if (meteor.aboutToLeave()) {
-            if (newG.meteorDataStructRM.member(meteor)) {
-                throw new Exception("A meteor was about to leave, but it's still here");
+
+        // Going through each meteor, if one is about to leave the screen
+        Sequence<MeteorRM> meteorSeq = old.meteorDataStructRM.seq();
+        while (meteorSeq.hasNext()) {
+            if (meteorSeq.here().collidesWith(old.plane) != null) {
+                if (newG.meteorDataStructRM.member(meteorSeq.here()) || old.lasersRM.collidesWith(meteorSeq.here()) != null) {
+                    throw new Exception("A meteor was about to leave, but it's still here");
+                }
+                meteorSeq = meteorSeq.next();
             }
         }
-       // / Going through each laser, if one is about to leave the screen
-        if (laser.aboutToLeave()) {
-            if (newG.lasersRM.member(laser)) {
-                throw new Exception("A laser was about to leave, but still here");
+
+        // / Going through each laser, if one is about to leave the screen
+        Sequence<LaserRM> laserSeq = old.lasersRM.seq();
+        while (laserSeq.hasNext()) {
+            if (laserSeq.here().aboutToLeave()) {
+                if (newG.lasersRM.member(laserSeq.here()) || old.meteorDataStructRM.collidesWith(laserSeq.here()) != null) {
+                    throw new Exception("A laser was about to leave, but still here");
+                }
+                laserSeq = laserSeq.next();
             }
         }
-        
+
         testLaserMeteorRemovedRM++;
     }
-    
+
     public static void testLaserMeteorRemoved(MeteorShowerHM old, MeteorShowerHM newG) throws Exception {
         // Is the laser/meteor removed once off screen?
-        // Going through each meteor, if one is about to leave the screen
-        if (meteor.aboutToLeave()) {
-            if (newG.meteorDataStructRM.member(meteor)) {
-                throw new Exception("A meteor was about to leave, but it's still here");
+
+        // Going through each meteor, if one is about to leave the screen && checking collisions
+        Sequence<MeteorHM> meteorSeq = old.meteorDataStructHM.seq();
+        while (meteorSeq.hasNext()) {
+            if (meteorSeq.here().collidesWith(old.plane) != null || old.lasersHM.collidesWith(meteorSeq.here()) != null) {
+                if (newG.meteorDataStructHM.member(meteorSeq.here())) {
+                    throw new Exception("A meteor was about to leave, but it's still here");
+                }
+                meteorSeq = meteorSeq.next();
             }
         }
-       // / Going through each laser, if one is about to leave the screen
-        if (laser.aboutToLeave()) {
-            if (newG.lasersRM.member(laser)) {
-                throw new Exception("A laser was about to leave, but still here");
+
+        // / Going through each laser, if one is about to leave the screen
+        Sequence<LaserHM> laserSeq = old.lasersHM.seq();
+        while (laserSeq.hasNext()) {
+            if (laserSeq.here().aboutToLeave() || old.meteorDataStructHM.collidesWith(laserSeq.here()) != null) {
+                if (newG.lasersHM.member(laserSeq.here())) {
+                    throw new Exception("A laser was about to leave, but still here");
+                }
+                laserSeq = laserSeq.next();
             }
         }
+
         testLaserMeteorRemovedHM++;
     }
 
-    public static void testTriggerHyperSpeedMode(MeteorShowerRM oG, MeteorShowerRM nG, String rnb) {
+    public static void testTriggerHyperSpeedMode(MeteorShowerRM oG, String rnb) throws Exception {
 //    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
 //    // after pressing 0?
+        World nG = oG.onKeyEvent("0");
         if (oG.powerUp > 0 && (rnb.equals("0"))) {
-            //???
+            if (nG instanceof MeteorShowerHM) {
+                MeteorShowerHM nHG = (MeteorShowerHM) nG;
+                if (oG.powerUp - 1 != nHG.powerUps) {
+                    throw new Exception("PowerUp not lost");
+                }
+            } else {
+                throw new Exception("Hyper mode not triggered");
+            }
+        } else {
+
         }
         testTriggerHyperSpeedMode++;
     }
@@ -583,55 +636,102 @@ public class TestFunctions {
 //    // ----------------------------------------------------------------
 //    // REGULAR MODE & SCORING:
 //    // ----------------------------------------------------------------
-    
-   public static void testCollisionRegularMode(MeteorShowerRM oG, MeteorShowerRM nG) {
-    // When a laser and a meteor collide and they are the same color,
-    // does the score increase? do the lives stay the same?
-    
-    // When a laser and a meteor collide and they are different colors,
-    // does the score decrease? do the lives stay the same?
-    
-    // When a meteor passes the top of the screen, do you lose a life?
-    // does the score stay the same?
-       testCollisionRegularMode++;
+    public static void testCollisionRegularMode(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+        Sequence<LaserRM> laserSeq = oG.lasersRM.seq();
+        int collisionScore = 0;
+        int collisionLives = 0;
+        // Checking Meteors & Lasers Colliding, Score, and Lives
+        while (laserSeq.hasNext()) {
+            MeteorRM collidingMeteor = oG.meteorDataStructRM.collidesWith(laserSeq.here());
+            // If there is a collidingMeteor... then check all of this stuff
+            if (collidingMeteor != null) {
+                // When a laser and a meteor collide and they are the same color,
+                // does the score increase? do the lives stay the same?
+                if (collidingMeteor.color.equals(laserSeq.here().color)) {
+                    collisionScore++;
+                } // When a laser and a meteor collide and they are different colors,
+                // does the score decrease? do the lives stay the same?
+                else {
+                    collisionScore--;
+                }
+            }
+            laserSeq = laserSeq.next();
+        }
+
+        // Checking Meteors Leaving & Score & Lives
+        Sequence<MeteorRM> meteorSeq = oG.meteorDataStructRM.seq();
+        while (meteorSeq.hasNext()) {
+             // When a meteor passes the top of the screen, do you lose a life?
+             // does the score stay the same?
+            if (meteorSeq.here().collidesWith(oG.plane) != null) {
+                collisionLives--;
+            }
+            meteorSeq = meteorSeq.next();
+        }
+
+        if (oG.score.score + (collisionScore * 10) != nG.score.score) {
+            throw new Exception("Score didn't increase");
+        }
+        if (oG.lives.life + collisionLives != nG.lives.life) {
+            throw new Exception("Lives changed!");
+        }
+        testCollisionRegularMode++;
     }
 
-//    // ----------------------------------------------------------------
-//    // HYPERSPEED MODE & SCORING:
-      // ----------------------------------------------------------------
-//    
-   public static void testPowerUpHyperMode(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception{
-    // After shooting 20 meteors in a row correctly, does the user get a powerUp?
-       if (oG.correctShootCounter == 19) {
-           if (oG.powerUp + 1 != nG.powerUp) {
-               throw new Exception("PowerUp not Collected");
-           }
-       }
-       testPowerUpHyperMode++;
-    }
- 
-   public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) {
-    // When a laser and meteor collide, does the score increase? 
-    // do the lives stay the same?
     
-    // When a meteor passes the top of the screen, do your lives and score
-    // stay the same?
-       
-       // for all meteors, if this meteor isn't member, then score/lives the same?
-       
-       testCollisionHyperMode++;
+    
+    
+    // ----------------------------------------------------------------
+    // HYPERSPEED MODE & SCORING:
+    // ----------------------------------------------------------------
+    public static void testPowerUpHyperMode(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+        // After shooting 20 meteors in a row correctly, does the user get a powerUp?
+        if (oG.correctShootCounter == 19) {
+            if (oG.powerUp + 1 != nG.powerUp) {
+                throw new Exception("PowerUp not Collected");
+            }
+        }
+        testPowerUpHyperMode++;
+    }
+
+    public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception{
+        Sequence<LaserHM> laserSeq = oG.lasersHM.seq();
+        int collisionScore = 0;
+        int collisionLives = 0;
+        
+        // Checking Meteors & Lasers Colliding, Score, and Lives
+        while (laserSeq.hasNext()) {
+            MeteorHM collidingMeteor = oG.meteorDataStructHM.collidesWith(laserSeq.here());
+            // If there is a collidingMeteor... then check all of this stuff
+            if (collidingMeteor != null) {
+                // When a laser and meteor collide, does the score increase? 
+                 // do the lives stay the same?
+                    collisionScore++;
+            }
+            laserSeq = laserSeq.next();
+        }
+        // When a meteor passes the top of the screen, do your lives and score
+        // stay the same? --> no need to change collisionScore or collisionLives
+        
+        if (oG.score.score + (collisionScore * 10) != nG.score.score) {
+            throw new Exception("Score didn't increase");
+        }
+        if (oG.lives.life + collisionLives != nG.lives.life) {
+            throw new Exception("Lives changed!");
+        }
+        testCollisionHyperMode++;
     }
 //
 //    
 //    
 //    // ----------------------------------------------------------------
 //    // GAME OVER:
-      // ----------------------------------------------------------------
-   
-   public static void testGameOverLives(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception{
-    // When a player loses his or her last life, does the game end? 
-    // If the player still has lives, is the game still going?
-      if (oG.gameOver) {
+    // ----------------------------------------------------------------
+
+    public static void testGameOverLives(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+        // When a player loses his or her last life, does the game end? 
+        // If the player still has lives, is the game still going?
+        if (oG.gameOver) {
             if (oG.lives.life != 0) {
                 throw new Exception("Still have lives & gameOver");
             }
@@ -640,7 +740,7 @@ public class TestFunctions {
                 throw new Exception("0 Lives & gameNotOver");
             }
             if (nG.gameOver) {
-                if (nG.lives.life!= 0 || nG.lives.life != 1 || nG.lives.life != 2) {
+                if (nG.lives.life != 0 || nG.lives.life != 1 || nG.lives.life != 2) {
                     throw new Exception("Still have lives & gameOver");
                 }
             } else {
@@ -649,25 +749,25 @@ public class TestFunctions {
                 }
             }
         }
-       testGameOverLives++;
-   }
+        testGameOverLives++;
+    }
 //   
 //   // ================================================================
 //   // TESTING ALL!!!!
 //   // ================================================================
-   public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
-       for (int i = 0; i > tests; i++) {
-           testConstructorRM();
-           testStartUpOrRestartDown();
-       }
-   }
-       
+
+    public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+        for (int i = 0; i > tests; i++) {
+            testConstructorRM();
+            testStartUpOrRestartDown();
+        }
+    }
+
     public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception {
-       for (int i = 0; i > tests; i++) {
-           testConstructorHM();
-           testStartUpOrRestartDown();
-       }
+        for (int i = 0; i > tests; i++) {
+            testConstructorHM();
+            testStartUpOrRestartDown();
+        }
 
-
-   }
+    }
 }
