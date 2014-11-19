@@ -88,21 +88,18 @@ public class TestFunctions {
     static int testSameLaserColorHM = 0;
     static int testLaserMoveRM = 0;
     static int testLaserMoveHM = 0;
-//    
-//     static int testConstructor = 0;
-//     static int testStartUporRestartDown = 0;
-//     static int testShootLaser = 0;
-//     static int testLaserColorsRegularMode = 0;
-//     static int testLaserColorsHyperMode = 0;
-//     static int testMeteorAppear = 0;
-//     static int testMeteorColor = 0;
-//     static int testCollisionRegularMode = 0;
-//     static int testTriggerHyperSpeedMode = 0;
-//     static int testPowerUpHyperMode = 0;
-//     static int testCollisionHyperMode = 0;
-//     static int testGameOverLives = 0;
-//     static int tests = 5;
-//    
+    static int testConstructorRM = 0;
+    static int testConstructorHM = 0;
+    static int testStartUporRestartDown = 0;
+    static int testShootLaserHM = 0;
+    static int testShootLaserRM = 0;
+    static int testLaserMeteorRemovedRM = 0;
+    static int testLaserMeteorRemovedHM = 0;
+    static int testTriggerHyperSpeedMode = 0;
+     static int testCollisionRegularMode = 0;
+     static int testPowerUpHyperMode = 0;
+     static int testCollisionHyperMode = 0;
+     static int testGameOverLives = 0;    
 
     // ----------------------------------------------------------------
     // RANDOM KEY GENERATOR
@@ -253,8 +250,7 @@ public class TestFunctions {
         }
         reactMeteorRMHM++;
     }
-    
-    
+
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing enter, do the future lasers switch color?
@@ -262,8 +258,6 @@ public class TestFunctions {
     // same color?
     // REGULAR MODE: Do the lasers move down when ticked?
     // HYPERSPEED MODE: Do the lasers move down when ticked?
-    
-
     // REGUALR MODE: After pressing enter, do the future lasers switch color?
     public static void testSwitchLaserColorRM(LaserRM laser, LaserRM reactedLaser, String key) throws Exception {
         if (laser.color.equals(reactedLaser.color) && key.equals("enter")) {
@@ -274,44 +268,37 @@ public class TestFunctions {
         }
         testSwitchLaserColorRM++;
     }
-    
+
     // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
     // same color?
-   public static void testSameLaserColorHM(LaserHM laser, LaserHM reactedLaser) throws Exception {
-       if (!laser.color.equals(reactedLaser.color)) {
+    public static void testSameLaserColorHM(LaserHM laser, LaserHM reactedLaser) throws Exception {
+        if (!laser.color.equals(reactedLaser.color)) {
             throw new Exception("Colors Should NEVER CHANGE");
         }
-       testSameLaserColorHM++;
-   }
-    
-   // REGULAR MODE: Do the lasers move down when ticked?
-   public static void testLaserMoveRM(LaserRM laser, LaserRM tickedLaser) throws Exception {
-       if (laser.height != tickedLaser.height - 1) {
-           throw new Exception("Laser didn't tick!" + laser.height + " " + tickedLaser.height);
-       }
-       if (laser.width != laser.width) {
-           throw new Exception("Width changed in regular mode!");
-       }
-       testLaserMoveRM++;
-   }
-   
-      public static void testLaserMoveHM(LaserHM laser, LaserHM tickedLaser) throws Exception {
-       if (laser.width != tickedLaser.width - 1 && laser.width != tickedLaser.width + 1) {
-           throw new Exception("Laser didn't tick!" + laser.width + " " + tickedLaser.width);
-       }
-       if (laser.height != laser.height) {
-           throw new Exception("Height changed in hyper mode!");
-       }
-       testLaserMoveHM++;
-   }
-    
-    
-    
-    
-    
-    
-    
-    
+        testSameLaserColorHM++;
+    }
+
+    // REGULAR MODE: Do the lasers move down when ticked?
+    public static void testLaserMoveRM(LaserRM laser, LaserRM tickedLaser) throws Exception {
+        if (laser.height != tickedLaser.height - 1) {
+            throw new Exception("Laser didn't tick!" + laser.height + " " + tickedLaser.height);
+        }
+        if (laser.width != laser.width) {
+            throw new Exception("Width changed in regular mode!");
+        }
+        testLaserMoveRM++;
+    }
+
+    public static void testLaserMoveHM(LaserHM laser, LaserHM tickedLaser) throws Exception {
+        if (laser.width != tickedLaser.width - 1 && laser.width != tickedLaser.width + 1) {
+            throw new Exception("Laser didn't tick!" + laser.width + " " + tickedLaser.width);
+        }
+        if (laser.height != laser.height) {
+            throw new Exception("Height changed in hyper mode!");
+        }
+        testLaserMoveHM++;
+    }
+
     public static void testingIndividualComponents() throws Exception {
         // ========================================================
         // TESTING PLANE INDIVIDUALLY:
@@ -383,225 +370,228 @@ public class TestFunctions {
         }
         System.out.println("testSwitchLaserColorRM success: " + testSwitchLaserColorRM + " times");
         System.out.println("testSameLaserColorHM success: " + testSameLaserColorHM + " times");
-       
-        
-        
+
     }
 
-    
-    // FOR GAME LOGIC:
-    //    public static void shootLaser(MeteorShowerRMHM old, MeteorShowerRMHM new, String key) throws Exception {
-
-//    }
-    
-    // Is the laser removed once off screen?
-    
-    
-    
-    
-    
-    
     // ----------------------------------------------------------------
-    // INITIAL CONDITIONS: 
-    // Does the plane start at the top middle of the screen?
-    // Are there no meteors on screen?
-    // Does the player start with three lives?
-    // Does the player start with a score of 0?
-//    public static void testConstructor() throws Exception {
-//        MeteorShower mS = new MeteorShower();
-//        // Does the plane start at the top middle of the screen?
-//        if (mS.plane.height != 0 || mS.plane.width != Plane.middleOfScreenWidth){
-//            throw new Exception("The player does not start at the top middle of "
-//                    + "screen");
-//        }
-//        
-//        // Are there no meteors on screen?
-//        if (!mS.meteors.isEmpty()){
-//            throw new Exception("There is a meteor on-screen when the game "
-//                    + "starts");
-//        }
-//            
-//        // Does the player start with three lives?
-//        if (mS.lives.life!= 3) {
-//            throw new Exception("Starting lives doesn't equal 3");
-//        }
-//        
-//        // Does the player start with a score of 0?
-//        if (mS.score.score != 0) {
-//            throw new Exception("Starting score isn't 0");
-//        }
-//        
-//        // Does the game start?
-//        if (!mS.gameOver) {
-//            throw new Exception("The game is starting, but the game is over");
-//        }
-//        
-//        // Does the game start in Regular Mode
-//        if (mS.mode != MeteorShower.REGULARMODE) {
-//            throw new Exception("The game is starting in the wrong mode!");
-//        }
-//        
-//        testConstructor++;
-//    }
-//    
-//    
-//     
-//    // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
-//    // same color?
-//    
-//    // Is a meteor created every other second?
-//    
-//    // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-//    
-//    
-//    public static void testStartUpOrRestartDown() throws Exception{
-//       // Some kind of graphics where you pick a random button
-//   
-//        String rk = randomButton();
-//        
-//        // After pressing the UP button, does the game start?
-//        if (!shouldStart(rk) && rk.matches("up")){
-//                       throw new Exception("Our game isn't starting even"
-//                               + "though we are pressing the up arrow");
-//                         }
-//        if (shouldStart(rk) && !rk.matches("up")){
-//                     throw new Exception("Our game is starting even though"
-//                             + "we aren't pressing the up arrow");
-//        }
-//        
-//        // After pressing the DOWN button, does the game restart?
-//        if (!shouldRestart(rk) && rk.matches("down")) {
-//                       throw new Exception("Our game isn't starting even"
-//                               + "though we are pressing the up arrow");
-//                         }
-//        if (shouldRestart(rk) && !rk.matches("down")){
-//                     throw new Exception("Our game is starting even though"
-//                             + "we aren't pressing the up arrow"); 
-//                     
-//            }
-//        testStartUporRestartDown++;
-//    }
-//    
-//   public static boolean shouldStart(String rk) {
-//       return rk.matches("up");
-//   }
-//   
-//   public static boolean shouldRestart(String  rk) {
-//       return rk.matches("down");
-//   }
-//   
-//   
-//   
-//   public static void testShootLaser(MeteorShower oG, MeteorShower nG) {
-//       // After pressing the SPACEBAR, does the plane shoot an arrow?
-//       testShootLaser++;
-//   }
-//   
-//   public static void testTriggerHyperSpeedMode(MeteorShower oG, MeteorShower nG) {
+    // INITIAL CONDITIONS:
+    // ----------------------------------------------------------------
+    public static void testConstructorRM() throws Exception {
+        MeteorShowerRM mS = new MeteorShowerRM();
+        // Does the plane start at the top middle of the screen?
+        if (mS.plane.height != 0 || mS.plane.width != PlaneRM.middleOfScreenWidth) {
+            throw new Exception("The player does not start at the top middle of "
+                    + "screen");
+        }
+
+        // Are there no meteors on screen?
+        if (!mS.meteorDataStructRM.isEmptyHuh()) {
+            throw new Exception("There is a meteor on-screen when the game "
+                    + "starts");
+        }
+
+        // Are there no lasers on screen?
+        if (!mS.lasersRM.isEmptyHuh()) {
+            throw new Exception("There is a meteor on-screen when the game "
+                    + "starts");
+        }
+
+        // Does the player start with three lives?
+        if (mS.lives.life != 3) {
+            throw new Exception("Starting lives doesn't equal 3");
+        }
+
+        // Does the player start with a score of 0?
+        if (mS.score.score != 0) {
+            throw new Exception("Starting score isn't 0");
+        }
+
+        // Does the game start?
+        if (!mS.gameOver) {
+            throw new Exception("The game is starting, but the game is over");
+        }
+
+        // Does the game start without a powerup
+        if (mS.powerUp != 0) {
+            throw new Exception("Starting with a powerup!");
+        }
+
+        // Does the game start with a 0 counter?
+        if (mS.correctShootCounter != 0) {
+            throw new Exception("Starting with correct shoot counter > 0");
+        }
+
+        testConstructorRM++;
+    }
+
+    public static void testConstructorHM() throws Exception {
+        MeteorShowerHM mS = new MeteorShowerHM();
+        // Does the plane start at the top middle of the screen?
+        if (mS.plane.width != PlaneRM.middleOfScreenWidth) {
+            throw new Exception("The player does not start at the middle of "
+                    + "screen");
+        }
+
+        // Are there no meteors on screen?
+        if (!mS.meteorDataStructHM.isEmptyHuh()) {
+            throw new Exception("There is a meteor on-screen when the game "
+                    + "starts");
+        }
+
+        // Are there no lasers on screen?
+        if (!mS.lasersHM.isEmptyHuh()) {
+            throw new Exception("There is a meteor on-screen when the game "
+                    + "starts");
+        }
+
+        // Does the game start with a zero counter?
+        if (mS.missingMeteorsCounter != 0) {
+            throw new Exception("Starting without a zero counter");
+        }
+
+        testConstructorHM++;
+    }
+
+    public static void testStartUpOrRestartDown() throws Exception {
+       // Some kind of graphics where you pick a random button
+
+        String rk = randomButton();
+
+        // After pressing the UP button, does the game start?
+        if (!shouldStart(rk) && rk.matches("up")) {
+            throw new Exception("Our game isn't starting even"
+                    + "though we are pressing the up arrow");
+        }
+        if (shouldStart(rk) && !rk.matches("up")) {
+            throw new Exception("Our game is starting even though"
+                    + "we aren't pressing the up arrow");
+        }
+
+        // After pressing the DOWN button, does the game restart?
+        if (!shouldRestart(rk) && rk.matches("down")) {
+            throw new Exception("Our game isn't starting even"
+                    + "though we are pressing the up arrow");
+        }
+        if (shouldRestart(rk) && !rk.matches("down")) {
+            throw new Exception("Our game is starting even though"
+                    + "we aren't pressing the up arrow");
+
+        }
+        testStartUporRestartDown++;
+    }
+
+    public static boolean shouldStart(String rk) {
+        return rk.matches("up");
+    }
+
+    public static boolean shouldRestart(String rk) {
+        return rk.matches("down");
+    }
+
+    public static void testConstructors() throws Exception {
+        for (int i = 0; i > tests; i++) {
+            testConstructorRM();
+            testConstructorHM();
+            testStartUpOrRestartDown();
+        }
+        System.out.println("testConstructorRM success: " + testConstructorRM + " times");
+        System.out.println("testConstructorHM success: " + testConstructorRM + " times");
+        System.out.println(" testStartUpOrRestartDown success: " + testStartUporRestartDown + " times");
+    }
+
+    // ----------------------------------------------------------------
+    // GENERAL CONDITIONS TO TEST:
+    // ----------------------------------------------------------------
+    public static void testShootLaserRM(MeteorShowerRM old, MeteorShowerRM newG, String key) throws Exception {
+        // Is a laser shot when the spacebar is pressed?
+        testShootLaserRM++;
+    }
+
+    public static void testShootLaserHM(MeteorShowerHM old, MeteorShowerHM newG, String key) throws Exception {
+        // Is a laser shot when the spacebar is pressed?
+        testShootLaserHM++;
+    }
+    
+    public static void testLaserMeteorRemovedRM(MeteorShowerRM old, MeteorShowerRM newG) throws Exception {
+        // Is the laser/meteor removed once off screen?
+        testLaserMeteorRemovedRM++;
+    }
+    
+    public static void testLaserMeteorRemovedHM(MeteorShowerHM old, MeteorShowerHM newG) throws Exception {
+        // Is the laser/meteor removed once off screen?
+        testLaserMeteorRemovedHM++;
+    }
+
+    public static void testTriggerHyperSpeedMode(MeteorShowerRM oG, MeteorShowerRM nG) {
 //    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
-//    // after pressing Enter?
-//       testTriggerHyperSpeedMode++;
-//   }
-//   
-//   public static void testLaserColorsRegularMode(MeteorShower oG, MeteorShower nG) {
-//    // REGUALR MODE: After pressing R, do the lasers turn red?
-//    // REGUALR MODE: After pressing B, do the lasers turn blue?
-//       testLaserColorsRegularMode++;
-//   }
-//   
-//   public static void testLaserColorsHyperMode(MeteorShower oG, MeteorShower nG) {
-//    // HYPERSPEED MODE: After pressing R or B, do the lasers stay the 
-//    // same color?
-//       testLaserColorsHyperMode++;
-//   }
-//   
-//   public static void testMeteorAppear(MeteorShower oG, MeteorShower nG) {
-//     // REGULAR MODE: Is a meteor created every other second?
-//    // HYPERSPEED MODE: Is a meteor created every half second?
-//       testMeteorAppear++;
-//   }
-//   
+//    // after pressing 0?
+        testTriggerHyperSpeedMode++;
+    }
+
 //   
 //    // ----------------------------------------------------------------
 //    // REGULAR MODE & SCORING:
-//    
-//   public static void testCollisionRegularMode(MeteorShower oG, MeteorShower nG) {
-//    // When a laser and a meteor collide and they are the same color,
-//    // does the score increase? do the lives stay the same?
-//    
-//    // When a laser and a meteor collide and they are different colors,
-//    // does the score decrease? do the lives stay the same?
-//    
-//    // When a meteor passes the top of the screen, do you lose a life?
-//    // does the score stay the same?
-//       testCollisionRegularMode++;
-//    }
-//   
-//    
+//    // ----------------------------------------------------------------
+    
+   public static void testCollisionRegularMode(MeteorShowerRM oG, MeteorShowerRM nG) {
+    // When a laser and a meteor collide and they are the same color,
+    // does the score increase? do the lives stay the same?
+    
+    // When a laser and a meteor collide and they are different colors,
+    // does the score decrease? do the lives stay the same?
+    
+    // When a meteor passes the top of the screen, do you lose a life?
+    // does the score stay the same?
+       testCollisionRegularMode++;
+    }
+
 //    // ----------------------------------------------------------------
 //    // HYPERSPEED MODE & SCORING:
+      // ----------------------------------------------------------------
 //    
-//    // After shooting 20 meteors in a row correctly, 
-//    // does the user get a powerUp
-//     
-//    // When a laser and meteor collide, does the score increase? 
-//    // do the lives stay the same?
-//    
-//    // When a meteor passes the top of the screen, do your lives and score
-//    // stay the same?
-//    
-//   public static void testPowerUpHyperMode(MeteorShower oG, MeteorShower nG) {
-//    // After shooting 20 meteors in a row correctly, 
-//    // does the user get a powerUp?
-//       testPowerUpHyperMode++;
-//    }
+   public static void testPowerUpHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) {
+    // After shooting 20 meteors in a row correctly, 
+    // does the user get a powerUp?
+       testPowerUpHyperMode++;
+    }
 //   
-//   public static void testCollisionHyperMode(MeteorShower oG, MeteorShower nG) {
-//    // When a laser and meteor collide, does the score increase? 
-//    // do the lives stay the same?
-//    
-//    // When a meteor passes the top of the screen, do your lives and score
-//    // stay the same?
-//       testCollisionHyperMode++;
-//    }
+   public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) {
+    // When a laser and meteor collide, does the score increase? 
+    // do the lives stay the same?
+    
+    // When a meteor passes the top of the screen, do your lives and score
+    // stay the same?
+       testCollisionHyperMode++;
+    }
 //
 //    
 //    
 //    // ----------------------------------------------------------------
 //    // GAME OVER:
-//   
-//    // When a player loses his or her last life, does the game end? 
-//    // If the player still has lives, is the game still going?
-//
-//    
-//   public static void testGameOverLives(MeteorShower oG, MeteorShower nG) {
-//    // When a player loses his or her last life, does the game end? 
-//    // If the player still has lives, is the game still going?
-//       testGameOverLives++;
-//   }
+      // ----------------------------------------------------------------
+   
+   public static void testGameOverLives(MeteorShowerRM oG, MeteorShowerRM nG) {
+    // When a player loses his or her last life, does the game end? 
+    // If the player still has lives, is the game still going?
+       testGameOverLives++;
+   }
 //   
 //   // ================================================================
-//   
-//   // ----------------------------------------------------------------
 //   // TESTING ALL!!!!
-//   
-//   public static void verifyInvarients(MeteorShower oG, MeteorShower nG) throws Exception {
-//       for (int i = 0; i > tests; i++) {
-//           testConstructor();
-//           testStartUpOrRestartDown();
-//       }
-//       
-//       testPlaneMoveRightAndLeft(oG, nG);
-//       testLaserColorsRegularMode(oG, nG);
-//       testLaserColorsHyperMode(oG, nG);
-//       testMeteorAppear(oG, nG);
-//       testMeteorColor(oG);
-//       testCollisionRegularMode(oG, nG);
-//       testTriggerHyperSpeedMode(oG, nG);
-//       testPowerUpHyperMode(oG, nG);
-//       testPlaneRotate(oG, nG);
-//       testCollisionHyperMode(oG, nG);
-//       testGameOverLives(oG, nG);
-//       
-//   }
+//   // ================================================================
+   public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+       for (int i = 0; i > tests; i++) {
+           testConstructorRM();
+           testStartUpOrRestartDown();
+       }
+   }
+       
+    public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception {
+       for (int i = 0; i > tests; i++) {
+           testConstructorRM();
+           testStartUpOrRestartDown();
+       }
+
+
+   }
 }

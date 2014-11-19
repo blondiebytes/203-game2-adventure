@@ -62,7 +62,7 @@ public class MeteorShowerRM extends World {
     public World onTick() {
         System.out.println("ticked");
         Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
-
+        System.out.println("ticked meteor");
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
