@@ -137,13 +137,14 @@ public class MeteorShowerRM extends World {
             } else {
                 return this;
             }
-        } else {
+        }
+        else {
             // Do we need to call onTick to make this all update? or will that happen automatically?
             PlaneRM newPlane = plane.react(ke);
             Bag<LaserRM> newLasersRM = this.lasersRM;
             /* no need for meteors to react b/c independent of user */
               if (ke.equals("spacebar")) {
-                     newLasersRM = this.lasersRM.add(new LaserRM(this.plane));  /* something that adds a laser */
+                     newLasersRM = this.lasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
                       }
             return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score,
                     this.gameOver, this.powerUp, this.correctShootCounter);

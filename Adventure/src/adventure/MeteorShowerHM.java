@@ -113,7 +113,7 @@ public class MeteorShowerHM extends World {
          Bag<LaserHM> newLasersHM = this.lasersHM;
         // Also have the plane switching sides -> 
         if (ke.equals("right")) {
-            //switch plane image
+            // switch plane image
         }
         if (ke.equals("left")) {
             // switch plane image

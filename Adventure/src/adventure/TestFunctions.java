@@ -296,7 +296,7 @@ public class TestFunctions {
    }
    
       public static void testLaserMoveHM(LaserHM laser, LaserHM tickedLaser) throws Exception {
-       if (laser.width != tickedLaser.width - 1) {
+       if (laser.width != tickedLaser.width - 1 && laser.width != tickedLaser.width + 1) {
            throw new Exception("Laser didn't tick!" + laser.width + " " + tickedLaser.width);
        }
        if (laser.height != laser.height) {
