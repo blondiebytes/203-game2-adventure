@@ -12,7 +12,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int deltaHeight;
     int width = MAXW / 2;
     String direction;
-    static int MAXH = 750;
+    static int MAXH = 500;
     static int MAXW = 500;
     static int HYPER_MULTIPLE = 25;
     IColor color = new Black();
@@ -56,10 +56,10 @@ public class PlaneHM implements Collideable<PlaneHM> {
         switch (s) {
             case "up":
                      System.out.println("GOING UP: ");
-                return new PlaneHM(height, Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, -Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
             case "down":
                     System.out.println("GOING DOWN: ");
-                return new PlaneHM(height, -Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
             case "left":
                     return new PlaneHM(height, deltaHeight, "left");
             case "right":

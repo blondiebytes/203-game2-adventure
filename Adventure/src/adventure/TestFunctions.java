@@ -169,12 +169,12 @@ public class TestFunctions {
         // After pressing the UP arrow, does the plane move up? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("up")) {
-            dh = 25;
+            dh = -25;
         }
         // After pressing the DOWN arrow, does the plane move down? If it is
         // about to go off-screen, does it stay where it is?
         if (rnb.equals("down")) {
-            dh = -25;
+            dh = 25;
         }
         // If those buttons aren't is pressed, the plane shouldn't move. 
         if (oP.isEqualTo(nP)) {
@@ -756,17 +756,26 @@ public class TestFunctions {
 //   // TESTING ALL!!!!
 //   // ================================================================
 
-    public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG) throws Exception {
+    public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG, String key) throws Exception {
         for (int i = 0; i > tests; i++) {
             testConstructorRM();
             testStartUpOrRestartDown();
+            testShootLaser(oG, nG, key);
+            testLaserMeteorRemoved(oG, nG);
+            testTriggerHyperSpeedMode(oG, key);
+            testCollisionRegularMode(oG, nG);
+            testPowerUpHyperMode(oG, nG);
+            testGameOverLives(oG, nG);
         }
     }
 
-    public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception {
+    public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG, String key) throws Exception {
         for (int i = 0; i > tests; i++) {
             testConstructorHM();
             testStartUpOrRestartDown();
+            testShootLaser(oG, nG, key);
+            testLaserMeteorRemoved(oG, nG);
+            testCollisionHyperMode(oG, nG);
         }
 
     }

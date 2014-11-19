@@ -10,7 +10,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     int identity;
     int leavingWidth = MAXW/2;
     static int planeIntervals = 20;
-    static int MAXH = 750;
+    static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
     static String color = "white";
