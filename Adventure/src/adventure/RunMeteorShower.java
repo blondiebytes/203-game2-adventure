@@ -24,8 +24,10 @@ public class RunMeteorShower {
       
     public static void main(String[] args) throws Exception {
         
-        MeteorShowerRM meteorShower = new MeteorShowerRM();
-        meteorShower.bigBang();
+//        MeteorShowerHM meteorShower = new MeteorShowerHM();
+//        meteorShower.bigBang();
+        MeteorShowerRM meteorShowerR = new MeteorShowerRM();
+        meteorShowerR.bigBang();
        
         
 //        while(true) {
