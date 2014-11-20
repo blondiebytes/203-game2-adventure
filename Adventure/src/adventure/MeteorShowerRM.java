@@ -27,6 +27,7 @@ public class MeteorShowerRM extends World {
     Score score;
     int powerUp;
     int correctShootCounter;
+    static int counterMeteor;
 
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
@@ -60,7 +61,11 @@ public class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
-        Bag newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
+        Bag newMeteors = this.meteorDataStructRM.tick();
+        if (counterMeteor % 4 == 1) {
+        newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
+        }
+        counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
