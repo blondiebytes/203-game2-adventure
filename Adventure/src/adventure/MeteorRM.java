@@ -15,8 +15,8 @@ import javalib.worldimages.WorldImage;
 
 public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Tickable<MeteorRM> {
     String color;
-    int height = MAXH;
-    int deltaHeight = -1;
+    int height = 0;
+    int deltaHeight = 1;
     int multiple =  25;
     int width;
     int identity;
@@ -32,7 +32,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     // ========== CONSTRUCTORS ==========
 // Starting off-screen width, but at the right height position
     MeteorRM() {
-        this(-500, MAXH, count, "none");
+        this(-500, 0, count, "none");
         count++;
     }
     
@@ -81,7 +81,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     public MeteorRM onTick() {
         // Make it go up 1;
 //        System.out.println("Tick.Tick. Meteor." + this.width + " H: " + this.height);
-         return new MeteorRM( this.width, this.height - multiple, this.identity, this.color);
+         return new MeteorRM( this.width, this.height + multiple, this.identity, this.color);
     }
    
     
