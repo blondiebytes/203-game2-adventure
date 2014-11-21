@@ -21,12 +21,11 @@ import javalib.funworld.World;
 
 
 // ============= TO DO STILL ============= 
-// 1. Fix Graphics for Lasers -> Make them appropriate to size
-// 2. Make lasers stay on screen for the whole time they are supposed to
-// 3. Make collisions of lasers with meteors work appropriately (remove both things)
-// 4. Put lives and score on the screen
-// 5. Translate all of this to the hyper mode so that it works too
-// 6. Create a start and end screen
+// 1. Make lasers stay on screen for the whole time they are supposed to
+// 2. Make collisions of lasers with meteors work appropriately (remove both things)
+// 3. Put lives (as graphics) and score on the screen
+// 4. Translate all of this to the hyper mode so that it works too
+// 5. Create a start and end screen
 // =======================================
 
 public class TestMeteorShower {

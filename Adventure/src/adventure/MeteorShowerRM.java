@@ -192,19 +192,22 @@ public class MeteorShowerRM extends World {
             background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
         } else  {
             background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
-        } 
+        }
         WorldImage finalImage =  new OverlayImages(background, this.plane.planeImage());
-        //WorldImage finalImage2 = new OverlayImages(finalImage,  new LaserRM(10, 10, "red", 5).laserImage());
-        Sequence<LaserRM> seqLaser = this.lasersRM.seq();
+        
+        
         Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();
         while (seqMeteor.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
             seqMeteor = seqMeteor.next();
         }
+        
+        Sequence<LaserRM> seqLaser = this.lasersRM.seq();
         while (seqLaser.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
             seqLaser = seqLaser.next();
             }
+        
         return finalImage;
         }
     }
