@@ -15,12 +15,12 @@ import javalib.worldimages.WorldImage;
 
 public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Tickable<MeteorRM> {
     String color;
-    int height = 0;
+    int height = -10;
     int deltaHeight = 1;
     int multiple =  25;
     int width;
     int identity;
-    int leavingHeight = 200;
+    int leavingHeight = 0;
     static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
@@ -122,13 +122,15 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     
     // ========== COLLISIONS ========== 
     public MeteorRM collidesWith(Collideable thing) {
-        if (this.height == thing.getHeight()) {
-            return this;
-        } else {
+        for (int i = 0; i > 25; i++) {
+            if (this.height + i == thing.getHeight() || this.height - i == thing.getHeight()) {
+                return this;
+            }
+        }
             // I HATE NULL;
             return null;
         }     
-    }
+   
     
     public WorldImage meteorImage() {
         if (this.color.equals("red")) {

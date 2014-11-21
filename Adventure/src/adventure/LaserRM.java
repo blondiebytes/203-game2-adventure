@@ -23,7 +23,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     int height;
     int deltaHeight = -25;
     int identity;
-    int leavingHeight = 200;
+    int leavingHeight = 0;
     static int count = 0;
     
     // ========== CONSTRUCTORS ==========
@@ -76,7 +76,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== TICK ==========
     public LaserRM onTick() {
-        System.out.println("tickinglaser");
+        System.out.println("tickinglaser ");
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
