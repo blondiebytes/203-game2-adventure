@@ -11,6 +11,7 @@ import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.Black;
 import javalib.colors.Blue;
 import javalib.funworld.World;
+import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
@@ -28,7 +29,8 @@ public class MeteorShowerRM extends World {
     int powerUp;
     int correctShootCounter;
     static int counterMeteor;
-
+    static int changeBackgroundCounter = 0;
+    
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
         super();
@@ -53,6 +55,19 @@ public class MeteorShowerRM extends World {
         this.powerUp = powerUp;
         this.correctShootCounter = shootCounter;
     }
+    
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter, int backgroundCounter) {
+        super();
+        this.plane = plane;
+        this.meteorDataStructRM = meteors;
+        this.lasersRM = lasers;
+        this.lives = lives;
+        this.score = score;
+        this.gameOver = gameOver;
+        this.powerUp = powerUp;
+        this.correctShootCounter = shootCounter;
+        this.changeBackgroundCounter++;
+    }
 
     // ========== CREATE GAME ==========
     public boolean bigBang() {
@@ -63,7 +78,8 @@ public class MeteorShowerRM extends World {
     public World onTick() {
         Bag newMeteors = this.meteorDataStructRM.tick();
         if (counterMeteor % 4 == 1) {
-        newMeteors = (this.meteorDataStructRM.add(new MeteorRM())).tick(); /* Need to tick the meteors & add a new one */
+            // Solves the problem of intervals
+        newMeteors = (this.meteorDataStructRM.add(new MeteorRM(this.plane))).tick(); /* Need to tick the meteors & add a new one */
         }
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
@@ -171,8 +187,13 @@ public class MeteorShowerRM extends World {
 
     // ========== DRAWING IMAGE ==========
     public WorldImage makeImage() {
-//         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
-        WorldImage finalImage =  new OverlayImages(new RectangleImage(new Posn(0, 0), 2000, 2000, new Black()), this.plane.planeImage());
+        WorldImage background;
+        if (changeBackgroundCounter % 2 == 1) {
+            background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+        } else  {
+            background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+        } 
+        WorldImage finalImage =  new OverlayImages(background, this.plane.planeImage());
         //WorldImage finalImage2 = new OverlayImages(finalImage,  new LaserRM(10, 10, "red", 5).laserImage());
         Sequence<LaserRM> seqLaser = this.lasersRM.seq();
         Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();

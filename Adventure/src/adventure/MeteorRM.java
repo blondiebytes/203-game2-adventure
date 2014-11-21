@@ -21,30 +21,39 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     int width;
     int identity;
     int leavingHeight = 200;
-    static int planeIntervals = 10;
-    static int planeStartingPoint = 50;
-    static int numberOfPlaneIntervals = 38;
     static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
+    static int positionChanger = 0;
     // Plane goes between 50 and 430
     
     // ========== CONSTRUCTORS ==========
 // Starting off-screen width, but at the right height position
     MeteorRM() {
-        this(-500, 0, count, "none");
+        this(100, -20, count, "none");
         count++;
     }
     
+    // Starting at a given plane's width, but offscreen
+    MeteorRM(PlaneRM p) {
+        this(p.width, -20, count, "none");
+        count++;
+        positionChanger++;
+    }
+    
     MeteorRM(int width, int height, int count, String color) {
-         this.height = height;
-        // Using Sentinal w = -500
-        if (width == -500) {
-            Random random = new Random();
-            // This makes sure that they are in one of the plane intervals so that it can be hit
-            this.width = planeStartingPoint + ((Math.abs(random.nextInt()) % numberOfPlaneIntervals) * planeIntervals);
-        } else 
+        // Using Sentinal h = -20 --> we know it's starting
+        if (height == -20) {
+           if (positionChanger % 2 == 1) {
+               this.width = width + 50;
+           } else {
+               this.width = width - 50;
+           }
+           this.height = 0;
+        } else {
+            this.height = height;
             this.width = width;
+        }
         
         // Set the color
         if (color.equals("none")) {

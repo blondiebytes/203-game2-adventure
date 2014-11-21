@@ -21,7 +21,7 @@ import javalib.funworld.World;
 
 
 // ============= TO DO STILL ============= 
-// 1. Fix Graphics for Meteors & Plane & Lasers -> Make them appropriate to size
+// 1. Fix Graphics for Lasers -> Make them appropriate to size
 // 2. Make lasers stay on screen for the whole time they are supposed to
 // 3. Make collisions of lasers with meteors work appropriately (remove both things)
 // 4. Put lives and score on the screen

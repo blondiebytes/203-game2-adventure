@@ -14,7 +14,8 @@ public class PlaneRM implements Collideable<PlaneRM> {
 
     int width;
     int deltaWidth;
-    int height = 430;
+    int height = MAXH;
+    static int MAXH = 430;
     static int MAXW = 430;
     static int REGULAR_MULTIPLE = 10;
     IColor color = new Black();

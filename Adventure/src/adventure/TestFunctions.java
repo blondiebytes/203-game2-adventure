@@ -24,16 +24,16 @@ public class TestFunctions {
     // ----------------------------------------------------------------
     // METEOR TESTING:
     // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+    // Does a meteor move down (REGULAR MODE) or across the screen (HYPER MODE) 
     // when it's ticked?
     // Does the meteor stay the same after any key is pressed? (True in both modes)
     // ----------------------------------------------------------------
     // LASER TESTING:
-    // REGUALR MODE: After pressing enter, do the future lasers switch color?
-    // HYPERSPEED MODE: After pressing enter, do the lasers stay the 
+    // REGUALR MODE: After pressing 'd', do the future lasers switch color?
+    // HYPERSPEED MODE: After pressing 'd', do the lasers stay the 
     // same color?
-    // REGULAR MODE: Do the lasers move down when ticked?
-    // HYPERSPEED MODE: Do the lasers move down when ticked?
+    // REGULAR MODE: Do the lasers move up when ticked?
+    // HYPERSPEED MODE: Do the lasers move across when ticked?
     // ================================================================
     // GAME LOGIC TESTING:
     // ================================================================
@@ -214,11 +214,11 @@ public class TestFunctions {
         testMeteorColorHM++;
     }
 
-    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
+    // Does a meteor move down (REGULAR MODE) or across the screen (HYPER MODE) 
     // when it's ticked? Also making sure movement doesn't change anything 
     // else except height
     public static void testMeteorMoveRM(MeteorRM m, MeteorRM tickedM) throws Exception {
-        if (tickedM.height + 25 != m.height) {
+        if (tickedM.height - 25 != m.height) {
             throw new Exception("Doesn't Tick!");
         }
         if (tickedM.width != m.width || tickedM.deltaHeight != m.deltaHeight
@@ -280,9 +280,9 @@ public class TestFunctions {
         testSameLaserColorHM++;
     }
 
-    // REGULAR MODE: Do the lasers move down when ticked?
+    // REGULAR MODE: Do the lasers move up when ticked?
     public static void testLaserMoveRM(LaserRM laser, LaserRM tickedLaser) throws Exception {
-        if (laser.height != tickedLaser.height - 10) {
+        if (laser.height != tickedLaser.height + 25) {
             throw new Exception("Laser didn't tick!" + laser.height + " " + tickedLaser.height);
         }
         if (laser.width != laser.width) {
@@ -381,7 +381,7 @@ public class TestFunctions {
     public static void testConstructorRM() throws Exception {
         MeteorShowerRM mS = new MeteorShowerRM();
         // Does the plane start at the top middle of the screen?
-        if (mS.plane.height != 0 || mS.plane.width != PlaneRM.middleOfScreenWidth) {
+        if (mS.plane.height != mS.plane.MAXH || mS.plane.width != PlaneRM.middleOfScreenWidth) {
             throw new Exception("The player does not start at the top middle of "
                     + "screen");
         }

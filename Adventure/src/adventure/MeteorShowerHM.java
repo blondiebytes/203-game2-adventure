@@ -84,7 +84,7 @@ public class MeteorShowerHM extends World {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
             newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
-                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), newLives, newScore, false, this.powerUps, 0);
+                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), newLives, newScore, false, this.powerUps, 0, 1);
             }
         }
         // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
