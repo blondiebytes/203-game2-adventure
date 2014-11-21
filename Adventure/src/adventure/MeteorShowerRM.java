@@ -8,14 +8,10 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
-import javalib.colors.Black;
-import javalib.colors.Blue;
 import javalib.funworld.World;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
-import javalib.worldimages.RectangleImage;
-import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
 public class MeteorShowerRM extends World {
