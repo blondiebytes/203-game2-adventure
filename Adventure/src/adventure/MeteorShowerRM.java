@@ -26,7 +26,7 @@ public class MeteorShowerRM extends World {
     int correctShootCounter;
     static int counterMeteor;
     static int changeBackgroundCounter = 0;
-    
+
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
         super();
@@ -51,7 +51,7 @@ public class MeteorShowerRM extends World {
         this.powerUp = powerUp;
         this.correctShootCounter = shootCounter;
     }
-    
+
     public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter, int backgroundCounter) {
         super();
         this.plane = plane;
@@ -72,13 +72,19 @@ public class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
-        Bag newMeteors = this.meteorDataStructRM.tick();
+        Bag newMeteors = this.meteorDataStructRM;
+        System.out.println("before tick meteor count " + newMeteors.cardinality());
+        newMeteors = newMeteors.tick();
+        System.out.println("after tick meteor count " + newMeteors.cardinality());
         if (counterMeteor % 4 == 1) {
             // Solves the problem of intervals
-        newMeteors = (this.meteorDataStructRM.add(new MeteorRM(this.plane))).tick(); /* Need to tick the meteors & add a new one */
+            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+
         }
+        System.out.println("after add meteor count " + newMeteors.cardinality());
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
+
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
 
@@ -105,7 +111,10 @@ public class MeteorShowerRM extends World {
         // score same, check for gameOver, powerUp same, correct shoot counter to 0,
         MeteorRM collider = newMeteors.collidesWith(newPlane);
         if (collider != null /* if a meteor passes the plane... */) {
+            System.out.println("before hit meteor with Plane! " + collider + " count " + newMeteors.cardinality());
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+
+            System.out.println("after hit meteor with Plane! " + collider + " count " + newMeteors.cardinality());
 
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
@@ -113,38 +122,45 @@ public class MeteorShowerRM extends World {
             }
             newShootCounter = 0;
         }
-        
+
         // 2. Laser hits Meteor --> 
         // plane same, takes out colliding meteor, takes out colliding laser, 
         // lives same, ------, gameOver same, -------, --------
         Sequence<LaserRM> seqLaser = newLasers.seq();
         while (seqLaser.hasNext()) {
             LaserRM collidingLaser = seqLaser.here();
-            MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
-            if (collidingMeteor != null) {
-                newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
-                newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
-               //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
-                if (collidingLaser.color.equals(collidingMeteor.color)) {
-                    newScore = newScore.addScore();
-                    if (this.getPowerUp()) {
-                        newPowerUp = newPowerUp + 1;
-                    }
-                    newShootCounter = newShootCounter + 1;
-                    System.out.println("hit same color");
-                } 
-                //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
-                else {
-                    newScore = newScore.subtractScore();
-                    newShootCounter = 0;
-                    System.out.println("hit diff color");
-                }
+            if (seqLaser.here().aboutToLeave()) {
+                newLasers = newLasers.remove(seqLaser.here());
+            } else {
+                MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
+                if (collidingMeteor != null) {
+                    System.out.println("hit meteor with laser!");
+                    newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
 
+                    newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
+
+                    //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
+
+                    if (collidingLaser.color.equals(collidingMeteor.color)) {
+                        newScore = newScore.addScore();
+                        if (this.getPowerUp()) {
+                            newPowerUp = newPowerUp + 1;
+                        }
+                        newShootCounter = newShootCounter + 1;
+                        System.out.println("hit same color");
+                    } //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
+                    else {
+                        newScore = newScore.subtractScore();
+                        newShootCounter = 0;
+                        System.out.println("hit diff color");
+                    }
+
+                }
             }
             seqLaser = seqLaser.next();
         }
-            return new MeteorShowerRM(newPlane, newMeteors, newLasers,
-                    newLives, newScore, newGameOver, newPowerUp, newShootCounter);    
+        return new MeteorShowerRM(newPlane, newMeteors, newLasers,
+                newLives, newScore, newGameOver, newPowerUp, newShootCounter);
     }
 
     // ========== REACT ==========
@@ -155,14 +171,14 @@ public class MeteorShowerRM extends World {
             } else {
                 return this;
             }
-        }
-        else {
+        } else {
             PlaneRM newPlane = plane.react(ke);
             Bag<LaserRM> newLasersRM = this.lasersRM;
             /* no need for meteors to react b/c independent of user */
-              if (ke.equals("s")) {
-                     newLasersRM = this.lasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
-                      }
+            if (ke.equals("s")) {
+                newLasersRM = newLasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
+
+            }
             return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score,
                     this.gameOver, this.powerUp, this.correctShootCounter);
         }
@@ -186,32 +202,33 @@ public class MeteorShowerRM extends World {
         WorldImage background;
         if (changeBackgroundCounter % 2 == 1) {
             background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
-        } else  {
+        } else {
             background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
         }
-        WorldImage finalImage =  new OverlayImages(background, this.plane.planeImage());
-        
-        
+        WorldImage finalImage = new OverlayImages(background, this.plane.planeImage());
+
         Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();
         while (seqMeteor.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
             seqMeteor = seqMeteor.next();
         }
-        
+
         Sequence<LaserRM> seqLaser = this.lasersRM.seq();
         while (seqLaser.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
             seqLaser = seqLaser.next();
-            }
-        
-        return finalImage;
         }
+      //  TextImage score = new ---;
+     //   finalImage = newOverlayImages(finalImage, score);
+
+        return finalImage;
     }
+}
 
     // This method produces an instance of a class WorldEnd that consists of a boolean value
-    // indicating whether the world is ending (false if the world goes on) and the WorldImage
-    // that represents the last image to be displayed - for example announcing the winner of the game,
-    // or the final score.
+// indicating whether the world is ending (false if the world goes on) and the WorldImage
+// that represents the last image to be displayed - for example announcing the winner of the game,
+// or the final score.
 //    public WorldEnd worldEnds() {
 //
 //    }

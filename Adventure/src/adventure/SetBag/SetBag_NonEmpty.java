@@ -73,7 +73,12 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
 
     // We need something that puts this in a sequence. 
     public Sequence<D> seq() {
-        return new Sequence_NonEmpty(root, count, (new Sequence_Cat(left.seq(), right.seq())));
+        Sequence<D> after = (new Sequence_Cat(left.seq(), right.seq()));
+        if ( count > 0 ) {
+            return new Sequence_NonEmpty(root, count, after);
+        } else {
+            return after;
+        }
     }
 
     // IMPLEMENTATION OF SEQUENCES: 
@@ -120,7 +125,8 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
    public D collidesWith(Collideable thing) {
         // Basically we want to say, for all the meteors in the meteor data struct
         // does one pass the plane? if so? which one
-        if (this.root.collidesWith(thing) != null) {
+        if (this.count > 0 && this.root.collidesWith(thing) != null) {
+            System.out.println("SetBag Colliding " + this.root);
             return this.root;
         } else {
             D onleft = this.left.collidesWith(thing);
@@ -149,7 +155,7 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
     }
 
     public boolean member(D elt) {
-        return this.getCount(elt) != 0;
+        return this.getCount(elt) > 0;
     }
 
     public Bag remove(D elt) {

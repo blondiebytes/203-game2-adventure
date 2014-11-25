@@ -39,16 +39,11 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
         count++;
     }
     
-    LaserRM(int width, int height, String color) {
-        this.width = width;
-        this.height = height;
-        this.color = color;
-    }
-    
     LaserRM(int width, int height, String color, int identity) {
         this.width = width;
         this.height = height;
         this.color = color;
+        this.identity = identity;
     }
     
      public int getWidth() {
@@ -76,7 +71,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== TICK ==========
     public LaserRM onTick() {
-        System.out.println("tickinglaser ");
+        System.out.println("tickinglaser ID:" + this.identity + "H: " + this.height);
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     

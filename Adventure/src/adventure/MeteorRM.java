@@ -122,13 +122,27 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     
     // ========== COLLISIONS ========== 
     public MeteorRM collidesWith(Collideable thing) {
-        for (int i = 0; i > 25; i++) {
-            if (this.height + i == thing.getHeight() || this.height - i == thing.getHeight()) {
-                return this;
-            }
-        }
-            // I HATE NULL;
+        System.out.println("printing Colliding " + this.height + " with " + thing.getHeight());
+        
+        // x and y are centers
+        // distance(my x, my y, thing x, thing y) <= (my radius + thing radius)
+        
+        // Collidable Things Have:
+        // getCenter(); distance(); getRadius();
+        
+        if ( this.height > thing.getHeight() ) {
+            return this;
+        } else {
             return null;
+        }
+        
+        //for (int i = 0; i > 10; i++) {
+        //    if (this.height + i == thing.getHeight() || this.height - i == thing.getHeight()) {
+        //        return this;
+        //    }
+        //}
+            // I HATE NULL;
+        //    return null;
         }     
    
     
