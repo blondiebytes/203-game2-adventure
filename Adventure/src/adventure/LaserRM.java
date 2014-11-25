@@ -104,7 +104,7 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     }
     
     public boolean aboutToLeave() {
-       return this.height == leavingHeight;
+       return this.height < leavingHeight;
     }
     
     // ========== DRAW ==========
