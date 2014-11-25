@@ -8,10 +8,13 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import javalib.colors.Black;
+import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
+import javalib.worldimages.TextImage;
 import javalib.worldimages.WorldImage;
 
 public class MeteorShowerRM extends World {
@@ -233,8 +236,8 @@ public class MeteorShowerRM extends World {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
             seqLaser = seqLaser.next();
         }
-      //  TextImage score = new ---;
-     //   finalImage = newOverlayImages(finalImage, score);
+        TextImage score = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
+        finalImage = new OverlayImages(finalImage, score);
 
         return finalImage;
     }

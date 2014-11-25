@@ -47,24 +47,13 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         // Using Sentinal h = -20 --> we know it's starting
         Random rand = new Random();
         if (height == -20) {
-            if (positionChanger % 4 == 0) {
-               this.width = width + 60;
-           } else if (positionChanger % 4 == 1) {
-               this.width = width - 60;
-           } else if (positionChanger % 4 == 2) {
-               this.width = width - 120;
-           } else {
-               this.width = width + 120;
-           }
-            
                int delta = rand.nextInt() % 15;
                this.width = width + (delta * 30);
-            
                if (this.width >= 431) {
                    this.width = 430;
                }
-               if (this.width <= 0) {
-                   this.width = 60;
+               if (this.width <= 50) {
+                   this.width = 50;
                }
 //           }
             
