@@ -117,7 +117,6 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
 //            System.out.println("tickticktick");
             seq = seq.next();
         }
-        System.out.println("size of stuff:" + newStuff.cardinality());
         return newStuff;
         //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
     }
@@ -126,7 +125,6 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         // Basically we want to say, for all the meteors in the meteor data struct
         // does one pass the plane? if so? which one
         if (this.count > 0 && this.root.collidesWith(thing) != null) {
-            System.out.println("SetBag Colliding " + this.root);
             return this.root;
         } else {
             D onleft = this.left.collidesWith(thing);

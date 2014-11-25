@@ -21,8 +21,10 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     String color;
     int width;
     int height;
-    int deltaHeight = -25;
+    int deltaHeight = -5;
     int identity;
+    static int radius = 5;
+    int center = height + 5;
     int leavingHeight = 0;
     static int count = 0;
     
@@ -54,6 +56,14 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
          return this.height;
      }
      
+     public int getCenter() {
+         return this.center;
+     }
+     
+    public int getRadius() {
+        return this.radius;
+    }
+     
     
     // ========== REACT ==========
     public LaserRM react(String se) {
@@ -71,7 +81,6 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     
     // ========== TICK ==========
     public LaserRM onTick() {
-        System.out.println("tickinglaser ID:" + this.identity + "H: " + this.height);
         return new LaserRM(this.width, this.height + deltaHeight, this.color, this.identity);
     }
     
@@ -95,12 +104,11 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
 
     // ========== COLLISION ==========
     public LaserRM collidesWith(Collideable thing) {
-      if (this.height == thing.getHeight()) {
+        if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
         } else {
-            // I HATE NULL;
             return null;
-        }    
+        }
     }
     
     public boolean aboutToLeave() {
@@ -115,5 +123,13 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
            return new FromFileImage(new Posn(this.width, this.height), "Blue_Laser.png");
     }
     
+    public int distance(Collideable thing) {
+        return (int) Math.sqrt(
+                (this.getWidth() - thing.getWidth()) 
+                        * (this.getWidth() - thing.getWidth())
+                + (this.getHeight() - thing.getHeight()) 
+                        * (this.getHeight() - thing.getHeight()));
+
+    }
     
 }

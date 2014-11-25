@@ -27,7 +27,7 @@ public class RunMeteorShower {
 //        MeteorShowerHM meteorShower = new MeteorShowerHM();
 //        meteorShower.bigBang();
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();
-        meteorShowerR.bigBang();
+        meteorShowerR.bigBang(500, 500, 0.01);
        
         
 //        while(true) {

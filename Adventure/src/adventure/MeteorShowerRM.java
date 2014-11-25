@@ -73,15 +73,30 @@ public class MeteorShowerRM extends World {
     // ========== TICK ==========
     public World onTick() {
         Bag newMeteors = this.meteorDataStructRM;
-        System.out.println("before tick meteor count " + newMeteors.cardinality());
         newMeteors = newMeteors.tick();
-        System.out.println("after tick meteor count " + newMeteors.cardinality());
-        if (counterMeteor % 4 == 1) {
+        
+//        if (counterMeteor < 1000) {
+           if (counterMeteor % 85 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
-
-        }
-        System.out.println("after add meteor count " + newMeteors.cardinality());
+            } 
+//        }
+        
+           // To make it harder
+//        if (counterMeteor < 5000 && counterMeteor >= 2500) {
+//           if (counterMeteor % 80 == 0) {
+//            // Solves the problem of intervals
+//            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+//            }
+//        }
+//       
+//        if (counterMeteor >= 5000) {
+//            if (counterMeteor % 75 == 0) {
+//            // Solves the problem of intervals
+//            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+//            } 
+//        }
+        
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
 

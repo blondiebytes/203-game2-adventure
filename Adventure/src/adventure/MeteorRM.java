@@ -17,10 +17,12 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     String color;
     int height = -10;
     int deltaHeight = 1;
-    int multiple =  25;
+    int multiple =  1;
     int width;
     int identity;
     int leavingHeight = 0;
+    static int radius = 20;
+    int center = width;
     static int MAXH = 500;
     static int MAXW = 450;
     static int count = 0;
@@ -43,17 +45,34 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     
     MeteorRM(int width, int height, int count, String color) {
         // Using Sentinal h = -20 --> we know it's starting
+        Random rand = new Random();
         if (height == -20) {
-           if (positionChanger % 2 == 1) {
-               this.width = width + 50;
+            if (positionChanger % 4 == 0) {
+               this.width = width + 60;
+           } else if (positionChanger % 4 == 1) {
+               this.width = width - 60;
+           } else if (positionChanger % 4 == 2) {
+               this.width = width - 120;
            } else {
-               this.width = width - 50;
+               this.width = width + 120;
            }
-           this.height = 0;
+            
+               int delta = rand.nextInt() % 15;
+               this.width = width + (delta * 30);
+            
+               if (this.width >= 431) {
+                   this.width = 430;
+               }
+               if (this.width <= 0) {
+                   this.width = 60;
+               }
+//           }
+            
         } else {
             this.height = height;
             this.width = width;
         }
+
         
         // Set the color
         if (color.equals("none")) {
@@ -78,6 +97,13 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         return this.height;
     }
     
+    public int getCenter() {
+         return this.center;
+     }
+     
+    public int getRadius() {
+        return this.radius;
+    }
     
     // ========== REACT ==========
     public MeteorRM react(String se) {
@@ -122,27 +148,12 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     
     // ========== COLLISIONS ========== 
     public MeteorRM collidesWith(Collideable thing) {
-        System.out.println("printing Colliding " + this.height + " with " + thing.getHeight());
-        
-        // x and y are centers
-        // distance(my x, my y, thing x, thing y) <= (my radius + thing radius)
-        
-        // Collidable Things Have:
-        // getCenter(); distance(); getRadius();
-        
-        if ( this.height > thing.getHeight() ) {
+         if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
         } else {
             return null;
         }
-        
-        //for (int i = 0; i > 10; i++) {
-        //    if (this.height + i == thing.getHeight() || this.height - i == thing.getHeight()) {
-        //        return this;
-        //    }
-        //}
-            // I HATE NULL;
-        //    return null;
+        //    HATE null;
         }     
    
     
@@ -152,6 +163,16 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         } else {
            return new FromFileImage(new Posn(this.width, this.height), "Blue-Meteor.png");
         }
+    }
+    
+    public int distance(Collideable thing) {
+        return (int) Math.sqrt(
+                (this.getWidth() - thing.getWidth()) 
+                        * (this.getWidth() - thing.getWidth())
+                + (this.getHeight() - thing.getHeight()) 
+                        * (this.getHeight() - thing.getHeight()));
+
+    
     }
     
     

@@ -16,8 +16,10 @@ public class PlaneRM implements Collideable<PlaneRM> {
     int deltaWidth;
     int height = MAXH;
     static int MAXH = 430;
-    static int MAXW = 430;
-    static int REGULAR_MULTIPLE = 10;
+    static int MAXW = 430  ;
+    static int REGULAR_MULTIPLE = 30;
+    static int radius = 30;
+    int center = width;
     IColor color = new Black();
     String colorLaser = "red";
 
@@ -41,6 +43,14 @@ public class PlaneRM implements Collideable<PlaneRM> {
 
     public int getHeight() {
         return this.height;
+    }
+    
+    public int getCenter() {
+         return this.center;
+     }
+     
+    public int getRadius() {
+        return this.radius;
     }
 
     // ========== TICK ==========
@@ -88,12 +98,24 @@ public class PlaneRM implements Collideable<PlaneRM> {
     }
 
     public PlaneRM collidesWith(Collideable thing) {
-        if (this.height == thing.getHeight()) {
+     if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        } else {
-            // I HATE NULL;
+        } if (this.getHeight() < thing.getHeight()) {
+            return this; 
+          }  else {
             return null;
         }
+        //    HATE null;
+    }
+   
+    
+    public int distance(Collideable thing) {
+        return (int) Math.sqrt(
+                (this.getWidth() - thing.getWidth()) 
+                        * (this.getWidth() - thing.getWidth())
+                + (this.getHeight() - thing.getHeight()) 
+                        * (this.getHeight() - thing.getHeight()));
+
     }
 
 }
