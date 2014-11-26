@@ -16,16 +16,17 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     int width;
     static int count;
     
-    public Explosion(MeteorRM meteor) {
-        height = meteor.height;
-        width = meteor.width;
+    public Explosion(int widthM, int heightM) {
+        height = heightM;
+        width = widthM;
         this.identity = count;
         count++;
     }
     
     // ========== DRAW ==========
     public WorldImage explosionImage() {
-            return new FromFileImage(new Posn(this.width, this.height), "explosion");
+            System.out.println("This identity" + this.identity);
+            return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
     }
     
     // ========== EQUALITY ==========
@@ -56,6 +57,8 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
         return this.height;
     }
 
+    
+    // UNSUPPORTED BY GAME --> EXPLOSIONS CANNOT HAVE COLLISIONS
     @Override
     public int getCenter() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

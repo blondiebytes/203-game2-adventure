@@ -38,6 +38,7 @@ public class MeteorShowerRM extends World {
         this.plane = new PlaneRM();
         this.meteorDataStructRM = empty();
         this.lasersRM = empty();
+        this.explosionsRM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.gameOver = false;
@@ -81,14 +82,15 @@ public class MeteorShowerRM extends World {
     public World onTick() {
         Bag newMeteors = this.meteorDataStructRM;
         newMeteors = newMeteors.tick();
-        
+
 //        if (counterMeteor < 1000) {
-           if (counterMeteor % 85 == 0) {
+        if (counterMeteor % 85 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
-            } 
+
+        }
 //        }
-        
+
            // To make it harder
 //        if (counterMeteor < 5000 && counterMeteor >= 2500) {
 //           if (counterMeteor % 80 == 0) {
@@ -103,11 +105,10 @@ public class MeteorShowerRM extends World {
 //            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
 //            } 
 //        }
-        
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
 
-        return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.explosionsRM,this.lives, this.score, this.gameOver, this.powerUp,
+        return new MeteorShowerRM(this.plane, newMeteors, newLasers, empty(), this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
 
     }
@@ -124,6 +125,7 @@ public class MeteorShowerRM extends World {
         PlaneRM newPlane = this.plane;
         Bag<MeteorRM> newMeteors = this.meteorDataStructRM;
         Bag<LaserRM> newLasers = this.lasersRM;
+        Bag<Explosion> newExplosions = empty();
         Lives newLives = this.lives;
         Score newScore = this.score;
         boolean newGameOver = this.gameOver;
@@ -133,11 +135,10 @@ public class MeteorShowerRM extends World {
         // score same, check for gameOver, powerUp same, correct shoot counter to 0,
         MeteorRM collider = newMeteors.collidesWith(newPlane);
         if (collider != null /* if a meteor passes the plane... */) {
-            System.out.println("before hit meteor with Plane! " + collider + " count " + newMeteors.cardinality());
+            System.out.println("newExplosions length BEFORE PLANE HIT: " + newExplosions.cardinality());
+            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
-
-            System.out.println("after hit meteor with Plane! " + collider + " count " + newMeteors.cardinality());
-
+            System.out.println("newExplosions length AFTER PLANE HIT: " + newExplosions.cardinality());
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
@@ -148,7 +149,6 @@ public class MeteorShowerRM extends World {
         // 2. Laser hits Meteor --> 
         // plane same, takes out colliding meteor, takes out colliding laser, 
         // lives same, ------, gameOver same, -------, --------
-        Bag<Explosion> newExplosions = empty();
         Sequence<LaserRM> seqLaser = newLasers.seq();
         while (seqLaser.hasNext()) {
             LaserRM collidingLaser = seqLaser.here();
@@ -158,9 +158,14 @@ public class MeteorShowerRM extends World {
                 MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
                 if (collidingMeteor != null) {
                     System.out.println("hit meteor with laser!");
-                  //  newExplosions = newExplosions.add(new Explosion(collidingMeteor)); /*adding explosions; destructive*/
                     newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
+
                     newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
+                    
+                    System.out.println("newExplosions length BEFORE LASER HIT: " + newExplosions.cardinality());
+                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
+                    System.out.println("newExplosions length AFTER LASER HIT: " + newExplosions.cardinality());
+                    
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
 
                     if (collidingLaser.color.equals(collidingMeteor.color)) {
@@ -182,7 +187,7 @@ public class MeteorShowerRM extends World {
             seqLaser = seqLaser.next();
         }
         return new MeteorShowerRM(newPlane, newMeteors, newLasers,
-                newExplosions,newLives, newScore, newGameOver, newPowerUp, newShootCounter);
+                newExplosions, newLives, newScore, newGameOver, newPowerUp, newShootCounter);
     }
 
     // ========== REACT ==========
@@ -240,14 +245,13 @@ public class MeteorShowerRM extends World {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
             seqLaser = seqLaser.next();
         }
-        
-//        Sequence<Explosion> seqExplosion = this.explosionsRM.seq();
-//        while (seqExplosion.hasNext()) {
-//            finalImage = new OverlayImages(finalImage, seqExplosion.here().explosionImage());
-//            seqExplosion = seqExplosion.next();
-//        }
-//        
-        
+
+        Sequence<Explosion> seqExplosion = this.explosionsRM.seq();
+        while (seqExplosion.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqExplosion.here().explosionImage());
+            seqExplosion = seqExplosion.next();
+        }
+
         TextImage score = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
         finalImage = new OverlayImages(finalImage, score);
 

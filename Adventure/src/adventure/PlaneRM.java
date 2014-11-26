@@ -87,7 +87,11 @@ public class PlaneRM implements Collideable<PlaneRM> {
     // ========== DRAW ==========
     public WorldImage planeImage() {
        // return new CircleImage(new Posn(this.width, this.height), 10, color);
-           return new FromFileImage(new Posn(this.width, this.height), "fighter-01.png");
+        if (colorLaser.equals("red")) {
+           return new FromFileImage(new Posn(this.width, this.height), "fighter-01-red.png");
+        } else {
+            return new FromFileImage(new Posn (this.width, this.height), "fighter-01-blue.png");
+        }
     }
 
     // ========== EQUALITY ==========
