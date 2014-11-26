@@ -40,6 +40,4 @@ public class Sequence_NonEmpty<D extends Comparable> implements Sequence<D>, Seq
         return "" + this.here;
     }
     
-    
-    
 }

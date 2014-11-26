@@ -8,6 +8,7 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import java.util.ArrayList;
 import javalib.colors.Black;
 import javalib.colors.White;
 import javalib.funworld.World;
@@ -23,6 +24,7 @@ public class MeteorShowerRM extends World {
     PlaneRM plane;
     Bag<MeteorRM> meteorDataStructRM;
     Bag<LaserRM> lasersRM;
+    Bag<Explosion> explosionsRM;
     Boolean gameOver;
     Score score;
     int powerUp;
@@ -43,11 +45,12 @@ public class MeteorShowerRM extends World {
         this.correctShootCounter = 0;
     }
 
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter) {
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter) {
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
         this.lasersRM = lasers;
+        this.explosionsRM = explosions;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -55,11 +58,12 @@ public class MeteorShowerRM extends World {
         this.correctShootCounter = shootCounter;
     }
 
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter, int backgroundCounter) {
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, int powerUp, int shootCounter, int backgroundCounter) {
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
         this.lasersRM = lasers;
+        this.explosionsRM = explosions;
         this.lives = lives;
         this.score = score;
         this.gameOver = gameOver;
@@ -103,7 +107,7 @@ public class MeteorShowerRM extends World {
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
 
-        return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.lives, this.score, this.gameOver, this.powerUp,
+        return new MeteorShowerRM(this.plane, newMeteors, newLasers, this.explosionsRM,this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
 
     }
@@ -144,6 +148,7 @@ public class MeteorShowerRM extends World {
         // 2. Laser hits Meteor --> 
         // plane same, takes out colliding meteor, takes out colliding laser, 
         // lives same, ------, gameOver same, -------, --------
+        Bag<Explosion> newExplosions = empty();
         Sequence<LaserRM> seqLaser = newLasers.seq();
         while (seqLaser.hasNext()) {
             LaserRM collidingLaser = seqLaser.here();
@@ -153,10 +158,9 @@ public class MeteorShowerRM extends World {
                 MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
                 if (collidingMeteor != null) {
                     System.out.println("hit meteor with laser!");
+                  //  newExplosions = newExplosions.add(new Explosion(collidingMeteor)); /*adding explosions; destructive*/
                     newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
-
                     newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
-
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
 
                     if (collidingLaser.color.equals(collidingMeteor.color)) {
@@ -178,7 +182,7 @@ public class MeteorShowerRM extends World {
             seqLaser = seqLaser.next();
         }
         return new MeteorShowerRM(newPlane, newMeteors, newLasers,
-                newLives, newScore, newGameOver, newPowerUp, newShootCounter);
+                newExplosions,newLives, newScore, newGameOver, newPowerUp, newShootCounter);
     }
 
     // ========== REACT ==========
@@ -197,7 +201,7 @@ public class MeteorShowerRM extends World {
                 newLasersRM = newLasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
 
             }
-            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.lives, this.score,
+            return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.explosionsRM, this.lives, this.score,
                     this.gameOver, this.powerUp, this.correctShootCounter);
         }
     }
@@ -236,6 +240,14 @@ public class MeteorShowerRM extends World {
             finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
             seqLaser = seqLaser.next();
         }
+        
+//        Sequence<Explosion> seqExplosion = this.explosionsRM.seq();
+//        while (seqExplosion.hasNext()) {
+//            finalImage = new OverlayImages(finalImage, seqExplosion.here().explosionImage());
+//            seqExplosion = seqExplosion.next();
+//        }
+//        
+        
         TextImage score = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
         finalImage = new OverlayImages(finalImage, score);
 
