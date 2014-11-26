@@ -19,15 +19,6 @@ import javalib.funworld.World;
 //import static adventure.TestFunctions.testTriggerHyperSpeedMode;
 //
 
-
-// ============= TO DO STILL ============= 
-// 1. Make lasers stay on screen for the whole time they are supposed to
-// 2. Make collisions of lasers with meteors work appropriately (remove both things)
-// 3. Put lives (as graphics) and score on the screen
-// 4. Translate all of this to the hyper mode so that it works too
-// 5. Create a start and end screen
-// =======================================
-
 public class TestMeteorShower {
     
     static int tests = 999;

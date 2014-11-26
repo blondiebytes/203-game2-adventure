@@ -1,6 +1,10 @@
 
 package adventure;
 
+import javalib.worldimages.FromFileImage;
+import javalib.worldimages.Posn;
+import javalib.worldimages.WorldImage;
+
 /**
  *
  * @author kathrynhodge
@@ -27,5 +31,9 @@ public class Lives {
    
     // NEED TO IMPLEMENT
     public void draw () {
+    }
+    
+    public WorldImage livesImage(int width, int height) {
+            return new FromFileImage(new Posn(width, height), "heart.png");
     }
 }

@@ -20,7 +20,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     int multiple =  1;
     int width;
     int identity;
-    int leavingHeight = 0;
+    int leavingHeight = 430;
     static int radius = 20;
     int center = width;
     static int MAXH = 500;
@@ -139,11 +139,12 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     public MeteorRM collidesWith(Collideable thing) {
          if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        } else {
+        } else if (thing instanceof PlaneRM && this.getHeight() >= thing.getHeight()) {
+            return this;
+        } else 
+            // HATE null....
             return null;
         }
-        //    HATE null;
-        }     
    
     
     public WorldImage meteorImage() {
@@ -162,6 +163,10 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
                         * (this.getHeight() - thing.getHeight()));
 
     
+    }
+    
+    public boolean aboutToLeave() {
+        return this.getHeight() >= leavingHeight;
     }
     
     

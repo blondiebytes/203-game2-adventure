@@ -23,9 +23,15 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
         count++;
     }
     
+    public Explosion(int widthM, int heightM, int identityM) {
+        height = heightM;
+        width = widthM;
+        this.identity = identityM;
+    }
+    
     // ========== DRAW ==========
     public WorldImage explosionImage() {
-            System.out.println("This identity" + this.identity);
+            System.out.println("This width" + this.width + "This height" + this.height);
             return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
     }
     

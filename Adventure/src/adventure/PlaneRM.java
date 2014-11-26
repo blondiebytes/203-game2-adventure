@@ -102,9 +102,10 @@ public class PlaneRM implements Collideable<PlaneRM> {
     }
 
     public PlaneRM collidesWith(Collideable thing) {
+        System.out.println("Plane Height: " + this.getHeight() + "Thing's Height" + thing.getHeight());
      if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        } if (this.getHeight() < thing.getHeight()) {
+        } if (this.getHeight() <= thing.getHeight()) {
             return this; 
           }  else {
             return null;
