@@ -24,7 +24,6 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     int deltaHeight = -5;
     int identity;
     static int radius = 5;
-    int center = height + 5;
     int leavingHeight = 0;
     static int count = 0;
     
@@ -54,10 +53,6 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
      
      public int getHeight() {
          return this.height;
-     }
-     
-     public int getCenter() {
-         return this.center;
      }
      
     public int getRadius() {

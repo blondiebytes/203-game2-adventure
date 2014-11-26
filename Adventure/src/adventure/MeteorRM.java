@@ -22,40 +22,30 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     int identity;
     int leavingHeight = 430;
     static int radius = 20;
-    int center = width;
-    static int MAXH = 500;
+    static int MAXH = 430;
     static int MAXW = 450;
     static int count = 0;
-    static int positionChanger = 0;
-    // Plane goes between 50 and 430
+    // Plane goes between 60 and 450
     
     // ========== CONSTRUCTORS ==========
-// Starting off-screen width, but at the right height position
-    MeteorRM() {
-        this(100, -20, count, "none");
-        count++;
-    }
-    
     // Starting at a given plane's width, but offscreen
     MeteorRM(PlaneRM p) {
         this(p.width, -20, count, "none");
         count++;
-        positionChanger++;
     }
     
     MeteorRM(int width, int height, int count, String color) {
         // Using Sentinal h = -20 --> we know it's starting
         Random rand = new Random();
         if (height == -20) {
-               int delta = rand.nextInt() % 15;
+               int delta = rand.nextInt() % 10;
                this.width = width + (delta * 30);
-               if (this.width >= 431) {
-                   this.width = 430;
+               if (this.width >= 451) {
+                   this.width = 450;
                }
-               if (this.width <= 50) {
-                   this.width = 50;
+               if (this.width <= 60) {
+                   this.width = 60;
                }
-//           }
             
         } else {
             this.height = height;
@@ -86,9 +76,7 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
         return this.height;
     }
     
-    public int getCenter() {
-         return this.center;
-     }
+    
      
     public int getRadius() {
         return this.radius;
@@ -162,7 +150,6 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
                 + (this.getHeight() - thing.getHeight()) 
                         * (this.getHeight() - thing.getHeight()));
 
-    
     }
     
     public boolean aboutToLeave() {

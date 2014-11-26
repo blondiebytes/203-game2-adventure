@@ -1,6 +1,10 @@
 
 package adventure;
 
+import javalib.worldimages.FromFileImage;
+import javalib.worldimages.Posn;
+import javalib.worldimages.WorldImage;
+
 
 public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Tickable<LaserHM>{
     // ----------------------------------------------------------------
@@ -13,25 +17,25 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     String color = "white";
     int width;
     int height;
-    int deltaWidth;
+    int deltaWidth = 1;
     int identity;
     int count = 0;
     int leavingWidth = PlaneHM.middleOfScreenWidth;
-    String direction = "left";
+    static int radius = 5;
     
     
     // ========== CONSTRUCTORS ==========
     LaserHM(PlaneHM plane) {
-        this.width = plane.width;
         this.height = plane.height;
         // something where if plane is this direction have this delta, otherwise other delta 
         this.identity = count;
-        this.direction = plane.direction;
-        if (this.direction.equals("left")) {
+        // Oposition of meteors -- same direction as plane
+        if (plane.direction.equals("left")) {
             deltaWidth = -1;
         } else {
             deltaWidth = 1;
         }
+        this.width = plane.width + (deltaWidth * 5);
         count++;
     }
     
@@ -50,6 +54,10 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
          return this.height;
      }
     
+     public int getRadius() {
+        return this.radius;
+    }
+     
     
     // ========== REACT ==========
     public LaserHM react(String se) {
@@ -82,18 +90,32 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
         }
     }
     
-    // ========== COMPARETO ==========
+     // ========== COLLISION ==========
     public LaserHM collidesWith(Collideable thing) {
-      if (this.height == thing.getHeight()) {
+        if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
         } else {
-            // I HATE NULL;
             return null;
-        }    
+        }
+    }
+    
+    public int distance(Collideable thing) {
+        return (int) Math.sqrt(
+                (this.getWidth() - thing.getWidth()) 
+                        * (this.getWidth() - thing.getWidth())
+                + (this.getHeight() - thing.getHeight()) 
+                        * (this.getHeight() - thing.getHeight()));
+
     }
     
     public boolean aboutToLeave() {
        return this.width == leavingWidth;
+    }
+    
+    // ========== DRAW ==========
+    
+    public WorldImage laserImage() {
+        return new FromFileImage(new Posn(this.width, this.height), "White_Laser.png");
     }
     
     

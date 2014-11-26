@@ -4,11 +4,14 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import javalib.colors.Black;
 import javalib.colors.Blue;
+import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
+import javalib.worldimages.TextImage;
 import javalib.worldimages.WorldImage;
 
 public class MeteorShowerHM extends World {
@@ -16,9 +19,11 @@ public class MeteorShowerHM extends World {
     PlaneHM plane;
     Bag<MeteorHM> meteorDataStructHM;
     Bag<LaserHM> lasersHM;
+    Bag<Explosion> explosionsHM;
     Score score;
     int missingMeteorsCounter;
     int powerUps;
+    static int releaseMeteor = 0;
 // NEEDTO: Add WorldImage plane property !!!!!!!!!!!<<<<===========
     
     
@@ -28,17 +33,19 @@ public class MeteorShowerHM extends World {
         this.plane = new PlaneHM();
         this.meteorDataStructHM = empty();
         this.lasersHM = empty();
+        this.explosionsHM = empty();
         this.lives = new Lives();
         this.score = new Score();
         this.missingMeteorsCounter = 0;
         this.powerUps = 0;
     }
     
-    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Lives lives, Score score, int missingMeteors, int powerUps){
+    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int missingMeteors, int powerUps){
         super();
         this.plane = plane;
         this.meteorDataStructHM = meteors;
         this.lasersHM = lasers;
+        this.explosionsHM = explosions;
         this.lives = lives;
         this.score = score;
         this.missingMeteorsCounter = missingMeteors;
@@ -57,9 +64,19 @@ public class MeteorShowerHM extends World {
     // ========== TICK ==========
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
     public World onTick() {
-        Bag<MeteorHM> newMeteors = this.meteorDataStructHM.add(new MeteorHM()).tick();
+        Bag newMeteors = this.meteorDataStructHM;
+        newMeteors = newMeteors.tick();
+        
+          if (releaseMeteor % 55 == 0) {
+            // Solves the problem of intervals
+            newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+             }
+        
+          releaseMeteor++;
+        
         Bag<LaserHM> newLasers = this.lasersHM.tick();
-        return new MeteorShowerHM(this.plane, newMeteors, newLasers, 
+        
+        return new MeteorShowerHM(this.plane, newMeteors, newLasers, empty(),
                 this.lives, this.score, this.missingMeteorsCounter, this.powerUps).update(); /*check for collision of laser and meteor and update score */
     }
     
@@ -74,6 +91,7 @@ public class MeteorShowerHM extends World {
         PlaneHM newPlane = this.plane;
         Bag<MeteorHM> newMeteors = this.meteorDataStructHM;
         Bag<LaserHM> newLasers = this.lasersHM;
+        Bag<Explosion> newExplosions = empty();
         Lives newLives = this.lives;
         Score newScore = this.score;
         int newCounter = this.missingMeteorsCounter;
@@ -82,9 +100,10 @@ public class MeteorShowerHM extends World {
         MeteorHM collider = newMeteors.collidesWith(newPlane);
         if (collider != null /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
             newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
-                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), newLives, newScore, false, this.powerUps, 0, 1);
+                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps, 0, 1);
             }
         }
         // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
@@ -93,12 +112,13 @@ public class MeteorShowerHM extends World {
             LaserHM collidingLaser = seqLaser.here();
             MeteorHM collidingMeteor = newMeteors.collidesWith(collidingLaser);
             if (collidingMeteor != null) {
+                newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
                 /* remove that colliding meteor! */ newMeteors = newMeteors.remove(collidingMeteor);
-                /*remove that colliding laser! */ newLasers = newLasers.remove(collidingLaser); 
+                /*remove that colliding laser! */ newLasers = newLasers.remove(collidingLaser);
             newScore = newScore.addScore();
             }
         }
-        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newLives, newScore, newCounter, this.powerUps);
+        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newExplosions, newLives, newScore, newCounter, this.powerUps);
     }
     
     public boolean backToRegularMode() {
@@ -118,11 +138,11 @@ public class MeteorShowerHM extends World {
         if (ke.equals("left")) {
             // switch plane image
         }
-        if (ke.equals("spacebar")) {
+        if (ke.equals("s")) {
            newLasersHM = this.lasersHM.add(new LaserHM(this.plane));
         }
         PlaneHM newPlane = plane.react(ke);
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
     }
     
     
@@ -130,7 +150,49 @@ public class MeteorShowerHM extends World {
     // Draws the image on screen
      public WorldImage makeImage() {
 //         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
-         return new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
+         
+         // Drawing Plane
+        WorldImage finalImage = new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
+        
+         // Drawing Meteors
+        Sequence<MeteorHM> seqMeteor = this.meteorDataStructHM.seq();
+        while (seqMeteor.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
+            seqMeteor = seqMeteor.next();
+        }
+        
+
+        // Drawing Lasers
+        Sequence<LaserHM> seqLaser = this.lasersHM.seq();
+        while (seqLaser.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqLaser.here().laserImage());
+            seqLaser = seqLaser.next();
+        }
+        
+         // Drawing Explosions
+        Sequence<Explosion> seqExplosion = this.explosionsHM.seq();
+        while (seqExplosion.hasNext()) {
+            finalImage = new OverlayImages(finalImage, seqExplosion.here().explosionImage());
+            seqExplosion = seqExplosion.next();
+        }
+        
+        // Drawing Score
+        TextImage score2 = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
+        finalImage = new OverlayImages(finalImage, score2);
+        
+        // Drawing Lives
+        switch (lives.life) {
+            case 1: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+                break;
+            case 2: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+                    finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+                break;
+            case 3: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+                     finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+                      finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
+        }
+        
+        return finalImage;
     }
     
     

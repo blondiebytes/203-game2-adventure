@@ -1,43 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package adventure;
 
-//import static adventure.TestFunctions.testCollisionHyperMode;
-//import static adventure.TestFunctions.testCollisionRegularMode;
-//import static adventure.TestFunctions.testConstructor;
-//import static adventure.TestFunctions.testGameOverLives;
-//import static adventure.TestFunctions.testLaserColorsHyperMode;
-//import static adventure.TestFunctions.testLaserColorsRegularMode;
-//import static adventure.TestFunctions.testMeteorAppear;
-//import static adventure.TestFunctions.testMeteorColor;
-//import static adventure.TestFunctions.testPlaneMoveRightAndLeft;
-//import static adventure.TestFunctions.testPlaneRotate;
-//import static adventure.TestFunctions.testPowerUpHyperMode;
-//import static adventure.TestFunctions.testShootLaser;
-//import static adventure.TestFunctions.testStartUporRestartDown;
-//import static adventure.TestFunctions.testTriggerHyperSpeedMode;
+import javalib.colors.White;
+import javalib.worldimages.FromFileImage;
+import javalib.worldimages.OverlayImages;
+import javalib.worldimages.Posn;
+import javalib.worldimages.TextImage;
+
 
 public class RunMeteorShower {
       
     public static void main(String[] args) throws Exception {
         
-//        MeteorShowerHM meteorShower = new MeteorShowerHM();
-//        meteorShower.bigBang();
-        MeteorShowerRM meteorShowerR = new MeteorShowerRM();
-        meteorShowerR.bigBang(500, 500, 0.01);
-       
+       MeteorShowerHM meteorShower = new MeteorShowerHM();
+       meteorShower.bigBang(500, 500, 0.01);
+//        MeteorShowerRM meteorShowerR = new MeteorShowerRM();
+//        meteorShowerR.bigBang(500, 500, 0.01);
         
+       
 //        while(true) {
-//            while(!meteorShower.gameOver) {
+//            while(!meteorShowerR.gameOver) {
 //                // Update everything on screen
 //                // Take a CharKey
 //               // Update the game--> store updated in new variable
 //               // Verify and old game's invariants 
 //               // make the old game equal the new game
 //            }
+//            meteorShowerR.endOfWorld(null);
+//        }
+            
+            
 
 //             System.out.println("testConstructor success: " + testConstructor + " times");
 //             System.out.println("testStartUporRestartDown success: " + testStartUporRestartDown + " times");

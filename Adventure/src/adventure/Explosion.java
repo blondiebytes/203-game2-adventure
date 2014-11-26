@@ -31,7 +31,7 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     
     // ========== DRAW ==========
     public WorldImage explosionImage() {
-            System.out.println("This width" + this.width + "This height" + this.height);
+            System.out.println("EXPLOSION: This width" + this.width + "This height" + this.height);
             return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
     }
     
@@ -64,12 +64,8 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     }
 
     
-    // UNSUPPORTED BY GAME --> EXPLOSIONS CANNOT HAVE COLLISIONS
-    @Override
-    public int getCenter() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    // UNSUPPORTED BY GAME --> EXPLOSIONS CANNOT HAVE COLLISIONS OR TICK
+   
     @Override
     public int getRadius() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

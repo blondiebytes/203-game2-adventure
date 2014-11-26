@@ -324,8 +324,8 @@ public class TestFunctions {
         // ========================================================
         // TESTING METEOR INDIVIDUALLY:
         // ========================================================
-        MeteorHM mH = new MeteorHM();
-        MeteorRM mR = new MeteorRM();
+        MeteorHM mH = new MeteorHM(new PlaneHM());
+        MeteorRM mR = new MeteorRM(new PlaneRM());
         for (int i = 0; i <= tests; i++) {
             // --------REACT-----------
             String rnd = randomButton();

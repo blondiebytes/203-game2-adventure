@@ -16,14 +16,14 @@ public class PlaneRM implements Collideable<PlaneRM> {
     int deltaWidth;
     int height = MAXH;
     static int MAXH = 430;
-    static int MAXW = 430  ;
+    static int MAXW = 450;
+    static int LEASTW = 60;
     static int REGULAR_MULTIPLE = 30;
     static int radius = 30;
-    int center = width;
     IColor color = new Black();
     String colorLaser = "red";
 
-    static int middleOfScreenWidth = 250;
+    static int middleOfScreenWidth = 240;
     int topOfScreen;
 
     // ========== CONSTRUCTORS ==========
@@ -44,10 +44,6 @@ public class PlaneRM implements Collideable<PlaneRM> {
     public int getHeight() {
         return this.height;
     }
-    
-    public int getCenter() {
-         return this.center;
-     }
      
     public int getRadius() {
         return this.radius;
@@ -56,8 +52,8 @@ public class PlaneRM implements Collideable<PlaneRM> {
     // ========== TICK ==========
     public PlaneRM onTick(int multiple) {
         int newWidth = width + deltaWidth * multiple;
-        if (newWidth < 50) {
-            return new PlaneRM(50, deltaWidth, colorLaser);
+        if (newWidth < LEASTW) {
+            return new PlaneRM(LEASTW, deltaWidth, colorLaser);
         } else if (newWidth >= MAXW) {
             return new PlaneRM(MAXW, -deltaWidth, colorLaser);
         } else {
@@ -101,13 +97,12 @@ public class PlaneRM implements Collideable<PlaneRM> {
                 && (this.width == otherPlane.width);
     }
 
+    
+    // ========== COLLDIING ==========
     public PlaneRM collidesWith(Collideable thing) {
-        System.out.println("Plane Height: " + this.getHeight() + "Thing's Height" + thing.getHeight());
      if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        } if (this.getHeight() <= thing.getHeight()) {
-            return this; 
-          }  else {
+        } else {
             return null;
         }
         //    HATE null;

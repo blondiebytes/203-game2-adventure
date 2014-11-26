@@ -8,8 +8,6 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
-import java.util.ArrayList;
-import javalib.colors.Black;
 import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldimages.FromFileImage;
@@ -22,8 +20,8 @@ public class MeteorShowerRM extends World {
     
 // ============= TO DO STILL ============= 
 // 1. Explosions --> they don't show up always
-// 2. Plane intervals and meteor intervals a bit off.
-// 3. Translate all of this to the hyper mode so that it works too
+// 2. Translate all of this to the hyper mode so that it works too
+// 3. Add powerUp Symbols
 // 4. Create a start and end screen
 // =======================================
 
@@ -86,7 +84,7 @@ public class MeteorShowerRM extends World {
 
     // ========== CREATE GAME ==========
     public boolean bigBang() {
-        return this.bigBang(500, 500, 1);
+        return this.bigBang(500, 500, .01);
     }
 
     // ========== TICK ==========
@@ -147,8 +145,8 @@ public class MeteorShowerRM extends World {
         // score same, check for gameOver, powerUp same, correct shoot counter to 0,
         MeteorRM collider = newMeteors.collidesWith(newPlane);
         if (collider != null  /* if a meteor passes the plane... */) {
-            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
@@ -173,9 +171,7 @@ public class MeteorShowerRM extends World {
 
                     newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
                     
-                    System.out.println("newExplosions length BEFORE LASER HIT: " + newExplosions.cardinality());
                     newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
-                    System.out.println("newExplosions length AFTER LASER HIT: " + newExplosions.cardinality());
                     
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
 
@@ -224,7 +220,7 @@ public class MeteorShowerRM extends World {
 
     // ========== GOING HYPER ==========
     public MeteorShowerHM goHyper() {
-        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), this.lives, this.score, 0, this.powerUp);
+        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp);
     }
 
     public boolean hasPowerUp() {
@@ -273,8 +269,8 @@ public class MeteorShowerRM extends World {
         }
 
         // Drawing Score
-        TextImage score = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
-        finalImage = new OverlayImages(finalImage, score);
+        TextImage score2 = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
+        finalImage = new OverlayImages(finalImage, score2);
         
         // Drawing Lives
         switch (lives.life) {
@@ -287,9 +283,7 @@ public class MeteorShowerRM extends World {
                      finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
                       finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
         }
-        
-        
-
+       
         return finalImage;
     }
 }
