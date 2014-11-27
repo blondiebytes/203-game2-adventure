@@ -35,7 +35,7 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
         } else {
             deltaWidth = 1;
         }
-        this.width = plane.width + (deltaWidth * 5);
+        this.width = plane.width + (deltaWidth * 80);
         count++;
     }
     

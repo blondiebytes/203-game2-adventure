@@ -8,6 +8,7 @@ import javalib.colors.Black;
 import javalib.colors.Blue;
 import javalib.colors.White;
 import javalib.funworld.World;
+import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.RectangleImage;
@@ -67,7 +68,7 @@ public class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick();
         
-          if (releaseMeteor % 55 == 0) {
+          if (releaseMeteor % 125 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
              }
@@ -149,10 +150,10 @@ public class MeteorShowerHM extends World {
     // ========== DRAW ==========
     // Draws the image on screen
      public WorldImage makeImage() {
-//         WorldImage background = new OverlayImages(new RectangleImage(new Posn(0,0),this.width,this.height, new Blue()))
+         WorldImage background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
          
          // Drawing Plane
-        WorldImage finalImage = new OverlayImages(new RectangleImage(new Posn(0,0),2000,2000, new Blue()), this.plane.planeImage());
+        WorldImage finalImage = new OverlayImages(background, this.plane.planeImage());
         
          // Drawing Meteors
         Sequence<MeteorHM> seqMeteor = this.meteorDataStructHM.seq();
