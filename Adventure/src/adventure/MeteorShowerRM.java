@@ -95,7 +95,7 @@ public class MeteorShowerRM extends World {
         // CREATING DIFFERENT LEVELS:
         
         if (counterMeteor < 5000) {
-          if (counterMeteor % 85 == 0) {
+          if (counterMeteor % 90 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
 
