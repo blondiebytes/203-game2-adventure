@@ -20,8 +20,6 @@ public class MeteorShowerRM extends World {
     
 // ============= TO DO STILL ============= 
 // 1. Explosions --> they don't show up always
-// 2. Translate all of this to the hyper mode so that it works too
-// 3. Add powerUp Symbols
 // 4. Create a start and end screen
 // =======================================
 
@@ -228,7 +226,15 @@ public class MeteorShowerRM extends World {
     }
 
     public boolean getPowerUp() {
-        return this.correctShootCounter == 20;
+        return this.correctShootCounter % 9 == 0 && correctShootCounter != 0;
+    }
+    
+    public int showPowerUp() {
+        return this.powerUp;
+    }
+    
+    public WorldImage drawPowerUp(int width, int height) {
+        return new FromFileImage(new Posn(width, height), "powerUp.png");
     }
 
     // ========== DRAWING IMAGE ==========
@@ -273,17 +279,21 @@ public class MeteorShowerRM extends World {
         finalImage = new OverlayImages(finalImage, score2);
         
         // Drawing Lives
-        switch (lives.life) {
-            case 1: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+        finalImage = this.lives.draw(finalImage);
+        
+        // Drawing powerUP
+        switch(showPowerUp()) {
+            case 0 : break;
+            case 1 : finalImage = new OverlayImages(finalImage, drawPowerUp(30,85));
                 break;
-            case 2: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
-                    finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+            case 2: finalImage = new OverlayImages(finalImage,drawPowerUp(30,85));
+                    finalImage = new OverlayImages(finalImage,drawPowerUp(55,85));
                 break;
-            case 3: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
-                     finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
-                      finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
+            case 3: finalImage = new OverlayImages(finalImage,drawPowerUp(30,85));
+                     finalImage = new OverlayImages(finalImage,drawPowerUp (55,85));
+                      finalImage = new OverlayImages(finalImage,drawPowerUp(80,85));
         }
-       
+        
         return finalImage;
     }
 }
