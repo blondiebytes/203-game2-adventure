@@ -24,6 +24,7 @@ public class MeteorShowerHM extends World {
     Score score;
     int missingMeteorsCounter;
     int powerUps;
+    static int background;
     static int releaseMeteor = 0;
 // NEEDTO: Add WorldImage plane property !!!!!!!!!!!<<<<===========
     
@@ -41,7 +42,7 @@ public class MeteorShowerHM extends World {
         this.powerUps = 0;
     }
     
-    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int missingMeteors, int powerUps){
+    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int missingMeteors, int powerUps, int background){
         super();
         this.plane = plane;
         this.meteorDataStructHM = meteors;
@@ -51,8 +52,10 @@ public class MeteorShowerHM extends World {
         this.score = score;
         this.missingMeteorsCounter = missingMeteors;
         this.powerUps = powerUps;
+        this.background = background;
     }
   
+    
 
     
     // ========== CREATE GAME ==========
@@ -68,7 +71,7 @@ public class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick();
         
-          if (releaseMeteor % 125 == 0) {
+          if (releaseMeteor % 30 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
              }
@@ -76,9 +79,9 @@ public class MeteorShowerHM extends World {
           releaseMeteor++;
         
         Bag<LaserHM> newLasers = this.lasersHM.tick();
-        
-        return new MeteorShowerHM(this.plane, newMeteors, newLasers, empty(),
-                this.lives, this.score, this.missingMeteorsCounter, this.powerUps).update(); /*check for collision of laser and meteor and update score */
+        Bag newExplosions = this.explosionsHM.tick();
+        return new MeteorShowerHM(this.plane, newMeteors, newLasers, newExplosions,
+                this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background).update(); /*check for collision of laser and meteor and update score */
     }
     
     
@@ -92,10 +95,20 @@ public class MeteorShowerHM extends World {
         PlaneHM newPlane = this.plane;
         Bag<MeteorHM> newMeteors = this.meteorDataStructHM;
         Bag<LaserHM> newLasers = this.lasersHM;
-        Bag<Explosion> newExplosions = empty();
+        Bag<Explosion> newExplosions = this.explosionsHM;
         Lives newLives = this.lives;
         Score newScore = this.score;
         int newCounter = this.missingMeteorsCounter;
+        
+        // Update Explosions
+        Sequence<Explosion> seqExp = newExplosions.seq();
+        if (seqExp.hasNext()) {
+            if (seqExp.here().show <= 0) {
+                newExplosions = newExplosions.remove(seqExp.here());
+            }
+            seqExp = seqExp.next();
+        }
+        
         // 1. Meteor passes the plane --> score same, 
         // add 1 to missingMeteorCounter --> check if end game; if so, back to RM
         MeteorHM collider = newMeteors.collidesWith(newPlane);
@@ -104,7 +117,7 @@ public class MeteorShowerHM extends World {
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
             newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
-                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps, 0, 1);
+                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps - 1, 0, 1);
             }
         }
         // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
@@ -118,8 +131,10 @@ public class MeteorShowerHM extends World {
                 /*remove that colliding laser! */ newLasers = newLasers.remove(collidingLaser);
             newScore = newScore.addScore();
             }
+            seqLaser = seqLaser.next();
         }
-        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newExplosions, newLives, newScore, newCounter, this.powerUps);
+        
+        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newExplosions, newLives, newScore, newCounter, this.powerUps, this.background);
     }
     
     public boolean backToRegularMode() {
@@ -132,25 +147,23 @@ public class MeteorShowerHM extends World {
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
          Bag<LaserHM> newLasersHM = this.lasersHM;
-        // Also have the plane switching sides -> 
-        if (ke.equals("right")) {
-            // switch plane image
-        }
-        if (ke.equals("left")) {
-            // switch plane image
-        }
         if (ke.equals("s")) {
-           newLasersHM = this.lasersHM.add(new LaserHM(this.plane));
+           newLasersHM = newLasersHM.add(new LaserHM(this.plane));
         }
         PlaneHM newPlane = plane.react(ke);
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background);
     }
     
     
     // ========== DRAW ==========
     // Draws the image on screen
      public WorldImage makeImage() {
-         WorldImage background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+         WorldImage background;
+        if (this.background % 2 == 1) {
+            background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+        } else {
+            background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+        }
          
          // Drawing Plane
         WorldImage finalImage = new OverlayImages(background, this.plane.planeImage());
@@ -170,7 +183,7 @@ public class MeteorShowerHM extends World {
             seqLaser = seqLaser.next();
         }
         
-         // Drawing Explosions
+        // Drawing Explosions
         Sequence<Explosion> seqExplosion = this.explosionsHM.seq();
         while (seqExplosion.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqExplosion.here().explosionImage());

@@ -17,10 +17,11 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     String color = "white";
     int width;
     int height;
-    int deltaWidth = 1;
+    int deltaWidth;
     int identity;
-    int count = 0;
+    int multiple = 5;
     int leavingWidth = PlaneHM.middleOfScreenWidth;
+    static int count = 0;
     static int radius = 5;
     
     
@@ -36,6 +37,7 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
             deltaWidth = 1;
         }
         this.width = plane.width + (deltaWidth * 80);
+        System.out.println("I created a new laser" + identity);
         count++;
     }
     
@@ -69,7 +71,7 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     
     // ========== TICK ==========
      public LaserHM onTick() {
-        return new LaserHM(this.width + deltaWidth, this.deltaWidth, this.height, this.identity);
+        return new LaserHM(this.width + (deltaWidth * multiple), this.deltaWidth, this.height, this.identity);
     }
     
      // ========== EQUALITY ==========

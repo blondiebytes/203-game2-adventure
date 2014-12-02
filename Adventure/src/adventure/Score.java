@@ -18,7 +18,7 @@ public class Score {
     }
     
      public Score subtractScore() {
-        return new Score(this.score - 10);
+        return new Score(this.score - 9/10);
     }
     
     // NEED TO IMPLEMENT

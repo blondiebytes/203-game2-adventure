@@ -1,22 +1,16 @@
 
 package adventure;
 
-import javalib.colors.White;
-import javalib.worldimages.FromFileImage;
-import javalib.worldimages.OverlayImages;
-import javalib.worldimages.Posn;
-import javalib.worldimages.TextImage;
-
 
 public class RunMeteorShower {
       
     public static void main(String[] args) throws Exception {
         
-//       MeteorShowerHM meteorShower = new MeteorShowerHM();
-//       meteorShower.bigBang(500, 500, 0.01);
-        MeteorShowerRM meteorShowerR = new MeteorShowerRM();
-        meteorShowerR.bigBang(500, 500, 0.01);
-        
+       MeteorShowerHM meteorShower = new MeteorShowerHM();
+       meteorShower.bigBang(500, 500, 0.01);
+//        MeteorShowerRM meteorShowerR = new MeteorShowerRM();
+//        meteorShowerR.bigBang(500, 500, 0.01);
+//        
        
 //        while(true) {
 //            while(!meteorShowerR.gameOver) {

@@ -14,31 +14,41 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     int identity;
     int height;
     int width;
+    int show;
     static int count;
     
     public Explosion(int widthM, int heightM) {
         height = heightM;
         width = widthM;
+        show = 10;
         this.identity = count;
         count++;
     }
     
-    public Explosion(int widthM, int heightM, int identityM) {
+    public Explosion(int widthM, int heightM, int identityM, int show) {
         height = heightM;
         width = widthM;
         this.identity = identityM;
+        this.show = show;
     }
     
     // ========== DRAW ==========
     public WorldImage explosionImage() {
-            System.out.println("EXPLOSION: This width" + this.width + "This height" + this.height);
+            System.out.println("EXPLOSION " + this.identity + " : This width" + this.width + "This height" + this.height);
             return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
+    }
+    
+    // ========== TICK ==========
+    public Explosion onTick() {
+        return new Explosion(this.width, this.height, this.identity, this.show - 1);
     }
     
     // ========== EQUALITY ==========
      public boolean isEqualToId(Explosion otherExplosion) {
         return this.identity == otherExplosion.identity;
     }
+     
+     
     
      
     
@@ -82,9 +92,5 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Explosion onTick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

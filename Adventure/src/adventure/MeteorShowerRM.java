@@ -115,8 +115,9 @@ public class MeteorShowerRM extends World {
         }
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
+        Bag newExplosions = this.explosionsRM.tick();
 
-        return new MeteorShowerRM(this.plane, newMeteors, newLasers, empty(), this.lives, this.score, this.gameOver, this.powerUp,
+        return new MeteorShowerRM(this.plane, newMeteors, newLasers, newExplosions, this.lives, this.score, this.gameOver, this.powerUp,
                 this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
 
     }
@@ -133,18 +134,29 @@ public class MeteorShowerRM extends World {
         PlaneRM newPlane = this.plane;
         Bag<MeteorRM> newMeteors = this.meteorDataStructRM;
         Bag<LaserRM> newLasers = this.lasersRM;
-        Bag<Explosion> newExplosions = empty();
+        Bag<Explosion> newExplosions = this.explosionsRM;
         Lives newLives = this.lives;
         Score newScore = this.score;
         boolean newGameOver = this.gameOver;
         int newPowerUp = this.powerUp;
         int newShootCounter = this.correctShootCounter;
+        
+        // Update Explosions
+        Sequence<Explosion> seqExp = newExplosions.seq();
+        if (seqExp.hasNext()) {
+            if (seqExp.here().show <= 0) {
+                newExplosions = newExplosions.remove(seqExp.here());
+            }
+            seqExp = seqExp.next();
+        }
+        
         // 1. Meteor passes the plane -->  plane same, takes out colliding meteor, lose life, 
         // score same, check for gameOver, powerUp same, correct shoot counter to 0,
         MeteorRM collider = newMeteors.collidesWith(newPlane);
         if (collider != null  /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
+            System.out.println("I added an explosion from Meteor/Plane Collision");
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
@@ -164,16 +176,13 @@ public class MeteorShowerRM extends World {
             } else {
                 MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
                 if (collidingMeteor != null) {
-                    System.out.println("hit meteor with laser!");
-                    newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
-
-                    newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
-                    
-                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
-                    
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
 
                     if (collidingLaser.color.equals(collidingMeteor.color)) {
+                        newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
+                        newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
+                        newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
+                        System.out.println("I added an explosion from Meteor/Laser Collision");
                         newScore = newScore.addScore();
                         if (this.getPowerUp()) {
                             newPowerUp = newPowerUp + 1;
@@ -218,7 +227,7 @@ public class MeteorShowerRM extends World {
 
     // ========== GOING HYPER ==========
     public MeteorShowerHM goHyper() {
-        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp);
+        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp, changeBackgroundCounter);
     }
 
     public boolean hasPowerUp() {
@@ -239,7 +248,6 @@ public class MeteorShowerRM extends World {
 
     // ========== DRAWING IMAGE ==========
     public WorldImage makeImage() {
-        
         // Drawing Background
         WorldImage background;
         if (changeBackgroundCounter % 2 == 1) {
