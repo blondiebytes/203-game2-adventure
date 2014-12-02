@@ -14,14 +14,14 @@ import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.TextImage;
+import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
 public class MeteorShowerRM extends World {
-    
+
 // ============= TO DO STILL ============= 
 // 1. Create a start and end screen
 // =======================================
-
     Lives lives;
     PlaneRM plane;
     Bag<MeteorRM> meteorDataStructRM;
@@ -33,6 +33,7 @@ public class MeteorShowerRM extends World {
     int correctShootCounter;
     static int counterMeteor;
     static int changeBackgroundCounter = 0;
+    static int highScore;
 
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
@@ -48,8 +49,8 @@ public class MeteorShowerRM extends World {
         this.correctShootCounter = 0;
     }
 
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, 
-            Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, 
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers,
+            Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver,
             int powerUp, int shootCounter) {
         super();
         this.plane = plane;
@@ -63,8 +64,8 @@ public class MeteorShowerRM extends World {
         this.correctShootCounter = shootCounter;
     }
 
-    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers, 
-            Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, int powerUp, 
+    public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers,
+            Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, int powerUp,
             int shootCounter, int backgroundCounter) {
         super();
         this.plane = plane;
@@ -90,30 +91,32 @@ public class MeteorShowerRM extends World {
         newMeteors = newMeteors.tick();
 
         // CREATING DIFFERENT LEVELS:
-        
         if (counterMeteor < 5000) {
-          if (counterMeteor % 90 == 0) {
-            // Solves the problem of intervals
-            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+            if (counterMeteor % 90 == 0) {
+                // Solves the problem of intervals
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
 
-             }
+            }
         }
 
         if (counterMeteor < 100000 && counterMeteor >= 5000) {
-           if (counterMeteor % 80 == 0) {
-            // Solves the problem of intervals
-            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+            if (counterMeteor % 80 == 0) {
+                // Solves the problem of intervals
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+
             }
         }
-       
+
         if (counterMeteor >= 10000) {
             if (counterMeteor % 75 == 0) {
-            // Solves the problem of intervals
-            newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
-            } 
+                // Solves the problem of intervals
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+
+            }
         }
         counterMeteor++;
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
+
         Bag newExplosions = this.explosionsRM.tick();
 
         return new MeteorShowerRM(this.plane, newMeteors, newLasers, newExplosions, this.lives, this.score, this.gameOver, this.powerUp,
@@ -139,7 +142,7 @@ public class MeteorShowerRM extends World {
         boolean newGameOver = this.gameOver;
         int newPowerUp = this.powerUp;
         int newShootCounter = this.correctShootCounter;
-        
+
         // Update Explosions
         Sequence<Explosion> seqExp = newExplosions.seq();
         if (seqExp.hasNext()) {
@@ -148,12 +151,13 @@ public class MeteorShowerRM extends World {
             }
             seqExp = seqExp.next();
         }
-        
+
         // 1. Meteor passes the plane -->  plane same, takes out colliding meteor, lose life, 
         // score same, check for gameOver, powerUp same, correct shoot counter to 0,
         MeteorRM collider = newMeteors.collidesWith(newPlane);
-        if (collider != null  /* if a meteor passes the plane... */) {
+        if (collider != null /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
+
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
             System.out.println("I added an explosion from Meteor/Plane Collision");
             newLives = newLives.subtractLife();
@@ -162,7 +166,6 @@ public class MeteorShowerRM extends World {
             }
             newShootCounter = 0;
         }
-        
 
         // 2. Laser hits Meteor --> 
         // plane same, takes out colliding meteor, takes out colliding laser, 
@@ -176,10 +179,13 @@ public class MeteorShowerRM extends World {
                 MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
                 if (collidingMeteor != null) {
                     newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
+
                     newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
+
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
-                if (collidingLaser.color.equals(collidingMeteor.color)) {
-                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, true));
+
+                    if (collidingLaser.color.equals(collidingMeteor.color)) {
+                        newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, true));
                         newScore = newScore.addScore();
                         if (this.getPowerUp()) {
                             newPowerUp = newPowerUp + 1;
@@ -187,7 +193,7 @@ public class MeteorShowerRM extends World {
                         newShootCounter = newShootCounter + 1;
                     } //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
                     else {
-                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, false));
+                        newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, false));
                         newScore = newScore.subtractScore();
                         newShootCounter = 0;
                     }
@@ -233,11 +239,11 @@ public class MeteorShowerRM extends World {
     public boolean getPowerUp() {
         return this.correctShootCounter % 9 == 0 && correctShootCounter != 0;
     }
-    
+
     public int showPowerUp() {
         return this.powerUp;
     }
-    
+
     public WorldImage drawPowerUp(int width, int height) {
         return new FromFileImage(new Posn(width, height), "powerUp.png");
     }
@@ -251,18 +257,16 @@ public class MeteorShowerRM extends World {
         } else {
             background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
         }
-        
+
         // Drawing Plane
         WorldImage finalImage = new OverlayImages(background, this.plane.planeImage());
 
-        
         // Drawing Meteors
         Sequence<MeteorRM> seqMeteor = this.meteorDataStructRM.seq();
         while (seqMeteor.hasNext()) {
             finalImage = new OverlayImages(finalImage, seqMeteor.here().meteorImage());
             seqMeteor = seqMeteor.next();
         }
-        
 
         // Drawing Lasers
         Sequence<LaserRM> seqLaser = this.lasersRM.seq();
@@ -281,36 +285,50 @@ public class MeteorShowerRM extends World {
         // Drawing Score
         TextImage score2 = new TextImage(new Posn(55, 40), "Score: " + this.score.score, 18, new White());
         finalImage = new OverlayImages(finalImage, score2);
-        
+
         // Drawing Lives
         finalImage = this.lives.draw(finalImage);
-        
+
         // Drawing powerUP
-        switch(showPowerUp()) {
-            case 0 : break;
-            case 1 : finalImage = new OverlayImages(finalImage, drawPowerUp(30,85));
+        switch (showPowerUp()) {
+            case 0:
                 break;
-            case 2: finalImage = new OverlayImages(finalImage,drawPowerUp(30,85));
-                    finalImage = new OverlayImages(finalImage,drawPowerUp(55,85));
+            case 1:
+                finalImage = new OverlayImages(finalImage, drawPowerUp(30, 85));
                 break;
-            case 3: finalImage = new OverlayImages(finalImage,drawPowerUp(30,85));
-                     finalImage = new OverlayImages(finalImage,drawPowerUp (55,85));
-                      finalImage = new OverlayImages(finalImage,drawPowerUp(80,85));
+            case 2:
+                finalImage = new OverlayImages(finalImage, drawPowerUp(30, 85));
+                finalImage = new OverlayImages(finalImage, drawPowerUp(55, 85));
+                break;
+            case 3:
+                finalImage = new OverlayImages(finalImage, drawPowerUp(30, 85));
+                finalImage = new OverlayImages(finalImage, drawPowerUp(55, 85));
+                finalImage = new OverlayImages(finalImage, drawPowerUp(80, 85));
         }
-        
+
         return finalImage;
     }
-}
 
     // This method produces an instance of a class WorldEnd that consists of a boolean value
 // indicating whether the world is ending (false if the world goes on) and the WorldImage
 // that represents the last image to be displayed - for example announcing the winner of the game,
 // or the final score.
-//    public WorldEnd worldEnds() {
-//
-//    }
-//    public WorldEnd worldEnds(){
-//      return new WorldEnd(true,
-//        this.makeImage());
-//  }
+    public WorldEnd worldEnds() {
+        if (gameOver) {
+            WorldImage background;
+            if (changeBackgroundCounter % 2 == 1) {
+                background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+            } else {
+                background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+            }
 
+            WorldImage gameOverText = new OverlayImages(new TextImage(new Posn(235, 225), "Game Over!", 40, new White()),
+                    new TextImage(new Posn(235, 275), "Score: " + this.score.score, 40, new White()));
+            return new WorldEnd(true, new OverlayImages(background, gameOverText));
+
+        } else {
+            return new WorldEnd(false, this.makeImage());
+        }
+    }
+
+}
