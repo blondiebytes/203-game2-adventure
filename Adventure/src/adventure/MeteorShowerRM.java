@@ -19,8 +19,7 @@ import javalib.worldimages.WorldImage;
 public class MeteorShowerRM extends World {
     
 // ============= TO DO STILL ============= 
-// 1. Explosions --> they don't show up always
-// 4. Create a start and end screen
+// 1. Create a start and end screen
 // =======================================
 
     Lives lives;
@@ -155,7 +154,7 @@ public class MeteorShowerRM extends World {
         MeteorRM collider = newMeteors.collidesWith(newPlane);
         if (collider != null  /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
-            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
+            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
             System.out.println("I added an explosion from Meteor/Plane Collision");
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
@@ -176,24 +175,21 @@ public class MeteorShowerRM extends World {
             } else {
                 MeteorRM collidingMeteor = newMeteors.collidesWith(collidingLaser);
                 if (collidingMeteor != null) {
+                    newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
+                    newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
                     //A. Red laser hits Red meteor //  Blue laser hits Blue Meteor --> score + 10, check if powerUp, shootcounter+1
-
-                    if (collidingLaser.color.equals(collidingMeteor.color)) {
-                        newMeteors = newMeteors.remove(collidingMeteor); /* remove that colliding meteor! */
-                        newLasers = newLasers.remove(collidingLaser); /*remove that colliding laser! */
-                        newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
-                        System.out.println("I added an explosion from Meteor/Laser Collision");
+                if (collidingLaser.color.equals(collidingMeteor.color)) {
+                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, true));
                         newScore = newScore.addScore();
                         if (this.getPowerUp()) {
                             newPowerUp = newPowerUp + 1;
                         }
                         newShootCounter = newShootCounter + 1;
-                        System.out.println("hit same color");
                     } //B. Red laser hits Blue Meteor //  Blue laser hits Red Meteor --> score - 10, powerUp same, shoot counter to 0
                     else {
+                    newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, false));
                         newScore = newScore.subtractScore();
                         newShootCounter = 0;
-                        System.out.println("hit diff color");
                     }
 
                 }

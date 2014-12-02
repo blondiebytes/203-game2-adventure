@@ -71,7 +71,7 @@ public class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick();
         
-          if (releaseMeteor % 30 == 0) {
+          if (releaseMeteor % 40 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
              }
@@ -114,7 +114,7 @@ public class MeteorShowerHM extends World {
         MeteorHM collider = newMeteors.collidesWith(newPlane);
         if (collider != null /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
-            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height));
+            newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
             newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
                 return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps - 1, 0, 1);
@@ -126,7 +126,7 @@ public class MeteorShowerHM extends World {
             LaserHM collidingLaser = seqLaser.here();
             MeteorHM collidingMeteor = newMeteors.collidesWith(collidingLaser);
             if (collidingMeteor != null) {
-                newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height));
+                newExplosions = newExplosions.add(new Explosion(collidingMeteor.width, collidingMeteor.height, true));
                 /* remove that colliding meteor! */ newMeteors = newMeteors.remove(collidingMeteor);
                 /*remove that colliding laser! */ newLasers = newLasers.remove(collidingLaser);
             newScore = newScore.addScore();

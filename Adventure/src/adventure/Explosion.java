@@ -15,32 +15,38 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     int height;
     int width;
     int show;
+    boolean correctColor;
     static int count;
     
-    public Explosion(int widthM, int heightM) {
+    public Explosion(int widthM, int heightM, boolean cc) {
         height = heightM;
         width = widthM;
-        show = 10;
+        show = 6;
+        correctColor = cc;
         this.identity = count;
         count++;
     }
     
-    public Explosion(int widthM, int heightM, int identityM, int show) {
+    public Explosion(int widthM, int heightM, int identityM, int show, boolean cc) {
         height = heightM;
         width = widthM;
         this.identity = identityM;
         this.show = show;
+        this.correctColor = cc;
     }
     
     // ========== DRAW ==========
     public WorldImage explosionImage() {
-            System.out.println("EXPLOSION " + this.identity + " : This width" + this.width + "This height" + this.height);
+        if (correctColor) {
             return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
+        } else {
+            return new FromFileImage(new Posn(this.width, this.height), "explosion-purple.png");
+        }
     }
     
     // ========== TICK ==========
     public Explosion onTick() {
-        return new Explosion(this.width, this.height, this.identity, this.show - 1);
+        return new Explosion(this.width, this.height, this.identity, this.show - 1, this.correctColor);
     }
     
     // ========== EQUALITY ==========

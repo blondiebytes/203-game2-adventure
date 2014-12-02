@@ -107,7 +107,6 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
                         * (this.getWidth() - thing.getWidth())
                 + (this.getHeight() - thing.getHeight()) 
                         * (this.getHeight() - thing.getHeight()));
-
     }
     
     public boolean aboutToLeave() {

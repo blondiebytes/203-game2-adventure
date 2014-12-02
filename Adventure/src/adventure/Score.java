@@ -4,7 +4,6 @@ package adventure;
 public class Score {
     int score;
     
-    
     public Score() {
         score = 0;
     }
@@ -18,7 +17,7 @@ public class Score {
     }
     
      public Score subtractScore() {
-        return new Score(this.score - 9/10);
+         return new Score( this.score - 10);
     }
     
     // NEED TO IMPLEMENT
