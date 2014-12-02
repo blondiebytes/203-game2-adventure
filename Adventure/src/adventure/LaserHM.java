@@ -37,7 +37,6 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
             deltaWidth = 1;
         }
         this.width = plane.width + (deltaWidth * 80);
-        System.out.println("I created a new laser" + identity);
         count++;
     }
     
