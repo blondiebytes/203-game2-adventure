@@ -108,13 +108,14 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     public MeteorHM collidesWith(Collideable thing) {
         if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        } else if (thing instanceof PlaneHM) {
-            if ((this.deltaWidth == 1 && this.getWidth() >= thing.getWidth())
-                    || (this.deltaWidth == -1 && this.getWidth() <= thing.getWidth())) {
-                return this;
-            }
-            return null;
-        } 
+        }
+//        } else if (thing instanceof PlaneHM) {
+//            if ((this.deltaWidth == 1 && this.getWidth() >= thing.getWidth())
+//                    || (this.deltaWidth == -1 && this.getWidth() <= thing.getWidth())) {
+//                return this;
+//            }
+//            return null;
+//        } 
         else // HATE null....
         {
             return null;
