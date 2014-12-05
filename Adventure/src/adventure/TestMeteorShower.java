@@ -34,6 +34,7 @@ public class TestMeteorShower {
            MeteorShowerRM nG = (MeteorShowerRM) meteorShowerR.onKeyEvent(key);
            verifyInvarientsRM(meteorShowerR, nG, key);
            meteorShowerR = nG;
+           System.out.println("ran RM tests");
          }
         }
         
