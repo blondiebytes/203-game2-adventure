@@ -232,9 +232,11 @@ public class TestFunctions {
     // Also making sure movement doesn't change anything 
     // else except width
     public static void testMeteorMoveHM(MeteorHM m, MeteorHM tickedM) throws Exception {
-        // Or it equals the senitenal value 
-        if ((tickedM.width != m.width + m.deltaWidth) || m.width != -20) {
+        if (tickedM.width != m.width + m.deltaWidth) {
+            // It's not the senitenal value, then failing
+            if (m.width != -20) {
             throw new Exception("Doesn't Tick! W:" + m.width + " + DW: " + m.deltaWidth + " = ticked Width" +tickedM.width);
+            }
         }
         if (tickedM.height != m.height
                 || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
@@ -341,7 +343,7 @@ public class TestFunctions {
             testMeteorMoveRM(mR, tickedmR);
             mR = tickedmR;
             MeteorHM tickedmH = mH.onTick();
-//            testMeteorMoveHM(mH, tickedmH);
+            testMeteorMoveHM(mH, tickedmH);
             mH = tickedmH;
         }
         System.out.println("testMeteorColorRM success: " + testMeteorColorRM + " times");
