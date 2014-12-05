@@ -10,7 +10,7 @@ public class RunMeteorShower {
 //       meteorShower.bigBang(500, 500, 0.01);
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();
         meteorShowerR.bigBang(500, 500, 0.01);
-//        
+////        
        
 //        while(true) {
 //            while(!meteorShowerR.gameOver) {

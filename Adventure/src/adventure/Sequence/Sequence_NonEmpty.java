@@ -5,7 +5,10 @@
  */
 package adventure.Sequence;
 
-public class Sequence_NonEmpty<D extends Comparable> implements Sequence<D>, Sequenced<D> {
+import adventure.Collideable;
+import adventure.Tickable;
+
+public class Sequence_NonEmpty<D extends Comparable & Tickable & Collideable> implements Sequence<D>, Sequenced<D> {
     D here;
     int count;
     Sequence<D> next;
@@ -39,5 +42,6 @@ public class Sequence_NonEmpty<D extends Comparable> implements Sequence<D>, Seq
     public String toStringSequence() {
         return "" + this.here;
     }
+    
     
 }

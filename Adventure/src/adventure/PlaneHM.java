@@ -14,7 +14,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int width = MAXW / 2;
     String direction;
     static int radius = 30;
-    static int MAXH = 500;
+    static int MAXH = 510;
     static int MAXW = 500;
     static int LEASTH = 60;
     static int HYPER_MULTIPLE = 30;

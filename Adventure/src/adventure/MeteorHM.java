@@ -77,7 +77,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     // ========== TICK ==========
     // Height is ranomly 
     public MeteorHM onTick() {
-        // Make it across one
+        // Make it go across one
         return new MeteorHM(this.width + this.deltaWidth, this.height, this.identity, "already-decided", this.deltaWidth);
 
     }

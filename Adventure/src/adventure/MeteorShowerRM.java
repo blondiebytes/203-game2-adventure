@@ -19,9 +19,6 @@ import javalib.worldimages.WorldImage;
 
 public class MeteorShowerRM extends World {
 
-// ============= TO DO STILL ============= 
-// 1. Create a start and end screen
-// =======================================
     Lives lives;
     PlaneRM plane;
     Bag<MeteorRM> meteorDataStructRM;
