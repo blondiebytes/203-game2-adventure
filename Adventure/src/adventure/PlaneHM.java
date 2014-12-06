@@ -11,7 +11,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
 
     int height;
     int deltaHeight;
-    int width = MAXW / 2;
+    int width = 240;
     String direction;
     static int radius = 30;
     static int MAXH = 510;

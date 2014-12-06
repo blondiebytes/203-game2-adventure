@@ -79,7 +79,8 @@ public class TestFunctions {
     //               p = plane; m = meteor mD = meteor-datastruct
     //               mode = gamemod; l = laser
     // ================================================================
-    static int tests = 999;
+    static int tests = 10;
+    static int testsMore = 4999;
     static int testPlaneMoveRightAndLeftRM = 0;
     static int testPlaneMoveRightAndLeftHM = 0;
     static int testMeteorColorRM = 0;
@@ -93,7 +94,6 @@ public class TestFunctions {
     static int testLaserMoveHM = 0;
     static int testConstructorRM = 0;
     static int testConstructorHM = 0;
-    static int testStartUporRestartDown = 0;
     static int testShootLaserHM = 0;
     static int testShootLaserRM = 0;
     static int testLaserMeteorRemovedRM = 0;
@@ -314,7 +314,7 @@ public class TestFunctions {
         // ========================================================
         PlaneRM planeR = new PlaneRM();
         PlaneHM planeH = new PlaneHM();
-        for (int i = 0; i <= tests; i++) {
+        for (int i = 0; i <= testsMore; i++) {
             String k = randomButton();
             // ---------REACT & TICK---------
             PlaneRM planeRegularReacted = planeR.react(k);
@@ -333,7 +333,7 @@ public class TestFunctions {
         // ========================================================
         MeteorHM mH = new MeteorHM(new PlaneHM());
         MeteorRM mR = new MeteorRM(new PlaneRM());
-        for (int i = 0; i <= tests; i++) {
+        for (int i = 0; i <= testsMore; i++) {
             // --------REACT-----------
             String rnd = randomButton();
             MeteorRM reactmR = mR.react(rnd);
@@ -360,7 +360,7 @@ public class TestFunctions {
         // ========================================================
         LaserRM LR = new LaserRM(planeR);
         LaserHM LH = new LaserHM(planeH);
-        for (int i = 0; i <= tests; i++) {
+        for (int i = 0; i <= testsMore; i++) {
             // --------REACT & COLOR-----------
             String rnd = randomButton();
             LaserRM reactedLR = LR.react(rnd);
@@ -429,14 +429,13 @@ public class TestFunctions {
         if (mS.correctShootCounter != 0) {
             throw new Exception("Starting with correct shoot counter > 0");
         }
-
         testConstructorRM++;
     }
 
     public static void testConstructorHM() throws Exception {
         MeteorShowerHM mS = new MeteorShowerHM();
         // Does the plane start at the top middle of the screen?
-        if (mS.plane.width != PlaneRM.middleOfScreenWidth) {
+        if (mS.plane.width != PlaneHM.middleOfScreenWidth) {
             throw new Exception("The player does not start at the middle of "
                     + "screen");
         }
@@ -478,21 +477,24 @@ public class TestFunctions {
 
         // Going through all lasers; checking if going to disappear or colliding
         Sequence<LaserRM> laserSeq = old.lasersRM.seq();
-        while (laserSeq.hasNext() || old.meteorDataStructRM.collidesWith(laserSeq.here()) != null) {
-            if (laserSeq.here().aboutToLeave()) {
+        while (laserSeq.hasNext()) {
+            if (laserSeq.here().aboutToLeave() || old.meteorDataStructRM.collidesWith(laserSeq.here()) != null) {
                 lasersAboutToLeave++;
             }
             laserSeq = laserSeq.next();
         }
+        System.out.println(lasersAboutToLeave);
 
         if (key.equals("s")) {
             if (old.lasersRM.cardinality() + 1 - lasersAboutToLeave != newG.lasersRM.cardinality()) {
-                throw new Exception("Spacebar pressed, but laser isn't added");
+                throw new Exception("S pressed, but laser isn't added Old:" 
+                        + old.lasersRM.cardinality() + " New:" + newG.lasersRM.cardinality() + "Left:" + lasersAboutToLeave);
             }
         } else {
             //if for each laser in RM, none of them are about to leave
             if (old.lasersRM.cardinality() - lasersAboutToLeave != newG.lasersRM.cardinality()) {
-                throw new Exception("Spacebar isn't pressed, but laser cardinality changed");
+                throw new Exception("S isn't pressed, but laser cardinality changed Old:" 
+                        + old.lasersRM.cardinality() + " New:" + newG.lasersRM.cardinality() + "Left:" + lasersAboutToLeave);
             }
         }
         testShootLaserRM++;
@@ -534,8 +536,8 @@ public class TestFunctions {
                 if (newG.meteorDataStructRM.member(meteorSeq.here()) || old.lasersRM.collidesWith(meteorSeq.here()) != null) {
                     throw new Exception("A meteor was about to leave, but it's still here");
                 }
-                meteorSeq = meteorSeq.next();
             }
+             meteorSeq = meteorSeq.next();
         }
 
         // / Going through each laser, if one is about to leave the screen
@@ -545,8 +547,9 @@ public class TestFunctions {
                 if (newG.lasersRM.member(laserSeq.here()) || old.meteorDataStructRM.collidesWith(laserSeq.here()) != null) {
                     throw new Exception("A laser was about to leave, but still here");
                 }
-                laserSeq = laserSeq.next();
+                
             }
+            laserSeq = laserSeq.next();
         }
 
         testLaserMeteorRemovedRM++;
@@ -562,8 +565,9 @@ public class TestFunctions {
                 if (newG.meteorDataStructHM.member(meteorSeq.here())) {
                     throw new Exception("A meteor was about to leave, but it's still here");
                 }
-                meteorSeq = meteorSeq.next();
+                
             }
+            meteorSeq = meteorSeq.next();
         }
 
         // / Going through each laser, if one is about to leave the screen
@@ -573,8 +577,9 @@ public class TestFunctions {
                 if (newG.lasersHM.member(laserSeq.here())) {
                     throw new Exception("A laser was about to leave, but still here");
                 }
-                laserSeq = laserSeq.next();
+                
             }
+            laserSeq = laserSeq.next();
         }
 
         testLaserMeteorRemovedHM++;
@@ -637,7 +642,7 @@ public class TestFunctions {
         }
 
         if (oG.score.score + (collisionScore * 10) != nG.score.score) {
-            throw new Exception("Score didn't increase");
+            throw new Exception("Score didn't increase" + oG.score.score + " " + nG.score.score);
         }
         if (oG.lives.life + collisionLives != nG.lives.life) {
             throw new Exception("Lives changed!");
@@ -726,11 +731,11 @@ public class TestFunctions {
             testShootLaser(oG, nG, key);
             testLaserMeteorRemoved(oG, nG);
             testTriggerHyperSpeedMode(oG, key);
-            testCollisionRegularMode(oG, nG);
+           testCollisionRegularMode(oG, nG);
             testPowerUpHyperMode(oG, nG);
             testGameOverLives(oG, nG);
-
         }
+        
     }
 
     public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG, String key) throws Exception {
