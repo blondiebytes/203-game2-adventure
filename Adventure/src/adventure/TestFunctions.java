@@ -1,6 +1,7 @@
 package adventure;
 
 import adventure.Sequence.Sequence;
+import java.util.Arrays;
 import java.util.Random;
 import javalib.funworld.World;
 
@@ -122,7 +123,7 @@ public class TestFunctions {
             return "d";
         } else {
             int stringVal = rnd.nextInt(25);
-            return Character.toChars(65 + stringVal).toString();
+            return Arrays.toString(Character.toChars(65 + stringVal));
         }
     }
 
@@ -235,12 +236,15 @@ public class TestFunctions {
         if (tickedM.width != m.width + m.deltaWidth) {
             // Is it sentienal?
             if (m.width != -19) {
-            throw new Exception("Doesn't Tick! W:" + m.width + " + DW: " + m.deltaWidth + " = ticked Width" +tickedM.width);
+                throw new Exception("Doesn't Tick! W:" + m.width + " + DW: " + m.deltaWidth + " = ticked Width" + tickedM.width);
             }
         }
         if (tickedM.height != m.height
                 || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
-            throw new Exception("HM: Something other than width changes when ticked!" + tickedM.height + " " + m.height);
+            // Is it sentienal?
+            if (m.width != -19) {
+                throw new Exception("HM: Something other than width changes when ticked!" + tickedM.height + " " + m.height);
+            }
         }
         testMeteorMoveHM++;
     }
@@ -412,7 +416,7 @@ public class TestFunctions {
         }
 
         // Does the game start?
-        if (!mS.gameOver) {
+        if (mS.gameOver) {
             throw new Exception("The game is starting, but the game is over");
         }
 
@@ -462,9 +466,6 @@ public class TestFunctions {
             testConstructorRM();
             testConstructorHM();
         }
-        System.out.println("testConstructorRM success: " + testConstructorRM + " times");
-        System.out.println("testConstructorHM success: " + testConstructorRM + " times");
-        System.out.println(" testStartUpOrRestartDown success: " + testStartUporRestartDown + " times");
     }
 
     // ----------------------------------------------------------------
@@ -628,7 +629,7 @@ public class TestFunctions {
         Sequence<MeteorRM> meteorSeq = oG.meteorDataStructRM.seq();
         while (meteorSeq.hasNext()) {
              // When a meteor passes the top of the screen, do you lose a life?
-             // does the score stay the same?
+            // does the score stay the same?
             if (meteorSeq.here().collidesWith(oG.plane) != null) {
                 collisionLives--;
             }
@@ -644,9 +645,6 @@ public class TestFunctions {
         testCollisionRegularMode++;
     }
 
-    
-    
-    
     // ----------------------------------------------------------------
     // HYPERSPEED MODE & SCORING:
     // ----------------------------------------------------------------
@@ -660,25 +658,25 @@ public class TestFunctions {
         testPowerUpHyperMode++;
     }
 
-    public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception{
+    public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) throws Exception {
         Sequence<LaserHM> laserSeq = oG.lasersHM.seq();
         int collisionScore = 0;
         int collisionLives = 0;
-        
+
         // Checking Meteors & Lasers Colliding, Score, and Lives
         while (laserSeq.hasNext()) {
             MeteorHM collidingMeteor = oG.meteorDataStructHM.collidesWith(laserSeq.here());
             // If there is a collidingMeteor... then check all of this stuff
             if (collidingMeteor != null) {
                 // When a laser and meteor collide, does the score increase? 
-                 // do the lives stay the same?
-                    collisionScore++;
+                // do the lives stay the same?
+                collisionScore++;
             }
             laserSeq = laserSeq.next();
         }
         // When a meteor passes the top of the screen, do your lives and score
         // stay the same? --> no need to change collisionScore or collisionLives
-        
+
         if (oG.score.score + (collisionScore * 10) != nG.score.score) {
             throw new Exception("Score didn't increase");
         }
@@ -723,7 +721,7 @@ public class TestFunctions {
 //   // ================================================================
 
     public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG, String key) throws Exception {
-        for (int i = 0; i > tests; i++) {
+        for (int i = 0; i < tests; i++) {
             testConstructorRM();
             testShootLaser(oG, nG, key);
             testLaserMeteorRemoved(oG, nG);
@@ -731,29 +729,19 @@ public class TestFunctions {
             testCollisionRegularMode(oG, nG);
             testPowerUpHyperMode(oG, nG);
             testGameOverLives(oG, nG);
-            System.out.println("testConstructorRM" + testConstructorRM + " times");
-            System.out.println("testStartUpOrRestartDown " + testStartUporRestartDown + " times");
-            System.out.println("testShootLaserRM " + testShootLaserRM + " times");
-            System.out.println("testLaserMeteorRemovedRM" + testLaserMeteorRemovedRM + " times");
-            System.out.println("testTriggerHyperSpeedMode " + testTriggerHyperSpeedMode + " times");
-            System.out.println("testCollisionRegularMode " + testCollisionRegularMode + " times");
-            System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode+ " times");
-            System.out.println("testGameOverLives " + testGameOverLives + " times");
+
         }
     }
 
     public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG, String key) throws Exception {
-        for (int i = 0; i > tests; i++) {
+        for (int i = 0; i < tests; i++) {
             testConstructorHM();
             testShootLaser(oG, nG, key);
             testLaserMeteorRemoved(oG, nG);
             testCollisionHyperMode(oG, nG);
-             System.out.println("testConstructorHM" + testConstructorHM + " times");
-            System.out.println("testStartUpOrRestartDown " + testStartUporRestartDown + " times");
-            System.out.println("testShootLaserHM " + testShootLaserHM + " times");
-            System.out.println("testLaserMeteorRemovedHM" + testLaserMeteorRemovedHM + " times");
-            System.out.println("testCollisionHyperMode " + testCollisionHyperMode + " times");
+
         }
+       
 
     }
 }
