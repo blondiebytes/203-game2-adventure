@@ -29,7 +29,7 @@ static int tests = 50;
         for(int i = 0; i < tests; i++) {
             String key = randomButton();
             // We can do this because in our tests, we don't ever have the key to be 0 in our random button
-            MeteorShowerRM nG = (MeteorShowerRM) meteorShowerR.onTick().onKeyEvent(key);
+            MeteorShowerRM nG = (MeteorShowerRM) meteorShowerR.onKeyEvent(key).onTick();
            verifyInvarientsRM(meteorShowerR, nG, key);
            meteorShowerR = nG;
         }

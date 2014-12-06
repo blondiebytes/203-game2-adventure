@@ -92,7 +92,7 @@ public class MeteorShowerRM extends World {
             if (counterMeteor % 90 == 0) {
                 // Solves the problem of intervals
                 newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
-
+                System.out.println("add meteor");
             }
         }
 

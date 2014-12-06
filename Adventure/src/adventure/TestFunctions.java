@@ -483,7 +483,6 @@ public class TestFunctions {
             }
             laserSeq = laserSeq.next();
         }
-        System.out.println(lasersAboutToLeave);
 
         if (key.equals("s")) {
             if (old.lasersRM.cardinality() + 1 - lasersAboutToLeave != newG.lasersRM.cardinality()) {
