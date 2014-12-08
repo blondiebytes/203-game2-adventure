@@ -71,7 +71,7 @@ public class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick(this.plane);
         
-          if (releaseMeteor % 15 == 0) {
+          if (releaseMeteor % 30 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick()));
             /* Need to tick the meteors & add a new one */

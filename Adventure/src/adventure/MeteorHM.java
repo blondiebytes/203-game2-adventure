@@ -29,14 +29,19 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     MeteorHM(int width, int height, int count, String direction, int deltaWidth) {
         // Using Sentinal w = -20
         if (width == -20) {
-                Random random = new Random();
-                this.height = random.nextInt() % 500;
+            Random random = new Random();
+            int delta = random.nextInt();
+            if (delta % 2 == 0 ) {
+            this.height = delta % 500;
+            } else {
+                this.height = delta % 50 * 5 - 100;
+            }
             // We want to go the opposite way the plane is going
             if (direction.equals("right")) {
                 // If you start from the left, you want to go right (so add 1 each time)
                 this.width = 0;
                 this.deltaWidth = 1;
-               } else {
+            } else {
                 // If you start from the right, you want to go left (so subtract 1 each time)
                 this.width = MAXWgeneration;
                 this.deltaWidth = -1;
@@ -71,7 +76,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     public MeteorHM onTick() {
         return this;
     }
-    
+
     public MeteorHM onTick(PlaneHM p) {
         // Different Versions of the AI in Comments
         // ====================================================================
@@ -89,7 +94,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
 //                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
 //            }
 //        }
-        
+
         // ====================================================================
         // If when the plane goes up, all the meteors go up and when the plane
         // goes down, all the meteors go down
@@ -106,18 +111,16 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
 //                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
 //            }
 //        }
-        
         // ====================================================================
         // If when the plane goes up, we want the meteors going left to go down and the meteors going right to go up 
         // and when the plane goes down, we want the meteors going right to go down and the meteors going left to go up
         // Basically interchanging which side is chasing the plane --> LOOKS THE COOOOOOLEST
-          if (p.upOrDown.equals("up")) {
-                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
-            }
-          else {
-                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+        if (p.upOrDown.equals("up")) {
+            return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+        } else {
+            return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
         }
-         
+
     }
 
     // ========== EQUALITY ==========
@@ -146,14 +149,13 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     public MeteorHM collidesWith(Collideable thing) {
         if (this.distance(thing) <= (this.getRadius() + thing.getRadius())) {
             return this;
-        }
-//        } else if (thing instanceof PlaneHM) {
-//            if ((this.deltaWidth == 1 && this.getWidth() >= thing.getWidth())
-//                    || (this.deltaWidth == -1 && this.getWidth() <= thing.getWidth())) {
-//                return this;
-//            }
-//            return null;
-//        } 
+        } //        } else if (thing instanceof PlaneHM) {
+        //            if ((this.deltaWidth == 1 && this.getWidth() >= thing.getWidth())
+        //                    || (this.deltaWidth == -1 && this.getWidth() <= thing.getWidth())) {
+        //                return this;
+        //            }
+        //            return null;
+        //        } 
         else // HATE null....
         {
             return null;
