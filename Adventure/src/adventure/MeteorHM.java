@@ -29,23 +29,14 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     MeteorHM(int width, int height, int count, String direction, int deltaWidth) {
         // Using Sentinal w = -20
         if (width == -20) {
-            Random random = new Random();
-            int delta = random.nextInt() % 10;
-            this.height = height + (delta * 30);
-                if (this.height >= 390) {
-                   this.height = 390;
-               }
-               if (this.height <= 160) {
-                   this.height = 160;
-               }
+                Random random = new Random();
+                this.height = random.nextInt() % 500;
             // We want to go the opposite way the plane is going
-           // if (direction.equals("right")) {
+            if (direction.equals("right")) {
                 // If you start from the left, you want to go right (so add 1 each time)
-               if (delta % 2 == 0) {
                 this.width = 0;
                 this.deltaWidth = 1;
                } else {
-           // } else {
                 // If you start from the right, you want to go left (so subtract 1 each time)
                 this.width = MAXWgeneration;
                 this.deltaWidth = -1;

@@ -1,0 +1,34 @@
+ant -f "/Users/kathrynhodge/Desktop/stuff/Vassar/CMPU 203/Assignments/Adventure-Game2-CS203-Java/Adventure" -Djavac.includes=adventure/TestMeteorShower.java -Dnb.internal.action.name=run.single -Drun.class=adventure.TestMeteorShower run-single
+init:
+Deleting: /Users/kathrynhodge/Desktop/stuff/Vassar/CMPU 203/Assignments/Adventure-Game2-CS203-Java/Adventure/build/built-jar.properties
+deps-jar:
+Updating property file: /Users/kathrynhodge/Desktop/stuff/Vassar/CMPU 203/Assignments/Adventure-Game2-CS203-Java/Adventure/build/built-jar.properties
+Compiling 1 source file to /Users/kathrynhodge/Desktop/stuff/Vassar/CMPU 203/Assignments/Adventure-Game2-CS203-Java/Adventure/build/classes
+compile-single:
+run-single:
+testPlaneMoveRightAndLeftRM success: 5000 times
+testPlaneMoveRightAndLeftHM success:5000 times
+testMeteorColorRM success: 5000 times
+testMeteorColorHM success: 5000 times
+testMeteorMoveRM success: 5000 times
+testMeteorMoveHM success: 5000 times
+testSwitchLaserColorRM success: 5000 times
+testSameLaserColorHM success: 5000 times
+Individual Components DONE
+
+testConstructorRM 600 times
+testShootLaserRM 600 times
+testLaserMeteorRemovedRM 600 times
+testTriggerHyperSpeedMode 600 times
+testCollisionRegularMode 600 times
+testPowerUpHyperMode 600 times
+testGameOverLives 600 times
+ran RM tests 
+
+
+testConstructorHM 600 times
+testShootLaserHM 600 times
+testLaserMeteorRemovedHM 600 times
+testCollisionHyperMode 600 times
+ran HM tests
+BUILD SUCCESSFUL (total time: 7 seconds)

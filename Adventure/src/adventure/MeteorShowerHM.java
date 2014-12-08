@@ -26,7 +26,7 @@ public class MeteorShowerHM extends World {
     int powerUps;
     static int background;
     static int releaseMeteor = 0;
-// NEEDTO: Add WorldImage plane property !!!!!!!!!!!<<<<===========
+    String key = "a";
     
     
     // ========== CONSTRUCTORS ==========
@@ -71,10 +71,11 @@ public class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick(this.plane);
         
-          if (releaseMeteor % 20 == 0) {
+          if (releaseMeteor % 15 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick()));
-            System.out.println("cardinality after added" + newMeteors.cardinality()); /* Need to tick the meteors & add a new one */
+            /* Need to tick the meteors & add a new one */
+            
              }
         
           releaseMeteor++;
@@ -147,6 +148,7 @@ public class MeteorShowerHM extends World {
     // ========== REACT ==========
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke) {
+        this.key = ke;
          Bag<LaserHM> newLasersHM = this.lasersHM;
         if (ke.equals("s")) {
            newLasersHM = newLasersHM.add(new LaserHM(this.plane));

@@ -235,16 +235,20 @@ public class TestFunctions {
     public static void testMeteorMoveHM(MeteorHM m, MeteorHM tickedM) throws Exception {
         if (tickedM.width != m.width + m.deltaWidth) {
             // Is it sentienal?
-            if (m.width != -19) {
+            if (m.width == -550) {
                 throw new Exception("Doesn't Tick! W:" + m.width + " + DW: " + m.deltaWidth + " = ticked Width" + tickedM.width);
             }
         }
-        if (tickedM.height != m.height
-                || !tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
-            // Is it sentienal?
-            if (m.width != -19) {
-                throw new Exception("HM: Something other than width changes when ticked!" + tickedM.height + " " + m.height);
+         if (tickedM.height != m.width + m.deltaWidth || tickedM.height != m.width - m.deltaWidth) {
+         if (m.width == -19) {
+                throw new Exception("Doesn't Tick! W:" + m.height + " + DW: " + m.deltaWidth + " = ticked Height" + tickedM.height);
             }
+        }
+        
+        if (!tickedM.color.equals(m.color) || tickedM.identity != m.identity) {
+            // Is it sentienal?
+                throw new Exception("HM: Something other than width changes when ticked!");
+            
         }
         testMeteorMoveHM++;
     }

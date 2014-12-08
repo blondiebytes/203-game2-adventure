@@ -31,6 +31,7 @@ public class MeteorShowerRM extends World {
     static int counterMeteor;
     static int changeBackgroundCounter = 0;
     static int highScore;
+    String key = "a";
 
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
@@ -91,17 +92,14 @@ public class MeteorShowerRM extends World {
         if (counterMeteor < 5000) {
             if (counterMeteor % 90 == 0) {
                 // Solves the problem of intervals
-                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick()));
-                System.out.println("cardinality after added" + newMeteors.cardinality());/* Need to tick the meteors & add a new one */
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
             }
         }
 
         if (counterMeteor < 100000 && counterMeteor >= 5000) {
             if (counterMeteor % 80 == 0) {
                 // Solves the problem of intervals
-                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick()));
-                System.out.println("cardinality after added" + newMeteors.cardinality());/* Need to tick the meteors & add a new one */
-
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick()));/* Need to tick the meteors & add a new one */
             }
         }
 
@@ -157,7 +155,6 @@ public class MeteorShowerRM extends World {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
 
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
-            System.out.println("I added an explosion from Meteor/Plane Collision");
             newLives = newLives.subtractLife();
             if (newLives.gameOver()) {
                 newGameOver = true;
@@ -206,6 +203,7 @@ public class MeteorShowerRM extends World {
 
     // ========== REACT ==========
     public World onKeyEvent(String ke) {
+        this.key = ke;
         if (ke.equals("0")) {
             if (this.hasPowerUp()) {
                 return this.goHyper();
