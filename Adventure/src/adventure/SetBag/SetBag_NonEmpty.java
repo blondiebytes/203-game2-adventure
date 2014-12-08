@@ -13,102 +13,19 @@ import adventure.Sequence.Sequenced;
 import adventure.Tickable;
 
 public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> implements Bag<D>, Sequenced<D> {
-
-    boolean isBlack;
-    int count;
     D root;
     Bag<D> left;
     Bag<D> right;
 
-    public SetBag_NonEmpty(D root, int count, boolean isBlack, Bag<D> left, Bag<D> right) {
-        this.count = count;
-        this.root = root;
-        this.left = left;
-        this.right = right;
-        this.isBlack = isBlack;
-    }
-
-    public SetBag_NonEmpty(D root, int count, Bag<D> left, Bag<D> right) {
-        this.count = count;
-        this.root = root;
-        this.left = left;
-        this.right = right;
-    }
-
-    public SetBag_NonEmpty(D root, Bag<D> left, Bag<D> right) {
-        this.count = 1;
-        this.root = root;
-        this.left = left;
-        this.right = right;
-    }
-
-    public SetBag_NonEmpty(D root, int count) {
-        // Setting Properties
-        this.count = count;
-        this.root = root;
-        this.left = empty();
-        this.right = empty();
-    }
-
-    public SetBag_NonEmpty(D root) {
-        // Setting Properties
-        this.count = 1;
-        this.root = root;
-        this.left = empty();
-        this.right = empty();
-    }
-
-    public int getCount(D elt) {
-        if (elt.compareTo(this.root) == 0) {
-            return count;
-        } else {
-            if (elt.compareTo(root) < 0) {
-                return this.left.getCount(elt);
-            } else {
-                return this.right.getCount(elt);
-            }
-
-        }
-    }
+   
 
     // We need something that puts this in a sequence. 
     public Sequence<D> seq() {
         Sequence<D> after = (new Sequence_Cat(left.seq(), right.seq()));
-        if ( count > 0 ) {
-            return new Sequence_NonEmpty(root, count, after);
-        } else {
-            return after;
-        }
+        return new Sequence_NonEmpty(root, after);
     }
 
-    // IMPLEMENTATION OF SEQUENCES: 
-    public int sumIt() {
-        return sumItS(this.seq());
-    }
-
-    public int sumItS(Sequence<D> as) {
-        int sum = 0;
-        while (as.hasNext()) {
-            sum = sum + 1;
-            as = as.next();
-        }
-        return sum;
-    }
-
-    public String stringIt() {
-        return stringItS(this.seq());
-    }
-
-    public String stringItS(Sequence<D> as) {
-        StringBuffer all = new StringBuffer("");
-        while (as.hasNext()) {
-            all.append(as.next().toStringSequence());
-            all.append(" ");
-            as = as.next();
-        }
-        return all.toString();
-    }
-    
+   
     public Bag<D> tick(){
         Bag newStuff = empty();
         Sequence<D> seq = this.seq();
@@ -124,7 +41,7 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
    public D collidesWith(Collideable thing) {
         // Basically we want to say, for all the meteors in the meteor data struct
         // does one pass the plane? if so? which one
-        if (this.count > 0 && this.root.collidesWith(thing) != null) {
+        if (this.root.collidesWith(thing) != null) {
             return this.root;
         } else {
             D onleft = this.left.collidesWith(thing);
@@ -136,184 +53,171 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         }
     }
     
-    
+    // Constructors
+    public SetBag_NonEmpty(D root, Bag left, Bag right) {
+        this.root = root;
+        this.left = left;
+        this.right = right;
+    }
 
+    public SetBag_NonEmpty(D root) {
+        // Setting Properties
+        this.root = root;
+        this.left = empty();
+        this.right = empty();
+    }
+
+    // (empty) --> FiniteSet 
+    // Returns fresh empty set
     public static Bag empty() {
+        // Calling the helper
         return new SetBag_Empty();
     }
 
+    // (cardinality t) --> integer
+    // Returns the number of elements in t
     public int cardinality() {
-        return count + left.cardinality() + right.cardinality();
+	// Return the sum of the number of things in the left and right trees 
+        // While counting the root as a thing we have now
+        return 1 + left.cardinality() + right.cardinality();
 
     }
 
+    // (isEmptyHuh t) --> boolean
+    // Determines if t is empty
     public boolean isEmptyHuh() {
-        return this.getCount(root) == 0 && left.isEmptyHuh() && right.isEmptyHuh();
-
+	// If it's a  FiniteSet (non-empty), then this function
+        // is called and it can't be empty
+        // So return false.
+        return false;
     }
 
+    // (member t elt) --> boolean
+    // t : FiniteSet
+    // elt : integer
+    // Determines if elt is in t
     public boolean member(D elt) {
-        return this.getCount(elt) > 0;
+        // If the root equals the element, then it's a member
+        // of the tree and we are done and return true
+        if (root.compareTo(elt) == 0) {
+            return true;
+        } else {
+            if (root.compareTo(elt) == 1) {
+                return this.left.member(elt);
+            } else {
+                return this.right.member(elt);
+            }
+        }
     }
 
+    // (add t elt) --> finite-set
+    // t : finite-set
+    // elt : integer
+    // Returns a set containing elt and everything in t
+    public SetBag_NonEmpty add(D elt) {
+        if (root.compareTo(elt) == 0) {
+            return this;
+        } else {
+            // If the root is greater than the element, then add it to the left 
+            // tree
+            if (root.compareTo(elt) == 1) {
+                return new SetBag_NonEmpty(this.root, this.left.add(elt), this.right);
+            } // If the root is less than the element, then add it to the 
+            // right tree
+            else {
+                return new SetBag_NonEmpty(this.root, this.left, this.right.add(elt));
+            }
+        }
+    }
+
+	// (remove t elt) → finite-set
+    // t : finite-set
+    // elt : integer
+    // Returns a new FiniteSet without the element; we assume FiniteSets 
+    // don't contain duplicates
     public Bag remove(D elt) {
-        return removeN(elt, 1);
-    }
-
-    public Bag removeN(D elt, int n) {
-        if (elt.compareTo(this.root) == 0) {
-            int max = Math.max(0, this.count - n);
-            return new SetBag_NonEmpty(this.root, max, this.left, this.right);
+        // If this element equals the root; then take out the root by unioning
+        // the two children
+        if (this.root.compareTo(elt) == 0) {
+            // Turning two trees into one tree without the element
+            return this.left.union(this.right);
         } else {
-            if (elt.compareTo(this.root) < 0) {
-                return new SetBag_NonEmpty(this.root, this.count, this.left.removeN(elt, n), this.right);
+            if (this.root.compareTo(elt) == 1) {
+                return new SetBag_NonEmpty(this.root, this.left.remove(elt), this.right);
             } else {
-                return new SetBag_NonEmpty(this.root, this.count, this.left, this.right.removeN(elt, n));
+                return new SetBag_NonEmpty(this.root, this.left.remove(elt),
+                        this.right.remove(elt));
             }
         }
     }
 
-    public Bag removeAll(D elt) {
-        return removeN(elt, this.getCount(elt));
-    }
-
-    public Bag add(D elt) {
-        return addN(elt, 1).blacken();
-    }
-
-    public Bag addN(D elt, int n) {
-        if (elt.compareTo(this.root) == 0) {
-            int max = Math.max(0, this.count + n);
-            return new SetBag_NonEmpty(this.root, max, this.isBlack, this.left, this.right);
-        } else {
-            if (elt.compareTo(this.root) < 0) {
-                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left.addN(elt, n), this.right);
-            } else {
-                return new SetBag_NonEmpty(this.root, this.count, this.isBlack, this.left, this.right.addN(elt, n));
-            }
-        }
-    }
-    
+    // (union t u) --> finite-set
+    // t : finite-set
+    // u : finite-set
+    // Returns a set containing everything in t and u
     public Bag union(Bag u) {
-        return u.union(left.union(right)).addN(root, this.getCount(root));
+           // Union U with the unioned left & right with a copy this object; 
+        // then add the root
+        return u.union(this.left.union(this.right)).add(this.root);
     }
 
+    // (inter t u) --> finite-set
+    // t: finite-set
+    // u: finite-set
+    // Returns a set containing everything that is in both t and u
     public Bag inter(Bag u) {
+        // If the root of this object is a member of u
         if (u.member(this.root)) {
-            if (u.getCount(root) > this.getCount(root)) {
-                return new SetBag_NonEmpty(this.root, this.getCount(root),
-                        this.left.inter(u), this.right.inter(u));
-            } else {
-                return new SetBag_NonEmpty(this.root, u.getCount(root),
-                        this.left.inter(u), this.right.inter(u));
-            }
+                 // Then create a new tree with that root and the intersection
+            // of the left tree and the intersection of the right tree
+            return new SetBag_NonEmpty(this.root, this.left.inter(u),
+                    this.right.inter(u));
         } else {
+            // Otherwise don't add the root, and just return the union of
+            // the left tree's intersection with u and the right tree's 
+            // intersection with u
             return this.left.inter(u).union(this.right.inter(u));
         }
     }
 
+    // (diff t u) --> finite-set
+    // t : finite-set
+    // u : finite-set
+    // Returns a set containing everything in t that is not in u
     public Bag diff(Bag u) {
-        // U - this
-        // 6 - 5 --> subtract how many in this
-        Bag removed = u.removeN(root, this.getCount(root));
+            // Remove the root of this tree from our input tree u
+        // U - {root}
+        Bag removed = u.remove(root);
+            // Remove the left and the right of this tree from our input
+        // tree u
+        // U - {left U right)
         return (left.union(right)).diff(removed);
     }
 
+    // (equal t u) --> boolean
+    // t : finite-set
+    // u : finite-set
+    // Determines if t and u contain the same elements
     public boolean equal(Bag u) {
         return (this.subset(u) && u.subset(this));
+
+//  return this.inter(u) == this.union(u);
     }
 
+    // (subset t u) --> boolean
+    // t : finite-set
+    // u : finite-set
+    // Determines if t is a subset of u
     public boolean subset(Bag u) {
-        return (u.getCount(root) >= this.getCount(root)) && this.left.subset(u)
-                && this.right.subset(u);
+        return (u.member(this.root) && this.left.subset(u)
+                && this.right.subset(u));
     }
 
-    // Balancing Methods
-
-    public boolean isBlackHuh() {
-        return isBlack;
-     }
-
-    public Bag<D> blacken() {
-        return new SetBag_NonEmpty(this.root, this.count, true, this.left, this.right);
+    public String toString() {
+        return "(" + this.root + " " + left.toString()
+                + " " + right.toString() + ")";
     }
     
-    public SetBag_NonEmpty balance() {
-        SetBag_NonEmpty lefty;
-        SetBag_NonEmpty leftyleft;
-        SetBag_NonEmpty leftyright;
-        SetBag_NonEmpty righty;
-        SetBag_NonEmpty rightyleft;
-        SetBag_NonEmpty rightyright;
-        
-        if ((this.isBlackHuh()
-                && (this.left instanceof SetBag_NonEmpty)
-                && (((SetBag_NonEmpty) this.left).left instanceof SetBag_NonEmpty)
-                && !((SetBag_NonEmpty) this.left).isBlackHuh()
-                && !((SetBag_NonEmpty) this.left).left.isBlackHuh())) {
-            //cast it so compiler knows it's SetBag_NonEmpty
-            //error root because i can't get the left of left. 
-
-            lefty = ((SetBag_NonEmpty) this.left);
-            leftyleft = ((SetBag_NonEmpty) lefty.left);
-            //hahahahaha wowow this is complicated. 
-            return new SetBag_NonEmpty(
-                    /* root */ /* root */ lefty.root,
-                    /* count */ lefty.count,
-                    /* isBlack */ false,
-                    /* left */new SetBag_NonEmpty(leftyleft.root, leftyleft.count, true, leftyleft.left, leftyleft.right),
-                    /* right */ new SetBag_NonEmpty(this.root, this.count, true, leftyleft.right,this.right));
-        } else if ((this.isBlackHuh() 
-                && (this.left instanceof SetBag_NonEmpty) 
-                && (((SetBag_NonEmpty) this.left).right instanceof SetBag_NonEmpty)
-                && !((SetBag_NonEmpty) this.left).isBlackHuh()
-                && !((SetBag_NonEmpty) this.left).right.isBlackHuh())) {
-
-            lefty = ((SetBag_NonEmpty) this.left);
-            leftyleft = ((SetBag_NonEmpty) lefty.left);
-            leftyright = ((SetBag_NonEmpty) lefty.right);
-            //hahahahaha wowow this is complicated. 
-            return new SetBag_NonEmpty(
-                    /* root */ /* root */ leftyright.root,
-                    /* count */ leftyright.count,
-                    /* isBlack */ false,
-                    /* left */new SetBag_NonEmpty(lefty.root, lefty.count, true, leftyleft, leftyright.left),
-                    /* right */ new SetBag_NonEmpty(this.root, this.count, true, leftyright.right, this.right));
-        } else if ((this.isBlackHuh() 
-                && (this.right instanceof SetBag_NonEmpty) 
-                && (((SetBag_NonEmpty) this.right).left instanceof SetBag_NonEmpty)
-                && !((SetBag_NonEmpty) this.right).isBlackHuh()
-                && !((SetBag_NonEmpty) this.right).left.isBlackHuh())) {
-
-            righty = ((SetBag_NonEmpty) this.right);
-            rightyleft = ((SetBag_NonEmpty) righty.left);
-
-            return new SetBag_NonEmpty(
-                    /* root */ /* root */ rightyleft.root,
-                    /* count */ rightyleft.count,
-                    /* isBlack */ false,
-                    /* left */new SetBag_NonEmpty(this.root, this.count, true, this.left, rightyleft.left),
-                    /* right */ new SetBag_NonEmpty(righty.root, righty.count, true, rightyleft.right,righty.right));
-        } else if ((this.isBlackHuh() 
-                && (this.right instanceof SetBag_NonEmpty) 
-                && (((SetBag_NonEmpty) this.right).right instanceof SetBag_NonEmpty)
-                && !((SetBag_NonEmpty) this.right).isBlackHuh()
-                && !((SetBag_NonEmpty) this.right).right.isBlackHuh())) {
-
-            righty = ((SetBag_NonEmpty) this.right);
-            rightyright = ((SetBag_NonEmpty) righty.right);
-            rightyleft = ((SetBag_NonEmpty) righty.left);
-
-            return new SetBag_NonEmpty(
-                    /* root */ /* root */ righty.root,
-                    /* count */ righty.count,
-                    /* isBlack */ false,
-                    /* left */new SetBag_NonEmpty(this.root, this.count, true, this.left, rightyleft),
-                    /* right */ new SetBag_NonEmpty(rightyright.root, rightyright.count, true, rightyright.left, rightyright.right));
-        } else {
-            return this;
-        }
-    }
 
    
     

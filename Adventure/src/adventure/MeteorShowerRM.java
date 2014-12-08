@@ -91,15 +91,16 @@ public class MeteorShowerRM extends World {
         if (counterMeteor < 5000) {
             if (counterMeteor % 90 == 0) {
                 // Solves the problem of intervals
-                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
-                System.out.println("add meteor");
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick()));
+                System.out.println("cardinality after added" + newMeteors.cardinality());/* Need to tick the meteors & add a new one */
             }
         }
 
         if (counterMeteor < 100000 && counterMeteor >= 5000) {
             if (counterMeteor % 80 == 0) {
                 // Solves the problem of intervals
-                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+                newMeteors = (newMeteors.add(new MeteorRM(this.plane).onTick()));
+                System.out.println("cardinality after added" + newMeteors.cardinality());/* Need to tick the meteors & add a new one */
 
             }
         }

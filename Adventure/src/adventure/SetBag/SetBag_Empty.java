@@ -15,31 +15,67 @@ import adventure.Tickable;
 public class SetBag_Empty<D extends Comparable & Tickable & Collideable> implements Bag<D> {
     boolean isBlack;
     
-    
-    public void SetBag_Empty() {
-       this.isBlack = true;
+     public void SetBag_Empty() {
     }
     
-    public void SetBag_Empty(Boolean isBlack) {
-        this.isBlack = isBlack;
-    }
-  
-   
-    
-    //Balance Tree methods
-    
-    public Bag<D> balance() {
-        return this;
+    public int cardinality() {
+	return 0;
     }
     
-    public boolean isBlackHuh() {
-        return isBlack;
+    public boolean isEmptyHuh() {
+	// If it's a FiniteSet_Empty, then it's understood to be empty
+	// Therefore, when this function is called, it's empty. 
+        return true; 
     }
     
-    public Bag<D> blacken() {
-        return new SetBag_Empty();
+    public boolean member(D elt) {
+	// If the set is empty, then nothing can be a member of it.
+	return false;
     }
-           
+
+    public Bag remove (D elt) {
+        // We can't remove anything from an empty tree
+        // So return the same object
+	return this;
+    }
+
+    public Bag add(D elt) {
+        // The empty set plus an element is a new tree
+        // with just that element
+        return new SetBag_NonEmpty(elt);
+    }
+    
+    public Bag union(Bag u) {
+        // The empty set plus a new tree is just the new tree
+        return u;
+    }
+    
+    public Bag inter(Bag u) {
+        // The empty set can't have anything in common
+        // So return an empty set
+		return empty();  
+        }
+    
+    public boolean equal (Bag u) {
+        // If they are both empty -> both have the same size
+        // Then they are the same
+        return u.cardinality() == this.cardinality();
+    }
+    
+    public Bag diff(Bag u) {
+        // Everything in u isn't in an empty set
+        return u;
+    }
+    
+    public boolean subset (Bag u) {
+        // The empty set is a subset of everything
+        return true;
+    }
+    
+     public String toString() {
+            return "E";
+        }
+
     // Sequence Methods
     public Sequence<D> seq() {
         return new Sequence_Empty();
@@ -70,69 +106,8 @@ public class SetBag_Empty<D extends Comparable & Tickable & Collideable> impleme
    public D collidesWith(Collideable thing) {
        return null;
    }
-    
-    // Finite Set Bag Methods
-    
-    public int getCount(D elt) {
-        return 0;
-    }
-    
-    public int cardinality() {
-	return 0;
-    }
-    
-    public boolean isEmptyHuh() {
-        return true; 
-    }
-    
-    public boolean member(D elt) {
-	return false;
-    }
 
-    public Bag remove (D elt) {
-	return this;
-    }
+  
     
-    public Bag removeN(D elt, int n) {
-        return this.remove(elt);
-    }
-    
-    public Bag removeAll (D elt) {
-        return this.remove(elt);
-    }
 
-    public Bag add(D elt) {
-        return this.addN(elt,1).blacken();
-    }
-    
-    public Bag addN(D elt, int n) {
-        return new SetBag_NonEmpty(elt, n, false, empty(), empty());
-    }
-
-    
-    public Bag union(Bag u) {
-        return u;
-    }
-    
-    public Bag inter(Bag u) {
-        return empty();  
-    }
-    
-    public boolean equal (Bag u) {
-        return u.cardinality() == this.cardinality();
-    }
-    
-    public Bag diff(Bag u) {
-        return u;
-    }
-    
-    public boolean subset (Bag u) {
-        return true; 
-    }
-
-
-
-
-
-    
 }

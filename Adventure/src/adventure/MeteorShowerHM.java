@@ -73,7 +73,8 @@ public class MeteorShowerHM extends World {
         
           if (releaseMeteor % 40 == 0) {
             // Solves the problem of intervals
-            newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick())); /* Need to tick the meteors & add a new one */
+            newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick()));
+            System.out.println("cardinality after added" + newMeteors.cardinality()); /* Need to tick the meteors & add a new one */
              }
         
           releaseMeteor++;

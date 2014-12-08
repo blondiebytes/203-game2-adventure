@@ -10,12 +10,10 @@ import adventure.Tickable;
 
 public class Sequence_NonEmpty<D extends Comparable & Tickable & Collideable> implements Sequence<D>, Sequenced<D> {
     D here;
-    int count;
     Sequence<D> next;
     
-    public Sequence_NonEmpty(D here, int count, Sequence<D> next) {
+    public Sequence_NonEmpty(D here,Sequence<D> next) {
         this.here = here;
-        this.count = count;
         this.next = next;
     }
     
@@ -28,11 +26,7 @@ public class Sequence_NonEmpty<D extends Comparable & Tickable & Collideable> im
     }
     
     public Sequence<D> next() {
-       if (count > 1) {
-        return new Sequence_NonEmpty(here, count - 1, next);
-       } else {
-        return next;   
-         } 
+        return next; 
        }
     
     public Sequence<D> seq() {
