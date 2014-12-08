@@ -82,7 +82,9 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     }
     
     public MeteorHM onTick(PlaneHM p) {
-        // Down because we want the meteors to "chase" the plane
+        // Different Versions of the AI in Comments
+        // ====================================================================
+        // If we want the meteors to "chase" the plane...all go down when the plane goes up; all go up when the plane goes down
 //        if (p.height > this.height) {
 //            if (this.deltaWidth > 0) {
 //                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
@@ -96,13 +98,35 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
 //                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
 //            }
 //        }
+        
+        // ====================================================================
+        // If when the plane goes up, all the meteors go up and when the plane
+        // goes down, all the meteors go down
+        // if (p.upOrDown.equals("up")) {
+//            if (this.deltaWidth > 0) {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            } else {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            }
+//        } else {
+//            if (this.deltaWidth > 0) {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            } else {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            }
+//        }
+        
+        // ====================================================================
+        // If when the plane goes up, we want the meteors going left to go down and the meteors going right to go up 
+        // and when the plane goes down, we want the meteors going right to go down and the meteors going left to go up
+        // Basically interchanging which side is chasing the plane --> LOOKS THE COOOOOOLEST
           if (p.upOrDown.equals("up")) {
                 return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
             }
           else {
                 return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
         }
-        
+         
     }
 
     // ========== EQUALITY ==========
