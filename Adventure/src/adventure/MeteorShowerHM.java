@@ -69,9 +69,9 @@ public class MeteorShowerHM extends World {
     // This method produces a new instance of the world as it should be after one tick of the clock has passed.
     public World onTick() {
         Bag newMeteors = this.meteorDataStructHM;
-        newMeteors = newMeteors.tick();
+        newMeteors = newMeteors.tick(this.plane);
         
-          if (releaseMeteor % 40 == 0) {
+          if (releaseMeteor % 20 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick()));
             System.out.println("cardinality after added" + newMeteors.cardinality()); /* Need to tick the meteors & add a new one */

@@ -6,6 +6,7 @@ import adventure.LaserHM;
 import adventure.LaserRM;
 import adventure.MeteorHM;
 import adventure.MeteorRM;
+import adventure.PlaneHM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Cat;
 import adventure.Sequence.Sequence_NonEmpty;
@@ -31,6 +32,18 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         Sequence<D> seq = this.seq();
         while (seq.hasNext()) {
             newStuff = newStuff.add(seq.here().onTick());
+//            System.out.println("tickticktick");
+            seq = seq.next();
+        }
+        return newStuff;
+        //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
+    }
+    
+    public Bag<D> tick(PlaneHM p){
+        Bag newStuff = empty();
+        Sequence<D> seq = this.seq();
+        while (seq.hasNext()) {
+            newStuff = newStuff.add(seq.here().onTick(p));
 //            System.out.println("tickticktick");
             seq = seq.next();
         }

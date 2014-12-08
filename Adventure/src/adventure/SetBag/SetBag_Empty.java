@@ -5,6 +5,7 @@ package adventure.SetBag;
 import adventure.Collideable;
 import adventure.MeteorHM;
 import adventure.MeteorRM;
+import adventure.PlaneHM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequence_Empty;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
@@ -102,6 +103,10 @@ public class SetBag_Empty<D extends Comparable & Tickable & Collideable> impleme
      public Bag<D> tick() {
         return this;
     }
+     
+     public Bag<D> tick(PlaneHM p) {
+         return this;
+     }
    
    public D collidesWith(Collideable thing) {
        return null;

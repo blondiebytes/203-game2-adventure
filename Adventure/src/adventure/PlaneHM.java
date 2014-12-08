@@ -13,6 +13,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int deltaHeight;
     int width = 240;
     String direction;
+    String upOrDown;
     static int radius = 30;
     static int MAXH = 510;
     static int MAXW = 500;
@@ -24,14 +25,18 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int topOfScreen;
 
     // ========== CONSTRUCTORS ==========
+    public PlaneHM(String upOrDown) {
+        this(240, -1, "left", upOrDown);
+    }
     public PlaneHM() {
-        this(240, -1, "left");
+        this(240, -1, "left", "none");
     }
 
-    public PlaneHM(int height, int deltaHeight, String direction) {
+    public PlaneHM(int height, int deltaHeight, String direction, String upOrDown) {
         this.height = height;
         this.deltaHeight = deltaHeight;
         this.direction = direction;
+        this.upOrDown = upOrDown;
     }
 
     public int getWidth() {
@@ -50,11 +55,11 @@ public class PlaneHM implements Collideable<PlaneHM> {
     public PlaneHM onTick(int multiple) {
         int newHeight = height + (deltaHeight * multiple);
         if (newHeight < LEASTH) {
-            return new PlaneHM(LEASTH, deltaHeight, direction);
+            return new PlaneHM(LEASTH, deltaHeight, direction, upOrDown);
         } else if (newHeight >= MAXH) {
-            return new PlaneHM(MAXH, -deltaHeight, direction);
+            return new PlaneHM(MAXH, -deltaHeight, direction, upOrDown);
         } else {
-            return new PlaneHM(newHeight, deltaHeight, direction);
+            return new PlaneHM(newHeight, deltaHeight, direction, upOrDown);
         }
     }
 
@@ -63,14 +68,14 @@ public class PlaneHM implements Collideable<PlaneHM> {
         switch (s) {
             case "up":
                 //     System.out.println("GOING UP: ");
-                return new PlaneHM(height, -Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, -Math.abs(deltaHeight), this.direction, "up").onTick(HYPER_MULTIPLE);
             case "down":
                 //    System.out.println("GOING DOWN: ");
-                return new PlaneHM(height, Math.abs(deltaHeight), this.direction).onTick(HYPER_MULTIPLE);
+                return new PlaneHM(height, Math.abs(deltaHeight), this.direction, "down").onTick(HYPER_MULTIPLE);
             case "left":
-                    return new PlaneHM(height, deltaHeight, "left");
+                    return new PlaneHM(height, deltaHeight, "left", upOrDown);
             case "right":
-                return new PlaneHM(height, deltaHeight, "right");
+                return new PlaneHM(height, deltaHeight, "right", upOrDown);
             default:
                 //    System.out.println("STAYING THE SAME");
                 return this;

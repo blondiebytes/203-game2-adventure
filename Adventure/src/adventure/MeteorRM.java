@@ -155,6 +155,11 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     public boolean aboutToLeave() {
         return this.getHeight() >= leavingHeight;
     }
+
+    @Override
+    public MeteorRM onTick(PlaneHM p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

@@ -13,7 +13,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     int identity;
     static int radius = 20;
     int leavingWidth = MAXWgeneration / 2;
-    static int MAXH = 500;
+    static int MAXH = 450;
     static int MAXWgeneration = 550;
     static int count = 0;
     static String color = "white";
@@ -32,19 +32,20 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
             Random random = new Random();
             int delta = random.nextInt() % 10;
             this.height = height + (delta * 30);
-                if (this.height >= 450) {
-                   this.height = 450;
+                if (this.height >= 390) {
+                   this.height = 390;
                }
-               if (this.height <= 60) {
-                   this.height = 60;
+               if (this.height <= 160) {
+                   this.height = 160;
                }
-            
             // We want to go the opposite way the plane is going
-            if (direction.equals("right")) {
+           // if (direction.equals("right")) {
                 // If you start from the left, you want to go right (so add 1 each time)
+               if (delta % 2 == 0) {
                 this.width = 0;
                 this.deltaWidth = 1;
-            } else {
+               } else {
+           // } else {
                 // If you start from the right, you want to go left (so subtract 1 each time)
                 this.width = MAXWgeneration;
                 this.deltaWidth = -1;
@@ -77,9 +78,31 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     // ========== TICK ==========
     // Height is ranomly 
     public MeteorHM onTick() {
-        // Make it go across one
-        return new MeteorHM(this.width + this.deltaWidth, this.height, this.identity, "already-decided", this.deltaWidth);
-
+        return this;
+    }
+    
+    public MeteorHM onTick(PlaneHM p) {
+        // Down because we want the meteors to "chase" the plane
+//        if (p.height > this.height) {
+//            if (this.deltaWidth > 0) {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            } else {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            }
+//        } else {
+//            if (this.deltaWidth > 0) {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            } else {
+//                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+//            }
+//        }
+          if (p.upOrDown.equals("up")) {
+                return new MeteorHM(this.width + this.deltaWidth, this.height + this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+            }
+          else {
+                return new MeteorHM(this.width + this.deltaWidth, this.height - this.deltaWidth, this.identity, "already-decided", this.deltaWidth);
+        }
+        
     }
 
     // ========== EQUALITY ==========

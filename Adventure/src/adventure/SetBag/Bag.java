@@ -2,6 +2,7 @@
 package adventure.SetBag;
 
 import adventure.Collideable;
+import adventure.PlaneHM;
 import adventure.Sequence.Sequence;
 import adventure.Sequence.Sequenced;
 import adventure.Tickable;
@@ -19,6 +20,7 @@ public interface Bag<D extends Comparable & Tickable & Collideable> extends Sequ
     public boolean subset (Bag u);
     public Sequence<D> seq();
     public Bag<D> tick();
+    public Bag<D> tick(PlaneHM p);
     public D collidesWith(Collideable thing);
     
 }

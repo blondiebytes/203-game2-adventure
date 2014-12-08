@@ -117,6 +117,11 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     public WorldImage laserImage() {
         return new FromFileImage(new Posn(this.width, this.height), "White_Laser.png");
     }
+
+    @Override
+    public LaserHM onTick(PlaneHM p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

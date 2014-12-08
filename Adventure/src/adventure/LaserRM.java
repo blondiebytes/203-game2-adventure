@@ -126,5 +126,10 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
                         * (this.getHeight() - thing.getHeight()));
 
     }
+
+    @Override
+    public LaserRM onTick(PlaneHM p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
