@@ -7,10 +7,13 @@ public class RunMeteorShower {
     
     
     public static void main(String[] args) throws Exception {
+        if ( true ) {
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();
         meteorShowerR.bigBang();
-//        MeteorShowerHM meteorShower = new MeteorShowerHM();
-//       meteorShower.bigBang();
+        } else {
+        MeteorShowerHM meteorShower = new MeteorShowerHM();
+       meteorShower.bigBang();
+        }
 
 
 //        while (true) {

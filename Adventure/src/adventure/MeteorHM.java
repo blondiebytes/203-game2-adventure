@@ -24,17 +24,18 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
         count++;
     }
 
+    static int option = 0;
+    static int numberOfOptions = 4;
     // Haave them start from each side -> make starting width randomized (from each end)
     MeteorHM(int width, int height, int count, String direction, int deltaWidth) {
         // Using Sentinal w = -20
         if (width == -20) {
            Random random = new Random();
             int delta = Math.abs(random.nextInt());
-            if (delta % 3 == 0 ) {
-            this.height = delta % 500;
-            } else {
-                this.height = delta % 50 * 5 + delta % 150;
-            }
+            int optionSpan = (500 / numberOfOptions);
+            int bufferSpace = 500 / 10;
+            this.height = (optionSpan + bufferSpace) * option + delta % (optionSpan - bufferSpace);
+            option = (option + 1) % numberOfOptions;
            
             // We want to go the opposite way the plane is going
             if (direction.equals("right")) {

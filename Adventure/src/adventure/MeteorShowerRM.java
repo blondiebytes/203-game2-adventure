@@ -16,6 +16,8 @@ import static adventure.TestFunctions.testPowerUpHyperMode;
 import static adventure.TestFunctions.testShootLaserRM;
 import static adventure.TestFunctions.testTriggerHyperSpeedMode;
 import static adventure.TestFunctions.verifyInvarientsRM;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldcanvas.WorldCanvas;
@@ -41,6 +43,7 @@ public final class MeteorShowerRM extends World {
     static int changeBackgroundCounter = 0;
     static int highScore;
     static String key = "a";
+    static boolean shouldPrint = false;
 
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
@@ -85,12 +88,13 @@ public final class MeteorShowerRM extends World {
         this.powerUp = powerUp;
         this.correctShootCounter = shootCounter;
         MeteorShowerRM.changeBackgroundCounter++;
-        this.checkInvarientsLive(MeteorShowerRM.key);
     }
 
     // ========== CREATE GAME ==========
     public boolean bigBang() {
-        this.theCanvas = new WorldCanvas(500, 500, "Meteor Shower");
+        
+            //this.theCanvas = new WorldCanvas(500, 500, "Meteor Shower");
+            //this.theCanvas.show();
         return this.bigBang(500, 500, .01);
     }
 
@@ -212,9 +216,13 @@ public final class MeteorShowerRM extends World {
                 newExplosions, newLives, newScore, newGameOver, newPowerUp, newShootCounter);
     }
 
-    // ========== REACT ==========
+    // ========== REACT ==
     public World onKeyEvent(String ke){
-        MeteorShowerRM.key = ke;
+        this.checkInvarientsLive(ke);
+        return REALonKeyEvent(ke);
+    }
+    
+    public World REALonKeyEvent(String ke){
         if (ke.equals("0")) {
             if (this.hasPowerUp()) {
                 return this.goHyper();
@@ -239,9 +247,11 @@ public final class MeteorShowerRM extends World {
         return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp, changeBackgroundCounter, true);
     }
     
-    public void checkInvarientsLive(String key) throws Exception{
-                MeteorShowerRM nG = (MeteorShowerRM) this.onKeyEvent(key).onTick();
+    public void checkInvarientsLive(String key) throws RuntimeException{
+            if (!key.equals("0")) {
+                MeteorShowerRM nG = (MeteorShowerRM) this.REALonKeyEvent(key).onTick();
                 verifyInvarientsRM(this, nG, key);
+                if (shouldPrint) {
                 System.out.println();
                 System.out.println("testConstructorRM " + testConstructorRM + " times");
                 System.out.println("testShootLaserRM " + testShootLaserRM + " times");
@@ -253,8 +263,9 @@ public final class MeteorShowerRM extends World {
                 System.out.println("ran RM tests ");
                 System.out.println();
                 System.out.println();
+                }
         }
-    
+    }
 
     public boolean hasPowerUp() {
         return this.powerUp > 0;

@@ -20,7 +20,7 @@ import javalib.funworld.World;
 
 public class TestMeteorShower {
     
-static int tests = 60;
+static int tests = 500;
     
     public static void main(String[] args) throws Exception {
         testingIndividualComponents();
@@ -42,7 +42,6 @@ static int tests = 60;
         System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode + " times");
         System.out.println("testGameOverLives " + testGameOverLives + " times");
         System.out.println("ran RM tests ");
-        System.out.println();
         System.out.println();
         
         

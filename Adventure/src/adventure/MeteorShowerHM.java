@@ -11,14 +11,11 @@ import static adventure.TestFunctions.testShootLaserHM;
 import static adventure.TestFunctions.verifyInvarientsHM;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javalib.colors.Black;
-import javalib.colors.Blue;
 import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
-import javalib.worldimages.RectangleImage;
 import javalib.worldimages.TextImage;
 import javalib.worldimages.WorldImage;
 
@@ -34,7 +31,7 @@ public final class MeteorShowerHM extends World {
     static int background;
     static int releaseMeteor = 0;
     static String key = "a";
-    
+    static boolean shouldPrint = false;
     
     // ========== CONSTRUCTORS ==========
     public MeteorShowerHM() {
@@ -74,11 +71,6 @@ public final class MeteorShowerHM extends World {
         this.missingMeteorsCounter = missingMeteors;
         this.powerUps = powerUps;
         this.background = background;
-        try {
-            this.checkInvarientsLive(this.key);
-        } catch (Exception ex) {
-            Logger.getLogger(MeteorShowerHM.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
   
     
@@ -97,7 +89,7 @@ public final class MeteorShowerHM extends World {
         Bag newMeteors = this.meteorDataStructHM;
         newMeteors = newMeteors.tick(this.plane);
         
-          if (releaseMeteor % 30 == 0) {
+          if (releaseMeteor % 40 == 0) {
             // Solves the problem of intervals
             newMeteors = (newMeteors.add(new MeteorHM(this.plane).onTick()));
             /* Need to tick the meteors & add a new one */
@@ -177,7 +169,12 @@ public final class MeteorShowerHM extends World {
     
     // ========== REACT ==========
     // This method produces the world in response to the user pressing a key on the keyboard. 
-    public World onKeyEvent(String ke) {
+    public World onKeyEvent(String ke){
+        this.checkInvarientsLive(ke);
+        return REALonKeyEvent(ke);
+    }
+    
+    public World REALonKeyEvent(String ke) {
         this.key = ke;
          Bag<LaserHM> newLasersHM = this.lasersHM;
         if (ke.equals("s")) {
@@ -187,9 +184,10 @@ public final class MeteorShowerHM extends World {
         return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background);
     }
     
-     public void checkInvarientsLive(String key) throws Exception{
-                MeteorShowerHM nG = (MeteorShowerHM) this.onKeyEvent(key).onTick();
+     public void checkInvarientsLive(String key) throws RuntimeException{
+                MeteorShowerHM nG = (MeteorShowerHM) this.REALonKeyEvent(key).onTick();
                 verifyInvarientsHM(this, nG, key);
+                if (shouldPrint) {
                 System.out.println();
                 System.out.println("testConstructorHM " + testConstructorHM + " times");
                 System.out.println("testShootLaserHM " + testShootLaserHM + " times");
@@ -198,6 +196,7 @@ public final class MeteorShowerHM extends World {
                 System.out.println("ran HM tests");
                 System.out.println();
                 System.out.println();
+                }
         }
     
     
@@ -251,7 +250,7 @@ public final class MeteorShowerHM extends World {
                      finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
                       finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
         }
-        
+              
         return finalImage;
     }
     
