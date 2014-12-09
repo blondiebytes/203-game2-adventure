@@ -648,7 +648,7 @@ public class TestFunctions {
             throw new Exception("Score didn't increase" + oG.score.score + " " + nG.score.score);
         }
         if (oG.lives.life + collisionLives != nG.lives.life) {
-            throw new Exception("Lives changed!");
+            throw new Exception("Lives changed!" + oG.lives.life + " + " + collisionLives + " == " + nG.lives.life);
         }
         testCollisionRegularMode++;
     }

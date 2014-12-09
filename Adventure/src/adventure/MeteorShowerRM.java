@@ -8,6 +8,14 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import static adventure.TestFunctions.testCollisionRegularMode;
+import static adventure.TestFunctions.testConstructorRM;
+import static adventure.TestFunctions.testGameOverLives;
+import static adventure.TestFunctions.testLaserMeteorRemovedRM;
+import static adventure.TestFunctions.testPowerUpHyperMode;
+import static adventure.TestFunctions.testShootLaserRM;
+import static adventure.TestFunctions.testTriggerHyperSpeedMode;
+import static adventure.TestFunctions.verifyInvarientsRM;
 import javalib.colors.White;
 import javalib.funworld.World;
 import javalib.worldcanvas.WorldCanvas;
@@ -18,7 +26,7 @@ import javalib.worldimages.TextImage;
 import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
-public class MeteorShowerRM extends World {
+public final class MeteorShowerRM extends World {
 
     Lives lives;
     PlaneRM plane;
@@ -32,7 +40,7 @@ public class MeteorShowerRM extends World {
     static int counterMeteor;
     static int changeBackgroundCounter = 0;
     static int highScore;
-    String key = "a";
+    static String key = "a";
 
     // ========== CONSTRUCTORS ==========
     public MeteorShowerRM() {
@@ -65,7 +73,7 @@ public class MeteorShowerRM extends World {
 
     public MeteorShowerRM(PlaneRM plane, Bag<MeteorRM> meteors, Bag<LaserRM> lasers,
             Bag<Explosion> explosions, Lives lives, Score score, boolean gameOver, int powerUp,
-            int shootCounter, int backgroundCounter) {
+            int shootCounter, int backgroundCounter) throws Exception {
         super();
         this.plane = plane;
         this.meteorDataStructRM = meteors;
@@ -76,7 +84,8 @@ public class MeteorShowerRM extends World {
         this.gameOver = gameOver;
         this.powerUp = powerUp;
         this.correctShootCounter = shootCounter;
-        this.changeBackgroundCounter++;
+        MeteorShowerRM.changeBackgroundCounter++;
+        this.checkInvarientsLive(MeteorShowerRM.key);
     }
 
     // ========== CREATE GAME ==========
@@ -204,8 +213,8 @@ public class MeteorShowerRM extends World {
     }
 
     // ========== REACT ==========
-    public World onKeyEvent(String ke) {
-        this.key = ke;
+    public World onKeyEvent(String ke){
+        MeteorShowerRM.key = ke;
         if (ke.equals("0")) {
             if (this.hasPowerUp()) {
                 return this.goHyper();
@@ -227,8 +236,25 @@ public class MeteorShowerRM extends World {
 
     // ========== GOING HYPER ==========
     public MeteorShowerHM goHyper() {
-        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp, changeBackgroundCounter);
+        return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp, changeBackgroundCounter, true);
     }
+    
+    public void checkInvarientsLive(String key) throws Exception{
+                MeteorShowerRM nG = (MeteorShowerRM) this.onKeyEvent(key).onTick();
+                verifyInvarientsRM(this, nG, key);
+                System.out.println();
+                System.out.println("testConstructorRM " + testConstructorRM + " times");
+                System.out.println("testShootLaserRM " + testShootLaserRM + " times");
+                System.out.println("testLaserMeteorRemovedRM " + testLaserMeteorRemovedRM + " times");
+                System.out.println("testTriggerHyperSpeedMode " + testTriggerHyperSpeedMode + " times");
+                System.out.println("testCollisionRegularMode " + testCollisionRegularMode + " times");
+                System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode + " times");
+                System.out.println("testGameOverLives " + testGameOverLives + " times");
+                System.out.println("ran RM tests ");
+                System.out.println();
+                System.out.println();
+        }
+    
 
     public boolean hasPowerUp() {
         return this.powerUp > 0;

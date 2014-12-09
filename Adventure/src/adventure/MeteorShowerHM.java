@@ -4,6 +4,13 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
+import static adventure.TestFunctions.testCollisionHyperMode;
+import static adventure.TestFunctions.testConstructorHM;
+import static adventure.TestFunctions.testLaserMeteorRemovedHM;
+import static adventure.TestFunctions.testShootLaserHM;
+import static adventure.TestFunctions.verifyInvarientsHM;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javalib.colors.Black;
 import javalib.colors.Blue;
 import javalib.colors.White;
@@ -15,7 +22,7 @@ import javalib.worldimages.RectangleImage;
 import javalib.worldimages.TextImage;
 import javalib.worldimages.WorldImage;
 
-public class MeteorShowerHM extends World {
+public final class MeteorShowerHM extends World {
     Lives lives;
     PlaneHM plane;
     Bag<MeteorHM> meteorDataStructHM;
@@ -26,7 +33,7 @@ public class MeteorShowerHM extends World {
     int powerUps;
     static int background;
     static int releaseMeteor = 0;
-    String key = "a";
+    static String key = "a";
     
     
     // ========== CONSTRUCTORS ==========
@@ -53,6 +60,25 @@ public class MeteorShowerHM extends World {
         this.missingMeteorsCounter = missingMeteors;
         this.powerUps = powerUps;
         this.background = background;
+    }
+    
+    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int missingMeteors, 
+            int powerUps, int background, boolean printTesters){
+        super();
+        this.plane = plane;
+        this.meteorDataStructHM = meteors;
+        this.lasersHM = lasers;
+        this.explosionsHM = explosions;
+        this.lives = lives;
+        this.score = score;
+        this.missingMeteorsCounter = missingMeteors;
+        this.powerUps = powerUps;
+        this.background = background;
+        try {
+            this.checkInvarientsLive(this.key);
+        } catch (Exception ex) {
+            Logger.getLogger(MeteorShowerHM.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
   
     
@@ -119,7 +145,11 @@ public class MeteorShowerHM extends World {
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
             newCounter = newCounter + 1;
             if (this.backToRegularMode()) {
-                return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps - 1, 0, 1);
+                try {
+                    return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps - 1, 0, 1);
+                } catch (Exception ex) {
+                    Logger.getLogger(MeteorShowerHM.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         // 2. Laser hits Meteor --> plane same, lives same, score + 10, missingMeteor same
@@ -156,6 +186,19 @@ public class MeteorShowerHM extends World {
         PlaneHM newPlane = plane.react(ke);
         return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background);
     }
+    
+     public void checkInvarientsLive(String key) throws Exception{
+                MeteorShowerHM nG = (MeteorShowerHM) this.onKeyEvent(key).onTick();
+                verifyInvarientsHM(this, nG, key);
+                System.out.println();
+                System.out.println("testConstructorHM " + testConstructorHM + " times");
+                System.out.println("testShootLaserHM " + testShootLaserHM + " times");
+                System.out.println("testLaserMeteorRemovedHM " + testLaserMeteorRemovedHM + " times");
+                System.out.println("testCollisionHyperMode " + testCollisionHyperMode + " times");
+                System.out.println("ran HM tests");
+                System.out.println();
+                System.out.println();
+        }
     
     
     // ========== DRAW ==========
