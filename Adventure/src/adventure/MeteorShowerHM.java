@@ -26,7 +26,7 @@ public final class MeteorShowerHM extends World {
     Bag<LaserHM> lasersHM;
     Bag<Explosion> explosionsHM;
     Score score;
-    int missingMeteorsCounter;
+    static int missingMeteorsCounter;
     int powerUps;
     static int background;
     static int releaseMeteor = 0;
@@ -46,7 +46,7 @@ public final class MeteorShowerHM extends World {
         this.powerUps = 0;
     }
     
-    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int missingMeteors, int powerUps, int background){
+    public MeteorShowerHM(PlaneHM plane, Bag<MeteorHM> meteors, Bag<LaserHM> lasers, Bag<Explosion> explosions, Lives lives, Score score, int powerUps, int background){
         super();
         this.plane = plane;
         this.meteorDataStructHM = meteors;
@@ -54,7 +54,6 @@ public final class MeteorShowerHM extends World {
         this.explosionsHM = explosions;
         this.lives = lives;
         this.score = score;
-        this.missingMeteorsCounter = missingMeteors;
         this.powerUps = powerUps;
         this.background = background;
     }
@@ -68,7 +67,6 @@ public final class MeteorShowerHM extends World {
         this.explosionsHM = explosions;
         this.lives = lives;
         this.score = score;
-        this.missingMeteorsCounter = missingMeteors;
         this.powerUps = powerUps;
         this.background = background;
     }
@@ -101,7 +99,7 @@ public final class MeteorShowerHM extends World {
         Bag<LaserHM> newLasers = this.lasersHM.tick();
         Bag newExplosions = this.explosionsHM.tick();
         return new MeteorShowerHM(this.plane, newMeteors, newLasers, newExplosions,
-                this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background).update(); /*check for collision of laser and meteor and update score */
+                this.lives, this.score, this.powerUps, this.background).update(); /*check for collision of laser and meteor and update score */
     }
     
     
@@ -118,7 +116,6 @@ public final class MeteorShowerHM extends World {
         Bag<Explosion> newExplosions = this.explosionsHM;
         Lives newLives = this.lives;
         Score newScore = this.score;
-        int newCounter = this.missingMeteorsCounter;
         
         // Update Explosions
         Sequence<Explosion> seqExp = newExplosions.seq();
@@ -135,7 +132,7 @@ public final class MeteorShowerHM extends World {
         if (collider != null /* if a meteor passes the plane... */) {
             newMeteors = newMeteors.remove(collider); /* // PICK OUT THAT METEOR AND REMOVE IT !!!!!!!!!!! */
             newExplosions = newExplosions.add(new Explosion(collider.width, collider.height, true));
-            newCounter = newCounter + 1;
+            MeteorShowerHM.missingMeteorsCounter++;
             if (this.backToRegularMode()) {
                 try {
                     return new MeteorShowerRM(new PlaneRM(), empty(), empty(), empty(), newLives, newScore, false, this.powerUps - 1, 0, 1);
@@ -158,11 +155,11 @@ public final class MeteorShowerHM extends World {
             seqLaser = seqLaser.next();
         }
         
-        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newExplosions, newLives, newScore, newCounter, this.powerUps, this.background);
+        return new MeteorShowerHM(newPlane, newMeteors, newLasers, newExplosions, newLives, newScore, this.powerUps, this.background);
     }
     
     public boolean backToRegularMode() {
-        return this.missingMeteorsCounter >= 5;
+        return this.missingMeteorsCounter == 5;
     }
     
     
@@ -181,22 +178,22 @@ public final class MeteorShowerHM extends World {
            newLasersHM = newLasersHM.add(new LaserHM(this.plane));
         }
         PlaneHM newPlane = plane.react(ke);
-        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.missingMeteorsCounter, this.powerUps, this.background);
+        return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.powerUps, this.background);
     }
     
      public void checkInvarientsLive(String key) throws RuntimeException{
-                MeteorShowerHM nG = (MeteorShowerHM) this.REALonKeyEvent(key).onTick();
-                verifyInvarientsHM(this, nG, key);
-                if (shouldPrint) {
-                System.out.println();
-                System.out.println("testConstructorHM " + testConstructorHM + " times");
-                System.out.println("testShootLaserHM " + testShootLaserHM + " times");
-                System.out.println("testLaserMeteorRemovedHM " + testLaserMeteorRemovedHM + " times");
-                System.out.println("testCollisionHyperMode " + testCollisionHyperMode + " times");
-                System.out.println("ran HM tests");
-                System.out.println();
-                System.out.println();
-                }
+//                MeteorShowerHM nG = (MeteorShowerHM) this.REALonKeyEvent(key).onTick();
+//                verifyInvarientsHM(this, nG, key);
+//                if (shouldPrint) {
+//                System.out.println();
+//                System.out.println("testConstructorHM " + testConstructorHM + " times");
+//                System.out.println("testShootLaserHM " + testShootLaserHM + " times");
+//                System.out.println("testLaserMeteorRemovedHM " + testLaserMeteorRemovedHM + " times");
+//                System.out.println("testCollisionHyperMode " + testCollisionHyperMode + " times");
+//                System.out.println("ran HM tests");
+//                System.out.println();
+//                System.out.println();
+            //   }
         }
     
     
@@ -240,20 +237,45 @@ public final class MeteorShowerHM extends World {
         finalImage = new OverlayImages(finalImage, score2);
         
         // Drawing Lives
-        switch (lives.life) {
-            case 1: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+//        switch (lives.life) {
+//            case 1: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+//                break;
+//            case 2: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+//                    finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+//                break;
+//            case 3: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
+//                     finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+//                      finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
+//        }
+        
+        switch(5 - this.missingMeteorsCounter) {
+            case 1: finalImage = new OverlayImages(finalImage, missingMeteorImage(20,60));
                 break;
-            case 2: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
-                    finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
+            case 2: finalImage = new OverlayImages(finalImage,missingMeteorImage(20,60));
+                    finalImage = new OverlayImages(finalImage,missingMeteorImage(45,60));
                 break;
-            case 3: finalImage = new OverlayImages(finalImage,lives.livesImage(30,60));
-                     finalImage = new OverlayImages(finalImage,lives.livesImage(55,60));
-                      finalImage = new OverlayImages(finalImage,lives.livesImage(80,60));
+            case 3: finalImage = new OverlayImages(finalImage,missingMeteorImage(20,60));
+                     finalImage = new OverlayImages(finalImage,missingMeteorImage(45,60));
+                      finalImage = new OverlayImages(finalImage,missingMeteorImage(70,60));
+                break;
+            case 4: finalImage = new OverlayImages(finalImage,missingMeteorImage(20,60));
+                     finalImage = new OverlayImages(finalImage,missingMeteorImage(45,60));
+                      finalImage = new OverlayImages(finalImage,missingMeteorImage(70,60));
+                        finalImage = new OverlayImages(finalImage,missingMeteorImage(95,60));
+                break;
+            case 5: finalImage = new OverlayImages(finalImage,missingMeteorImage(20,60));
+                     finalImage = new OverlayImages(finalImage,missingMeteorImage(45,60));
+                      finalImage = new OverlayImages(finalImage,missingMeteorImage(70,60));
+                        finalImage = new OverlayImages(finalImage,missingMeteorImage(95,60));
+                           finalImage = new OverlayImages(finalImage,missingMeteorImage(110,60));
         }
               
         return finalImage;
     }
     
+     WorldImage missingMeteorImage(int width, int height) {
+         return new FromFileImage(new Posn(width, height), "darkheart.png");
+     }
     
     // This method produces an instance of a class WorldEnd that consists of a boolean value 
     // indicating whether the world is ending (false if the world goes on) and the WorldImage 

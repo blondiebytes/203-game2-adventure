@@ -100,10 +100,20 @@ public final class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
-        Bag newMeteors = this.meteorDataStructRM;
-        newMeteors = newMeteors.tick();
+        Bag newMeteors = this.addMeteor();
+       
+        Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
 
-        // CREATING DIFFERENT LEVELS:
+        Bag newExplosions = this.explosionsRM.tick();
+
+        return new MeteorShowerRM(this.plane, newMeteors, newLasers, newExplosions, this.lives, this.score, this.gameOver, this.powerUp,
+                this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
+
+    }
+    
+    public Bag<MeteorRM> addMeteor() {
+         // CREATING DIFFERENT LEVELS:
+        Bag<MeteorRM> newMeteors = this.meteorDataStructRM.tick();
         if (counterMeteor < 5000) {
             if (counterMeteor % 90 == 0) {
                 // Solves the problem of intervals
@@ -126,13 +136,7 @@ public final class MeteorShowerRM extends World {
             }
         }
         counterMeteor++;
-        Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
-
-        Bag newExplosions = this.explosionsRM.tick();
-
-        return new MeteorShowerRM(this.plane, newMeteors, newLasers, newExplosions, this.lives, this.score, this.gameOver, this.powerUp,
-                this.correctShootCounter).update(); /* Need to see if their was collision & need to update lives, score, gameover */
-
+        return newMeteors;
     }
 
     // ========== COLLISION ==========
@@ -248,23 +252,23 @@ public final class MeteorShowerRM extends World {
     }
     
     public void checkInvarientsLive(String key) throws RuntimeException{
-            if (!key.equals("0")) {
-                MeteorShowerRM nG = (MeteorShowerRM) this.REALonKeyEvent(key).onTick();
-                verifyInvarientsRM(this, nG, key);
-                if (shouldPrint) {
-                System.out.println();
-                System.out.println("testConstructorRM " + testConstructorRM + " times");
-                System.out.println("testShootLaserRM " + testShootLaserRM + " times");
-                System.out.println("testLaserMeteorRemovedRM " + testLaserMeteorRemovedRM + " times");
-                System.out.println("testTriggerHyperSpeedMode " + testTriggerHyperSpeedMode + " times");
-                System.out.println("testCollisionRegularMode " + testCollisionRegularMode + " times");
-                System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode + " times");
-                System.out.println("testGameOverLives " + testGameOverLives + " times");
-                System.out.println("ran RM tests ");
-                System.out.println();
-                System.out.println();
-                }
-        }
+         //   if (!key.equals("0")) {
+//                MeteorShowerRM nG = (MeteorShowerRM) this.REALonKeyEvent(key).onTick();
+//                verifyInvarientsRM(this, nG, key);
+//                if (shouldPrint) {
+//                System.out.println();
+//                System.out.println("testConstructorRM " + testConstructorRM + " times");
+//                System.out.println("testShootLaserRM " + testShootLaserRM + " times");
+//                System.out.println("testLaserMeteorRemovedRM " + testLaserMeteorRemovedRM + " times");
+//                System.out.println("testTriggerHyperSpeedMode " + testTriggerHyperSpeedMode + " times");
+//                System.out.println("testCollisionRegularMode " + testCollisionRegularMode + " times");
+//                System.out.println("testPowerUpHyperMode " + testPowerUpHyperMode + " times");
+//                System.out.println("testGameOverLives " + testGameOverLives + " times");
+//                System.out.println("ran RM tests ");
+//                System.out.println();
+//                System.out.println();
+//                }
+//        }
     }
 
     public boolean hasPowerUp() {

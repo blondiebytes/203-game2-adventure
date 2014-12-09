@@ -620,9 +620,10 @@ public class TestFunctions {
         Sequence<LaserRM> laserSeq = oG.lasersRM.seq();
         int collisionScore = 0;
         int collisionLives = 0;
+        Bag<MeteorRM> theMS = oG.meteorDataStructRM.tick();
         // Checking Meteors & Lasers Colliding, Score, and Lives
         while (laserSeq.hasNext()) {
-            MeteorRM collidingMeteor = oG.meteorDataStructRM.tick().collidesWith(laserSeq.here().onTick());
+            MeteorRM collidingMeteor = theMS.collidesWith(laserSeq.here().onTick());
             // If there is a collidingMeteor... then check all of this stuff
             if (collidingMeteor != null) {
                 // When a laser and a meteor collide and they are the same color,
@@ -639,7 +640,7 @@ public class TestFunctions {
         }
 
         // Checking Meteors Leaving & Score & Lives
-        Sequence<MeteorRM> meteorSeq = oG.meteorDataStructRM.seq();
+        Sequence<MeteorRM> meteorSeq = theMS.seq();
         while (meteorSeq.hasNext()) {
              // When a meteor passes the top of the screen, do you lose a life?
             // does the score stay the same?
@@ -677,8 +678,9 @@ public class TestFunctions {
         int collisionLives = 0;
 
         // Checking Meteors & Lasers Colliding, Score, and Lives
+        Bag<MeteorHM> theMS = oG.meteorDataStructHM.tick();
         while (laserSeq.hasNext()) {
-            MeteorHM collidingMeteor = oG.meteorDataStructHM.tick().collidesWith(laserSeq.here().onTick());
+            MeteorHM collidingMeteor = theMS.collidesWith(laserSeq.here().onTick());
             // If there is a collidingMeteor... then check all of this stuff
             if (collidingMeteor != null) {
                 // When a laser and meteor collide, does the score increase? 
