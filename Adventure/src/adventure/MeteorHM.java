@@ -17,7 +17,6 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     static int MAXWgeneration = 550;
     static int count = 0;
     static String color = "white";
-
     // ========== CONSTRUCTORS ==========
     // Starting from off screen height
     MeteorHM(PlaneHM p) {
@@ -29,17 +28,19 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     MeteorHM(int width, int height, int count, String direction, int deltaWidth) {
         // Using Sentinal w = -20
         if (width == -20) {
-            Random random = new Random();
-            int delta = random.nextInt();
-            if (delta % 2 == 0 ) {
+           Random random = new Random();
+           int delta = Math.abs(random.nextInt());
+            delta = Math.abs(random.nextInt());
+            if (delta % 3 == 0 ) {
             this.height = delta % 500;
             } else {
-                this.height = delta % 50 * 5 - 100;
+                this.height = delta % 50 * 5 + delta % 150;
             }
+           
             // We want to go the opposite way the plane is going
             if (direction.equals("right")) {
                 // If you start from the left, you want to go right (so add 1 each time)
-                this.width = 0;
+                this.width = -10;
                 this.deltaWidth = 1;
             } else {
                 // If you start from the right, you want to go left (so subtract 1 each time)

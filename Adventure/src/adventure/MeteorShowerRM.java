@@ -10,6 +10,7 @@ import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
 import javalib.colors.White;
 import javalib.funworld.World;
+import javalib.worldcanvas.WorldCanvas;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
@@ -80,6 +81,7 @@ public class MeteorShowerRM extends World {
 
     // ========== CREATE GAME ==========
     public boolean bigBang() {
+        this.theCanvas = new WorldCanvas(500, 500, "Meteor Shower");
         return this.bigBang(500, 500, .01);
     }
 
@@ -301,7 +303,7 @@ public class MeteorShowerRM extends World {
                 finalImage = new OverlayImages(finalImage, drawPowerUp(55, 85));
                 finalImage = new OverlayImages(finalImage, drawPowerUp(80, 85));
         }
-
+        
         return finalImage;
     }
 

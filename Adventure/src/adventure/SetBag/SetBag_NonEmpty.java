@@ -43,10 +43,11 @@ public class SetBag_NonEmpty<D extends Comparable & Tickable & Collideable> impl
         Bag newStuff = empty();
         Sequence<D> seq = this.seq();
         while (seq.hasNext()) {
-            newStuff = newStuff.add(seq.here().onTick(p));
+                newStuff = newStuff.add(seq.here().onTick(p));
 //            System.out.println("tickticktick");
             seq = seq.next();
         }
+        
         return newStuff;
         //return new SetBag_NonEmpty(this.root.onTick(), this.left.tick(), this.right.tick());
     }
