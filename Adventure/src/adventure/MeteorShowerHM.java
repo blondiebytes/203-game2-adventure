@@ -69,6 +69,7 @@ public final class MeteorShowerHM extends World {
         this.score = score;
         this.powerUps = powerUps;
         this.background = background;
+        this.missingMeteorsCounter = 0;
     }
   
     
@@ -267,7 +268,9 @@ public final class MeteorShowerHM extends World {
                      finalImage = new OverlayImages(finalImage,missingMeteorImage(45,60));
                       finalImage = new OverlayImages(finalImage,missingMeteorImage(70,60));
                         finalImage = new OverlayImages(finalImage,missingMeteorImage(95,60));
-                           finalImage = new OverlayImages(finalImage,missingMeteorImage(110,60));
+                           finalImage = new OverlayImages(finalImage,missingMeteorImage(120,60));
+                break;
+            default: 
         }
               
         return finalImage;
