@@ -60,7 +60,7 @@ public class MeteorShowerHM extends World {
     
     // ========== CREATE GAME ==========
     public boolean bigBang() {
-        return this.bigBang(500, 500, 1);
+        return this.bigBang(500, 500, .01);
     }
     
     

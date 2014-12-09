@@ -15,12 +15,15 @@ import static adventure.TestFunctions.verifyInvarientsHM;
 import static adventure.TestFunctions.verifyInvarientsRM;
 
 public class RunMeteorShower {
-
+    /// TO DO:
+    // Make AI components not overlap each other in creation
+    // Change name of browser;
+    
+    
     public static void main(String[] args) throws Exception {
-
-//        MeteorShowerHM meteorShower = new MeteorShowerHM();
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();
         meteorShowerR.bigBang();
+//        MeteorShowerHM meteorShower = new MeteorShowerHM();
 //       meteorShower.bigBang();
 
         // Testing Invidually;
