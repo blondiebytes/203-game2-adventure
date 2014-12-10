@@ -1,6 +1,7 @@
 Game 2 : Adventure
 ===================
 Fall 2014: CS 203
+VIDEO OF GAMEPLAY: https://www.youtube.com/watch?v=3dmAwrstdPA
 
 3.4 Adventure!
 
