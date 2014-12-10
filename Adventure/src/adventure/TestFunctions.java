@@ -329,6 +329,7 @@ public class TestFunctions {
 
         System.out.println("testPlaneMoveRightAndLeftRM success: " + testPlaneMoveRightAndLeftRM + " times");
         System.out.println("testPlaneMoveRightAndLeftHM success:" + testPlaneMoveRightAndLeftHM + " times");
+        System.out.println("testPlaneLaserDirectionHM success:" + testPlaneLaserDirectionHM + " times");
 
         // ========================================================
         // TESTING METEOR INDIVIDUALLY:
@@ -360,7 +361,7 @@ public class TestFunctions {
         System.out.println("testMeteorColorHM success: " + testMeteorColorHM + " times");
         System.out.println("testMeteorMoveRM success: " + testMeteorMoveRM + " times");
         System.out.println("testMeteorMoveHM success: " + testMeteorMoveHM + " times");
-        System.out.println("testMeteorMoveHM success: " + testPlaneMeteorMoveHM + " times");
+        System.out.println("testPlaneMeteorMoveHM success: " + testPlaneMeteorMoveHM + " times");
         // ========================================================
         // TESTING LASERS: INDIVIDUALLY:
         // ========================================================

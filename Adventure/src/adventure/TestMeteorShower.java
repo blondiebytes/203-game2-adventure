@@ -20,9 +20,9 @@ import javalib.funworld.World;
 
 public class TestMeteorShower {
     
-static int tests = 50;
+static int tests = 60;
     
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws RuntimeException {
         testingIndividualComponents();
         System.out.println("Individual Components DONE");
         MeteorShowerRM meteorShowerR = new MeteorShowerRM();

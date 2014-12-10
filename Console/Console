@@ -8,10 +8,12 @@ compile-single:
 run-single:
 testPlaneMoveRightAndLeftRM success: 5000 times
 testPlaneMoveRightAndLeftHM success:5000 times
+testPlaneLaserDirectionHM success:5000 times
 testMeteorColorRM success: 5000 times
 testMeteorColorHM success: 5000 times
 testMeteorMoveRM success: 5000 times
 testMeteorMoveHM success: 5000 times
+testPlaneMeteorMoveHM success: 5000 times
 testSwitchLaserColorRM success: 5000 times
 testSameLaserColorHM success: 5000 times
 Individual Components DONE
@@ -25,10 +27,9 @@ testPowerUpHyperMode 600 times
 testGameOverLives 600 times
 ran RM tests 
 
-
 testConstructorHM 600 times
 testShootLaserHM 600 times
 testLaserMeteorRemovedHM 600 times
 testCollisionHyperMode 600 times
 ran HM tests
-BUILD SUCCESSFUL (total time: 7 seconds)
+BUILD SUCCESSFUL (total time: 4 seconds)
