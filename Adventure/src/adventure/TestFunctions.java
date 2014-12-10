@@ -104,6 +104,8 @@ public class TestFunctions {
     static int testPowerUpHyperMode = 0;
     static int testCollisionHyperMode = 0;
     static int testGameOverLives = 0;
+    static int testPlaneMeteorMoveHM = 0;
+    static int testPlaneLaserDirectionHM = 0;
 
     // ----------------------------------------------------------------
     // RANDOM KEY GENERATOR
@@ -240,7 +242,7 @@ public class TestFunctions {
                 throw new RuntimeException("Doesn't Tick! W:" + m.width + " + DW: " + m.deltaWidth + " = ticked Width" + tickedM.width);
             }
         }
-         if (tickedM.height != m.width + m.deltaWidth || tickedM.height != m.width - m.deltaWidth) {
+         if (tickedM.height != m.height + m.deltaWidth || tickedM.height != m.height - m.deltaWidth) {
          if (m.width == -19) {
                 throw new RuntimeException("Doesn't Tick! W:" + m.height + " + DW: " + m.deltaWidth + " = ticked Height" + tickedM.height);
             }
@@ -255,11 +257,11 @@ public class TestFunctions {
     }
 
     // Does the meteor stay the same after any key is pressed? (True in both modes)
-    public static void reactMeteorRMHM(MeteorRM mR, MeteorRM mRreacted, MeteorHM mH, MeteorHM mHreacted) throws RuntimeException {
-        if (!mR.isEqualToDWHC(mRreacted) || !mH.isEqualToDWHC(mHreacted)) {
+    public static void reactMeteorRM(MeteorRM mR, MeteorRM mRreacted) throws RuntimeException {
+        if (!mR.isEqualToDWHC(mRreacted)) {
             throw new RuntimeException("React changed meteor components");
         }
-        if (!mR.isEqualToId(mRreacted) || !mH.isEqualToId(mHreacted)) {
+        if (!mR.isEqualToId(mRreacted)) {
             throw new RuntimeException("React changed ID's!");
         }
         reactMeteorRMHM++;
@@ -312,6 +314,20 @@ public class TestFunctions {
         }
         testLaserMoveHM++;
     }
+    
+    public static void testPlaneLaserDirectionHM(PlaneHM plane) throws RuntimeException {
+        LaserHM newLaser = new LaserHM(plane);
+        if (plane.direction.equals("left")) {
+            if (newLaser.deltaWidth != -1) {
+                throw new RuntimeException("Plane/Laser Problems");
+            }
+        } else {
+            if (newLaser.deltaWidth != 1) {
+                throw new RuntimeException("Plane/Laser Problems");
+            }
+        }
+        testPlaneLaserDirectionHM++;
+    }
 
     public static void testingIndividualComponents() throws RuntimeException {
         // ========================================================
@@ -326,6 +342,8 @@ public class TestFunctions {
             PlaneHM planeHyperReacted = planeH.react(k);
             testPlaneMoveRightAndLeftRM(planeR, planeRegularReacted, k);
             testPlaneMoveRightAndLeftHM(planeH, planeHyperReacted, k);
+            
+            testPlaneLaserDirectionHM(planeHyperReacted);
             planeH = planeHyperReacted;
             planeR = planeRegularReacted;
         }
@@ -343,7 +361,7 @@ public class TestFunctions {
             String rnd = randomButton();
             MeteorRM reactmR = mR.react(rnd);
             MeteorHM reactmH = mH.react(rnd);
-            reactMeteorRMHM(mR, reactmR, mH, reactmH);
+            reactMeteorRM(mR, reactmR);
             // --------COLOR--------------
             testMeteorColorRM(mR);
             testMeteorColorHM(mH);
@@ -354,12 +372,16 @@ public class TestFunctions {
             MeteorHM tickedmH = mH.onTick();
             testMeteorMoveHM(mH, tickedmH);
             mH = tickedmH;
+            PlaneHM planeHyperReacted = planeH.react(rnd);
+            testPlaneMeteorMoveHM(planeHyperReacted, mH);
+            
+            
         }
         System.out.println("testMeteorColorRM success: " + testMeteorColorRM + " times");
         System.out.println("testMeteorColorHM success: " + testMeteorColorHM + " times");
         System.out.println("testMeteorMoveRM success: " + testMeteorMoveRM + " times");
         System.out.println("testMeteorMoveHM success: " + testMeteorMoveHM + " times");
-
+        System.out.println("testMeteorMoveHM success: " + testPlaneMeteorMoveHM + " times");
         // ========================================================
         // TESTING LASERS: INDIVIDUALLY:
         // ========================================================
@@ -381,6 +403,8 @@ public class TestFunctions {
             testLaserMoveHM(LH, tickedLH);
             LR = tickedLR;
             LH = tickedLH;
+            PlaneHM planeHyperReacted = planeH.react(rnd);
+            
         }
         System.out.println("testSwitchLaserColorRM success: " + testSwitchLaserColorRM + " times");
         System.out.println("testSameLaserColorHM success: " + testSameLaserColorHM + " times");
@@ -597,23 +621,23 @@ public class TestFunctions {
 //    // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
 //    // after pressing 0?
         World nG = oG.REALonKeyEvent("0");
-        if (oG.powerUp > 0 && (rnb.equals("0"))) {
-            if (nG instanceof MeteorShowerHM) {
-                MeteorShowerHM nHG = (MeteorShowerHM) nG;
-                if (oG.powerUp - 1 != nHG.powerUps) {
-                    throw new RuntimeException("PowerUp not lost");
+            if (oG.powerUp > 0 && (rnb.equals("0"))) {
+                if (nG instanceof MeteorShowerHM) {
+                    MeteorShowerHM nHG = (MeteorShowerHM) nG;
+                    if (oG.powerUp - 1 != nHG.powerUps) {
+                        throw new RuntimeException("PowerUp not lost");
+                    }
+                } else {
+                    throw new RuntimeException("Hyper mode not triggered");
                 }
             } else {
-                throw new RuntimeException("Hyper mode not triggered");
+
             }
-        } else {
-
+            testTriggerHyperSpeedMode++;
         }
-        testTriggerHyperSpeedMode++;
-    }
 
-//   
-//    // ----------------------------------------------------------------
+    //   
+    //    // ----------------------------------------------------------------
 //    // REGULAR MODE & SCORING:
 //    // ----------------------------------------------------------------
     public static void testCollisionRegularMode(MeteorShowerRM oG, MeteorShowerRM nG) throws RuntimeException {
@@ -729,6 +753,32 @@ public class TestFunctions {
             }
         }
         testGameOverLives++;
+    }
+    
+    public static void testPlaneMeteorMoveHM(PlaneHM p, MeteorHM meteor) throws RuntimeException {
+        MeteorHM ticked = meteor.onTick(p);
+        if (p.upOrDown.equals("up")) {
+            if (meteor.deltaWidth == 1) {
+                if (ticked.height != meteor.height + 1) {
+                    throw new RuntimeException("Plane, Meteor, FAIL" + meteor.identity);
+                }
+            } else {
+                if (ticked.height != meteor.height - 1) {
+                    throw new RuntimeException("Plane, Meteor, FAIL" + meteor.identity);
+                }
+            }
+        } else {
+            if (meteor.deltaWidth == 1) {
+                if (ticked.height != meteor.height - 1) {
+                    throw new RuntimeException("Plane, Meteor, FAIL" + meteor.identity);
+                }
+            } else {
+                if (ticked.height != meteor.height + 1) {
+                    throw new RuntimeException("Plane, Meteor, FAIL" + meteor.identity + meteor.height + " " + ticked.height);
+                }
+            }
+        }
+        testPlaneMeteorMoveHM++;
     }
 //   
 //   // ================================================================

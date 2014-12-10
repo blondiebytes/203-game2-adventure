@@ -13,7 +13,7 @@ public class PlaneHM implements Collideable<PlaneHM> {
     int deltaHeight;
     int width = 240;
     String direction;
-    String upOrDown;
+    String upOrDown = "down";
     static int radius = 30;
     static int MAXH = 450;
     static int MAXW = 500;

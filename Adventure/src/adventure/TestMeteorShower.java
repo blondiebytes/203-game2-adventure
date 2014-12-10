@@ -20,7 +20,7 @@ import javalib.funworld.World;
 
 public class TestMeteorShower {
     
-static int tests = 500;
+static int tests = 50;
     
     public static void main(String[] args) throws Exception {
         testingIndividualComponents();
