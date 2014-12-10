@@ -25,10 +25,11 @@ public class TestFunctions {
     // If those buttons aren't is pressed, the plane shouldn't move. 
     // ----------------------------------------------------------------
     // METEOR TESTING:
-    // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
+    // Is the meteor either red or blue in REGULAR MODE? orange in HYPER MODE?
     // Does a meteor move down (REGULAR MODE) or across the screen (HYPER MODE) 
     // when it's ticked?
-    // Does the meteor stay the same after any key is pressed? (True in both modes)
+    // Do the meteors react to what the plane's last key was?
+    // Does the meteor stay the same after any key is pressed in REGULAR MODE?
     // ----------------------------------------------------------------
     // LASER TESTING:
     // REGUALR MODE: After pressing 'd', do the future lasers switch color?
@@ -47,23 +48,26 @@ public class TestFunctions {
     // does the score decrease? do the lives stay the same?
     // When a meteor passes the top of the screen, do you lose a life?
     // does the score stay the same?
-    // After pressing the SPACEBAR, does the plane shoot an laser?
+    // After pressing the 's', does the plane shoot an laser?
     // Is the laser removed once off screen?
     // ----------------------------------------------------------------
     // HYPERSPEED MODE & SCORING:
     // When the player has a Hyper-Speed PowerUp, is HyperSpeed mode triggered
-    // after pressing Enter?
-    // After shooting 20 meteors in a row correctly, 
+    // after pressing '0'?
+    // After shooting 10 meteors in a row correctly, does the player get a powerup
+    // in REGULAR MODE?
     // is Hyper-Speed PowerUp given to the user?
     // When a laser and meteor collide, does the score increase? 
     // do the lives stay the same?
     // When a meteor passes the top of the screen, do your lives and score
     // stay the same?
-    // After pressing the SPACEBAR, does the plane shoot an laser?
+    // After pressing the 's', does the plane shoot an laser?
     // Is the laser removed once off screen?
     // ----------------------------------------------------------------
     // GAME OVER:
-    // When a player loses his or her last life, does the game end? 
+    // When a player loses his or her last life in the REGULAR MODE, does the game end? 
+    // When a player loses his or her last fake life in the HYPER MODE, does 
+    // the game go back to REGULAR MODE?
     // If the player still has lives, is the game still going?
     // ----------------------------------------------------------------
     // INITIAL CONDITIONS (OTHER):
@@ -73,13 +77,12 @@ public class TestFunctions {
     // Does the player start with a score of 0?
     // When the game starts, is the gameOver false?
     // Does the game start in Regular Mode?
-    // After pressing the UP button, does the game start?
-    // After pressing the DOWN button, does the game restart?
     // ================================================================
     // For all tests oG = old Game; nG = new Game; mS = Meteor Shower; 
     //               p = plane; m = meteor mD = meteor-datastruct
     //               mode = gamemod; l = laser
     // ================================================================
+    
     static int tests = 10;
     static int testsMore = 4999;
     static int testPlaneMoveRightAndLeftRM = 0;
@@ -129,19 +132,7 @@ public class TestFunctions {
             return Arrays.toString(Character.toChars(65 + stringVal));
         }
     }
-
-    // ----------------------------------------------------------------
-    // PLANE TESTING:
-    // REGULAR MODE: After pressing the RIGHT arrow, does the plane move right?
-    // If it is about to go off-screen, does it stay where it is?
-    // REGULAR MODE: After pressing the LEFT arrow, does the plane move left? 
-    // If it is about to go off-screen, does it stay where it is?
-    // HYPER MODE: After pressing the UP arrow, does the plane move up?
-    // If it is about to go off-screen, does it stay where it is?
-    // HYPER MODE: After pressing the DOWN arrow, does the plane move down? 
-    // If it is about to go off-screen, does it stay where it is?
-    // If those buttons aren't is pressed, the plane shouldn't move. 
-    // ----------------------------------------------------------------
+    
     public static void testPlaneMoveRightAndLeftRM(PlaneRM oP, PlaneRM nP, String rnb) throws RuntimeException {
         int dw = 0;
         // After pressing the RIGHT arrow, does the plane move right? If it is
@@ -194,12 +185,7 @@ public class TestFunctions {
         testPlaneMoveRightAndLeftHM++;
     }
 
-    // ----------------------------------------------------------------
-    // METEOR TESTING:
-    // Is the meteor either red or blue in REGULAR MODE? white in HYPER MODE?
-    // Does a meteor move up (REGULAR MODE) or across the screen (HYPER MODE) 
-    // when it's ticked?
-    // Does the meteor stay the same after any key is pressed? (True in both modes)
+ 
     public static void testMeteorColorRM(MeteorRM m) throws RuntimeException {
         // Is the meteor either red or blue in REGULAR MODE?
         if (!m.color.equals("red") && !m.color.equals("blue")) {
@@ -267,14 +253,7 @@ public class TestFunctions {
         reactMeteorRMHM++;
     }
 
-    // ----------------------------------------------------------------
-    // LASER TESTING:
-    // REGUALR MODE: After pressing D, do the future lasers switch color?
-    // HYPERSPEED MODE: After pressing D, do the lasers stay the 
-    // same color?
-    // REGULAR MODE: Do the lasers move down when ticked?
-    // HYPERSPEED MODE: Do the lasers move down when ticked?
-    // REGUALR MODE: After pressing D, do the future lasers switch color?
+
     public static void testSwitchLaserColorRM(LaserRM laser, LaserRM reactedLaser, String key) throws RuntimeException {
         if (laser.color.equals(reactedLaser.color) && key.equals("d")) {
             throw new RuntimeException("Colors equal, but should have changed");
@@ -695,6 +674,7 @@ public class TestFunctions {
         }
         testPowerUpHyperMode++;
     }
+    
 
     public static void testCollisionHyperMode(MeteorShowerHM oG, MeteorShowerHM nG) throws RuntimeException {
         Sequence<LaserHM> laserSeq = oG.lasersHM.seq();
