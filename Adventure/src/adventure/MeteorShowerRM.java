@@ -15,7 +15,7 @@ import static adventure.TestFunctions.testLaserMeteorRemovedRM;
 import static adventure.TestFunctions.testPowerUpHyperMode;
 import static adventure.TestFunctions.testShootLaserRM;
 import static adventure.TestFunctions.testTriggerHyperSpeedMode;
-import static adventure.TestFunctions.verifyInvarientsRM;
+import static adventure.TestFunctions.verifyInvariantsRM;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javalib.colors.White;
@@ -222,7 +222,7 @@ public final class MeteorShowerRM extends World {
 
     // ========== REACT ==
     public World onKeyEvent(String ke){
-        this.checkInvarientsLive(ke);
+        this.checkInvariantsLive(ke);
         return REALonKeyEvent(ke);
     }
     
@@ -251,10 +251,10 @@ public final class MeteorShowerRM extends World {
         return new MeteorShowerHM(new PlaneHM(), empty(), empty(), empty(), this.lives, this.score, 0, this.powerUp, changeBackgroundCounter, true);
     }
     
-    public void checkInvarientsLive(String key) throws RuntimeException{
+    public void checkInvariantsLive(String key) throws RuntimeException{
          //   if (!key.equals("0")) {
 //                MeteorShowerRM nG = (MeteorShowerRM) this.REALonKeyEvent(key).onTick();
-//                verifyInvarientsRM(this, nG, key);
+ //               verifyInvariantsRM(this, nG, key);
 //                if (shouldPrint) {
 //                System.out.println();
 //                System.out.println("testConstructorRM " + testConstructorRM + " times");

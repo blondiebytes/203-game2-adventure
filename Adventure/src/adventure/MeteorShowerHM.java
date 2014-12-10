@@ -8,7 +8,7 @@ import static adventure.TestFunctions.testCollisionHyperMode;
 import static adventure.TestFunctions.testConstructorHM;
 import static adventure.TestFunctions.testLaserMeteorRemovedHM;
 import static adventure.TestFunctions.testShootLaserHM;
-import static adventure.TestFunctions.verifyInvarientsHM;
+import static adventure.TestFunctions.verifyInvariantsHM;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javalib.colors.White;
@@ -168,7 +168,7 @@ public final class MeteorShowerHM extends World {
     // ========== REACT ==========
     // This method produces the world in response to the user pressing a key on the keyboard. 
     public World onKeyEvent(String ke){
-        this.checkInvarientsLive(ke);
+        this.checkInvariantsLive(ke);
         return REALonKeyEvent(ke);
     }
     
@@ -182,9 +182,9 @@ public final class MeteorShowerHM extends World {
         return new MeteorShowerHM(newPlane, this.meteorDataStructHM, newLasersHM, this.explosionsHM, this.lives, this.score, this.powerUps, this.background);
     }
     
-     public void checkInvarientsLive(String key) throws RuntimeException{
+     public void checkInvariantsLive(String key) throws RuntimeException{
 //                MeteorShowerHM nG = (MeteorShowerHM) this.REALonKeyEvent(key).onTick();
-//                verifyInvarientsHM(this, nG, key);
+//                verifyInvariantsHM(this, nG, key);
 //                if (shouldPrint) {
 //                System.out.println();
 //                System.out.println("testConstructorHM " + testConstructorHM + " times");

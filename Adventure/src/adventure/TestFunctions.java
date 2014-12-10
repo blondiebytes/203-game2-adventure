@@ -765,7 +765,7 @@ public class TestFunctions {
 //   // TESTING ALL!!!!
 //   // ================================================================
 
-    public static void verifyInvarientsRM(MeteorShowerRM oG, MeteorShowerRM nG, String key) throws RuntimeException {
+    public static void verifyInvariantsRM(MeteorShowerRM oG, MeteorShowerRM nG, String key) throws RuntimeException {
         for (int i = 0; i < tests; i++) {
             testConstructorRM();
             testShootLaser(oG, nG, key);
@@ -778,7 +778,7 @@ public class TestFunctions {
         
     }
 
-    public static void verifyInvarientsHM(MeteorShowerHM oG, MeteorShowerHM nG, String key) throws RuntimeException {
+    public static void verifyInvariantsHM(MeteorShowerHM oG, MeteorShowerHM nG, String key) throws RuntimeException {
         for (int i = 0; i < tests; i++) {
             testConstructorHM();
             testShootLaser(oG, nG, key);

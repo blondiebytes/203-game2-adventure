@@ -14,8 +14,8 @@ import static adventure.TestFunctions.testShootLaserRM;
 import static adventure.TestFunctions.testTriggerHyperSpeedMode;
 
 import static adventure.TestFunctions.testingIndividualComponents;
-import static adventure.TestFunctions.verifyInvarientsHM;
-import static adventure.TestFunctions.verifyInvarientsRM;
+import static adventure.TestFunctions.verifyInvariantsHM;
+import static adventure.TestFunctions.verifyInvariantsRM;
 import javalib.funworld.World;
 
 public class TestMeteorShower {
@@ -30,7 +30,7 @@ static int tests = 50;
             String key = randomButton();
             // We can do this because in our tests, we don't ever have the key to be 0 in our random button
             MeteorShowerRM nG = (MeteorShowerRM) meteorShowerR.onKeyEvent(key).onTick();
-           verifyInvarientsRM(meteorShowerR, nG, key);
+           verifyInvariantsRM(meteorShowerR, nG, key);
            meteorShowerR = nG;
         }
         System.out.println();
@@ -60,7 +60,7 @@ static int tests = 50;
                break;
            }
            MeteorShowerHM mG = (MeteorShowerHM) nG;
-           verifyInvarientsHM(mH, mG, key);
+           verifyInvariantsHM(mH, mG, key);
            mH = mG;
          }
         System.out.println("testConstructorHM " + testConstructorHM + " times");
