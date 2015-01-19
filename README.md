@@ -1,8 +1,6 @@
-Game 2 : Adventure
+Meteor Shower
 ===================
 VIDEO OF GAMEPLAY: https://www.youtube.com/watch?v=3dmAwrstdPA
-
-Fall 2014: CS 203
 
 3.4 Adventure!
 
@@ -17,5 +15,3 @@ Like Moving Blocks, you are free to design whatever kind of game you want. The r
 --Persistent player attributes. For example, the player in Zork carries various items and can use and dispose of them throughout the map.
 
 This project should take roughly twice as much effort as Moving Blocks.
-
-The project will be graded exactly the same as Moving Blocks, so please refer to that page for details.
