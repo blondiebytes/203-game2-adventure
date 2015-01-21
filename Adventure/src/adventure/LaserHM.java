@@ -115,7 +115,7 @@ public class LaserHM implements Comparable<LaserHM>, Collideable<LaserHM>, Ticka
     // ========== DRAW ==========
     
     public WorldImage laserImage() {
-        return new FromFileImage(new Posn(this.width, this.height), "White_Laser.png");
+        return new FromFileImage(new Posn(this.width, this.height), "Art/White_Laser.png");
     }
 
     @Override

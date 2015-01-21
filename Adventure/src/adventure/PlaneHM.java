@@ -85,9 +85,9 @@ public class PlaneHM implements Collideable<PlaneHM> {
     // ========== DRAW ==========
     public WorldImage planeImage() {
         if (this.direction.equals("left")) {
-            return new FromFileImage(new Posn(this.width, this.height), "fighter-01-white-left.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/fighter-01-white-left.png");
         } else {
-            return new FromFileImage(new Posn(this.width, this.height), "fighter-01-white-right.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/fighter-01-white-right.png");
         }
     }
 

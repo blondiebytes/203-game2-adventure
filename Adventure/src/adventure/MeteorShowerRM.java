@@ -284,7 +284,7 @@ public final class MeteorShowerRM extends World {
     }
 
     public WorldImage drawPowerUp(int width, int height) {
-        return new FromFileImage(new Posn(width, height), "powerUp.png");
+        return new FromFileImage(new Posn(width, height), "art/powerUp.png");
     }
 
     // ========== DRAWING IMAGE ==========
@@ -292,9 +292,9 @@ public final class MeteorShowerRM extends World {
         // Drawing Background
         WorldImage background;
         if (changeBackgroundCounter % 2 == 1) {
-            background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+            background = new FromFileImage(new Posn(0, 0), "art/background-fire.jpg");
         } else {
-            background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+            background = new FromFileImage(new Posn(0, 0), "art/background-stars.jpg");
         }
 
         // Drawing Plane
@@ -356,9 +356,9 @@ public final class MeteorShowerRM extends World {
         if (gameOver) {
             WorldImage background;
             if (changeBackgroundCounter % 2 == 1) {
-                background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+                background = new FromFileImage(new Posn(0, 0), "art/background-fire.jpg");
             } else {
-                background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+                background = new FromFileImage(new Posn(0, 0), "art/background-stars.jpg");
             }
 
             WorldImage gameOverText = new OverlayImages(new TextImage(new Posn(235, 225), "Game Over!", 40, new White()),

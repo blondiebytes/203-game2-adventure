@@ -164,7 +164,7 @@ public class MeteorHM implements Comparable<MeteorHM>, Collideable<MeteorHM>, Ti
     }
 
     public WorldImage meteorImage() {
-        return new FromFileImage(new Posn(this.width, this.height), "White-Meteor.png");
+        return new FromFileImage(new Posn(this.width, this.height), "art/White-Meteor.png");
     }
 
     public int distance(Collideable thing) {

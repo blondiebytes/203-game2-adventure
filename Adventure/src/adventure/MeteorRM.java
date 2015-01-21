@@ -137,9 +137,9 @@ public class MeteorRM implements Comparable<MeteorRM>, Collideable<MeteorRM>, Ti
     
     public WorldImage meteorImage() {
         if (this.color.equals("red")) {
-            return new FromFileImage(new Posn(this.width, this.height), "Red-Meteor.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/Red-Meteor.png");
         } else {
-           return new FromFileImage(new Posn(this.width, this.height), "Blue-Meteor.png");
+           return new FromFileImage(new Posn(this.width, this.height), "art/Blue-Meteor.png");
         }
     }
     

@@ -203,9 +203,9 @@ public final class MeteorShowerHM extends World {
      public WorldImage makeImage() {
          WorldImage background;
         if (this.background % 2 == 1) {
-            background = new FromFileImage(new Posn(0, 0), "background-fire.jpg");
+            background = new FromFileImage(new Posn(0, 0), "art/background-fire.jpg");
         } else {
-            background = new FromFileImage(new Posn(0, 0), "background-stars.jpg");
+            background = new FromFileImage(new Posn(0, 0), "art/background-stars.jpg");
         }
          
          // Drawing Plane
@@ -277,7 +277,7 @@ public final class MeteorShowerHM extends World {
     }
     
      WorldImage missingMeteorImage(int width, int height) {
-         return new FromFileImage(new Posn(width, height), "darkheart.png");
+         return new FromFileImage(new Posn(width, height), "art/darkheart.png");
      }
     
     // This method produces an instance of a class WorldEnd that consists of a boolean value 

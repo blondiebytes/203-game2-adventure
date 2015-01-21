@@ -52,6 +52,6 @@ public class Lives {
     }
     
     public WorldImage livesImage(int width, int height) {
-            return new FromFileImage(new Posn(width, height), "heart.png");
+            return new FromFileImage(new Posn(width, height), "art/heart.png");
     }
 }

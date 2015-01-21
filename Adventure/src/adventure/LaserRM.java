@@ -113,9 +113,9 @@ public class LaserRM implements Comparable<LaserRM>, Collideable<LaserRM>, Ticka
     // ========== DRAW ==========
     public WorldImage laserImage() {
         if (color.equals("red")) {
-            return new FromFileImage(new Posn(this.width, this.height), "Red_Laser.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/Red_Laser.png");
         } else 
-           return new FromFileImage(new Posn(this.width, this.height), "Blue_Laser.png");
+           return new FromFileImage(new Posn(this.width, this.height), "art/Blue_Laser.png");
     }
     
     public int distance(Collideable thing) {

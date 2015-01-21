@@ -38,9 +38,9 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
     // ========== DRAW ==========
     public WorldImage explosionImage() {
         if (correctColor) {
-            return new FromFileImage(new Posn(this.width, this.height), "explosion.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/explosion.png");
         } else {
-            return new FromFileImage(new Posn(this.width, this.height), "explosion-purple.png");
+            return new FromFileImage(new Posn(this.width, this.height), "art/explosion-purple.png");
         }
     }
     
