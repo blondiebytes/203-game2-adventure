@@ -100,6 +100,15 @@ public final class MeteorShowerRM extends World {
 
     // ========== TICK ==========
     public World onTick() {
+         if (gameOver) {
+            WorldImage background;
+            if (changeBackgroundCounter % 2 == 1) {
+                return new EndGame("art/background-fire.jpg", this.score);
+            } else {
+                return new EndGame("art/background-stars.jpg", this.score);
+            }
+         }
+
         Bag newMeteors = this.addMeteor();
        
         Bag newLasers = this.lasersRM.tick(); /* Need to tick the lasers */
@@ -239,7 +248,6 @@ public final class MeteorShowerRM extends World {
             /* no need for meteors to react b/c independent of user */
             if (ke.equals("s")) {
                 newLasersRM = newLasersRM.add(new LaserRM(newPlane));  /* something that adds a laser */
-
             }
             return new MeteorShowerRM(newPlane, this.meteorDataStructRM, newLasersRM, this.explosionsRM, this.lives, this.score,
                     this.gameOver, this.powerUp, this.correctShootCounter);
@@ -346,28 +354,6 @@ public final class MeteorShowerRM extends World {
         }
         
         return finalImage;
-    }
-
-    // This method produces an instance of a class WorldEnd that consists of a boolean value
-// indicating whether the world is ending (false if the world goes on) and the WorldImage
-// that represents the last image to be displayed - for example announcing the winner of the game,
-// or the final score.
-    public WorldEnd worldEnds() {
-        if (gameOver) {
-            WorldImage background;
-            if (changeBackgroundCounter % 2 == 1) {
-                background = new FromFileImage(new Posn(0, 0), "art/background-fire.jpg");
-            } else {
-                background = new FromFileImage(new Posn(0, 0), "art/background-stars.jpg");
-            }
-
-            WorldImage gameOverText = new OverlayImages(new TextImage(new Posn(235, 225), "Game Over!", 40, new White()),
-                    new TextImage(new Posn(235, 275), "Score: " + this.score.score, 40, new White()));
-            return new WorldEnd(true, new OverlayImages(background, gameOverText));
-
-        } else {
-            return new WorldEnd(false, this.makeImage());
-        }
     }
 
 }

@@ -6,6 +6,7 @@
 package adventure;
 
 import static adventure.LaserRM.count;
+import java.util.Stack;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.Posn;
 import javalib.worldimages.WorldImage;
@@ -103,5 +104,4 @@ class Explosion implements Comparable<Explosion>, Collideable<Explosion>, Tickab
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
 }
