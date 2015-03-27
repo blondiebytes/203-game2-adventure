@@ -8,24 +8,12 @@ package adventure;
 import adventure.Sequence.Sequence;
 import adventure.SetBag.Bag;
 import static adventure.SetBag.SetBag_NonEmpty.empty;
-import static adventure.TestFunctions.testCollisionRegularMode;
-import static adventure.TestFunctions.testConstructorRM;
-import static adventure.TestFunctions.testGameOverLives;
-import static adventure.TestFunctions.testLaserMeteorRemovedRM;
-import static adventure.TestFunctions.testPowerUpHyperMode;
-import static adventure.TestFunctions.testShootLaserRM;
-import static adventure.TestFunctions.testTriggerHyperSpeedMode;
-import static adventure.TestFunctions.verifyInvariantsRM;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javalib.colors.White;
 import javalib.funworld.World;
-import javalib.worldcanvas.WorldCanvas;
 import javalib.worldimages.FromFileImage;
 import javalib.worldimages.OverlayImages;
 import javalib.worldimages.Posn;
 import javalib.worldimages.TextImage;
-import javalib.worldimages.WorldEnd;
 import javalib.worldimages.WorldImage;
 
 public final class MeteorShowerRM extends World {
@@ -103,9 +91,9 @@ public final class MeteorShowerRM extends World {
          if (gameOver) {
             WorldImage background;
             if (changeBackgroundCounter % 2 == 1) {
-                return new EndGame("art/background-fire.jpg", this.score);
+                return new StartEndGame("art/background-fire.jpg", this.score, false);
             } else {
-                return new EndGame("art/background-stars.jpg", this.score);
+                return new StartEndGame("art/background-stars.jpg", this.score, false);
             }
          }
 
