@@ -61,11 +61,12 @@ public class StartEndGame extends World {
     public WorldImage makeImage() {
         WorldImage playText;
         if (isANewGame) {
+            // edit this to make prettier too
             playText = new TextImage(new Posn(235, 325), "Press the space bar to start playing!" , 20, new White());
         } else {
             WorldImage gameOverText = new OverlayImages(new TextImage(new Posn(235, 225), "Game Over!", 40, new White()),
                     new TextImage(new Posn(235, 275), "Score: " + score.score, 40, new White()));
-           playText = new OverlayImages(gameOverText, new TextImage(new Posn(235, 325), "Press the space bar to start to play again!", 20, new White()) );
+           playText = new OverlayImages(gameOverText, new TextImage(new Posn(235, 325), "Press the space bar to play again!", 20, new White()) );
         }
         
          WorldImage finalImage = new OverlayImages(background, playText);
